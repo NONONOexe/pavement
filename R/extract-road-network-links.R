@@ -12,7 +12,7 @@
 extract_road_network_links <- function(roads, nodes) {
   # Split the road geometries at the node geometries
   split_linestrings <- st_collection_extract(
-    st_split(roads, nodes), "LINESTRING"
+    suppressMessages(st_split(roads, nodes)), "LINESTRING"
   )
 
   # Get the node IDs for the start and end points of each link
