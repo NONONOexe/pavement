@@ -4,13 +4,13 @@
 #' and counts the roads that intersect at each endpoint.
 #'
 #' @param roads A linestring object representing roads. It should be have
-#' a column named `road_id`.
+#'   a column named `road_id`.
 #' @return A points object representing road endpoints. Each endpoint
-#' has the following columns:
-#' \itemize{
-#'   \item origins: A list of road IDs that intersect at the endpoint.
-#'   \item n.overlaps: The number of roads that intersect at the endpoint.
-#' }
+#'   has the following columns:
+#'   \itemize{
+#'     \item origins: A list of road IDs that intersect at the endpoint.
+#'     \item n.overlaps: The number of roads that intersect at the endpoint.
+#'   }
 #' @export
 extract_road_endpoints <- function(roads) {
   # Extract the endpoints of the roads
