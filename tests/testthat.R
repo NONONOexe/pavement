@@ -9,4 +9,4 @@
 library(testthat)
 library(pavement)
 
-# test_check("pavement")
+test_check("pavement")

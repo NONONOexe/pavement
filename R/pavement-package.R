@@ -1,0 +1,35 @@
+#' @keywords internal
+"_PACKAGE"
+
+## usethis namespace: start
+#' @importFrom igraph E
+#' @importFrom igraph E<-
+#' @importFrom igraph graph_from_data_frame
+#' @importFrom lwgeom st_endpoint
+#' @importFrom lwgeom st_split
+#' @importFrom lwgeom st_startpoint
+#' @importFrom osmdata add_osm_feature
+#' @importFrom osmdata opq
+#' @importFrom osmdata osmdata_sf
+#' @importFrom sf st_agr
+#' @importFrom sf st_as_sf
+#' @importFrom sf st_boundary
+#' @importFrom sf st_cast
+#' @importFrom sf st_collection_extract
+#' @importFrom sf st_coordinates
+#' @importFrom sf st_crop
+#' @importFrom sf st_crs
+#' @importFrom sf st_equals
+#' @importFrom sf st_intersection
+#' @importFrom sf st_is_empty
+#' @importFrom sf st_length
+#' @importFrom sf st_line_sample
+#' @importFrom sf st_linestring
+#' @importFrom sf st_point
+#' @importFrom sf st_reverse
+#' @importFrom sf st_set_agr
+#' @importFrom sf st_sf
+#' @importFrom sf st_sfc
+#' @importFrom sf st_transform
+## usethis namespace: end
+NULL
