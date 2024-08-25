@@ -14,6 +14,7 @@ Pavement is a package designed to analyze spatial events occurring on roadways. 
 Useful links:
 \itemize{
   \item \url{https://github.com/NONONOexe/pavement}
+  \item \url{https://nononoexe.github.io/pavement/}
   \item Report bugs at \url{https://github.com/NONONOexe/pavement/issues}
 }
 
