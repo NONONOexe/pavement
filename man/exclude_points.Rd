@@ -2,18 +2,37 @@
 % Please edit documentation in R/exclude-points.R
 \name{exclude_points}
 \alias{exclude_points}
-\title{Exclude points from a points object}
+\title{Exclude points from a points}
 \usage{
-exclude_points(points, points_to_exclude)
+exclude_points(input_points, points_to_exclude)
 }
 \arguments{
-\item{points}{A \code{sfc} object containing points.}
+\item{input_points}{A \code{sfc} object containing points.}
 
 \item{points_to_exclude}{A \code{sfc} object containing points to exclude.}
 }
 \value{
-A \code{sfc} object containing points with the excluded points removed.
+A \code{sfc} object containing the points from \code{input_points} that are
+not in \code{points_to_exclude}.
 }
 \description{
-This function exclude points from a points object.
+This function excludes points from a points.
+}
+\examples{
+library(sf)
+
+# Create a set of points and a set of points to exclude
+points <- st_sfc(
+  st_point(c(0, 0)), st_point(c(1, 0)),
+  st_point(c(0, 1)), st_point(c(1, 1))
+)
+points_to_exclude <- st_sfc(
+  st_point(c(0, 0)), st_point(c(1, 1))
+)
+plot(points)
+plot(points_to_exclude, add = TRUE, pch = 4)
+
+# Exclude points in `points_to_exclude` from `points`
+remain_points <- exclude_points(points, points_to_exclude)
+plot(remain_points)
 }
