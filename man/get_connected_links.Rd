@@ -26,6 +26,6 @@ connected_links <- get_connected_links(road_network, target_node$id)
 
 # Plot the target node and the connected links
 plot(road_network, col = "gray")
-plot(connected_links$geometry, add = TRUE, col = "#D55E00", lwd = 2)
+plot(connected_links$geometry, add = TRUE, col = "#E69F00", lwd = 2)
 plot(target_node$geometry, add = TRUE, pch = 19)
 }
