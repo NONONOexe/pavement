@@ -50,9 +50,8 @@ osm_roads <- function(bbox, crop = TRUE) {
   lines <- st_set_agr(lines, "constant")
   lines <- st_cast(lines, "LINESTRING")
   lines$id <- sprintf("rd_%04x", seq_len(nrow(lines)))
-  roads <- lines[c("id", "highway", "name", "layer", "oneway", "osm_id")]
-  rownames(roads) <- roads$id
-  lines <- st_set_agr(roads, "constant")
+  roads <- st_set_agr(lines, "constant")
+  row.names(roads) <- NULL
 
-  return(roads)
+  return(roads[c("id", "highway", "name", "layer", "oneway", "osm_id")])
 }

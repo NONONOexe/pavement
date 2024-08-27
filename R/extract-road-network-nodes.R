@@ -24,10 +24,7 @@ extract_road_network_nodes <- function(roads) {
   # Assign unique IDs to nodes
   network_nodes$id <- generate_ids(network_nodes$parent_road, "jn_%06x")
   network_nodes <- network_nodes[order(network_nodes$id), ]
+  row.names(network_nodes) <- NULL
 
-  # Select columns and set row names
-  network_nodes <- network_nodes[c("id", "parent_road", "num_overlaps")]
-  rownames(network_nodes) <- network_nodes$id
-
-  return(network_nodes)
+  return(network_nodes[c("id", "parent_road", "num_overlaps")])
 }

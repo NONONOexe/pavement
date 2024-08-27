@@ -31,7 +31,6 @@ extract_road_network_links <- function(roads, nodes) {
     parent_road = split_linestrings$id,
     geometry    = split_linestrings$geometry
   )
-  rownames(network_links) <- network_links$id
 
   return(network_links)
 }
