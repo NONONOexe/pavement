@@ -15,7 +15,8 @@
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_road_intersections.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_road_network_links.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_road_network_nodes.html</loc></url>
-<url><loc>https://nononoexe.github.io/pavement/reference/extract_segment_nodes.html</loc></url>
+<url><loc>https://nononoexe.github.io/pavement/reference/extract_segmented_network_nodes.html</loc></url>
+<url><loc>https://nononoexe.github.io/pavement/reference/get_connected_links.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/get_end_point.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/get_start_point.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/index.html</loc></url>
