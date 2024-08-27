@@ -52,25 +52,25 @@ print.road_network <- function(x, ...) {
   cat("Road network\n")
   cat("Nodes:\n")
   if (nrow(x$nodes) <= 5) {
-    print(as.data.frame(x$nodes))
+    print(as.data.frame(x$nodes), ...)
   } else {
-    print(as.data.frame(x$nodes)[1:5, ])
+    print(as.data.frame(x$nodes)[1:5, ], ...)
     cat("...", nrow(x$nodes) - 5, "more nodes\n")
   }
   cat("\n")
   cat("Links:\n")
   if (nrow(x$links) <= 5) {
-    print(as.data.frame(x$links))
+    print(as.data.frame(x$links), ...)
   } else {
-    print(as.data.frame(x$links)[1:5, ])
+    print(as.data.frame(x$links)[1:5, ], ...)
     cat("...", nrow(x$links) - 5, "more links\n")
   }
 }
 
 #' @export
 plot.road_network <- function(x, ...) {
-  plot(x$links$geometry, lwd = 1)
-  plot(x$nodes$geometry, cex = 1, pch = 16, add = TRUE)
+  plot(x$links$geometry, lwd = 1, ...)
+  plot(x$nodes$geometry, cex = 1, pch = 16, add = TRUE, ...)
 }
 
 #' @export
