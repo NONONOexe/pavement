@@ -43,8 +43,8 @@ extract_segmented_network_nodes.road_network <- function(
     crs         = st_crs(road_network$links),
     agr         = "constant"
   )
-  sampled_nodes <- sampled_points_sf[!st_is_empty(sampled_points_sf), ]
-  sampled_nodes <- st_cast(sampled_points_sf, "POINT")
+  sampled_nodes <- sampled_nodes[!st_is_empty(sampled_nodes), ]
+  sampled_nodes <- st_cast(sampled_nodes, "POINT")
 
   # Combine the list of data frames into a single `sf` object
   combined_nodes <- rbind(nodes[c("parent_link", "parent_road")], sampled_nodes)
