@@ -12,44 +12,47 @@
 #' road_network <- create_road_network(demo_roads)
 #'
 #' # Extract nodes with a segment length of 1
-#' extract_segmented_network_nodes(road_network, 1)
+#' segmented_network_nodes <- extract_segmented_network_nodes(road_network, 1)
+#'
+#' # Plot the segmented network nodes
+#' plot(road_network)
+#' plot(segmented_network_nodes$geometry, add = TRUE, pch = 16, col = "#E69F00")
 extract_segmented_network_nodes <- function(road_network, segment_length) {
   UseMethod("extract_segmented_network_nodes")
 }
 
 #' @export
-extract_segmented_network_nodes.road_network <- function(road_network, segment_length) {
-  # Sample points along each link geometry
-  sampled_geometries <- mapply(
-    function(link, id, road) {
-      link_length <- st_length(link)
-      num_segments <- round(link_length / segment_length)
-      sampling_points <- seq(0, 1, length.out = num_segments + 1)
-      sampling_points <- sampling_points[-c(1, length(sampling_points))]
-      sampled_points <- st_line_sample(link, sample = sampling_points)
+extract_segmented_network_nodes.road_network <- function(
+    road_network,
+    segment_length) {
+  # Attach parent link IDs to nodes
+  nodes <- road_network$nodes
+  nodes$parent_link <- I(lapply(road_network$nodes$id, function(id) {
+    get_connected_links(road_network, id)$id
+  }))
 
-      data.frame(
-        parent_link = id,
-        parent_road = road,
-        geometry    = st_cast(sampled_points, "POINT")
-      )
-    },
+  # Sample points along each link geometry
+  sampled_points <- sample_points_along_linestring(
     road_network$links$geometry,
-    road_network$links$id,
-    road_network$links$parent_road,
-    SIMPLIFY = FALSE
+    segment_length
   )
+  sampled_nodes <- st_sf(
+    parent_link = road_network$links$id,
+    parent_road = road_network$links$parent_road,
+    geometry    = sampled_points,
+    crs         = st_crs(road_network$links),
+    agr         = "constant"
+  )
+  sampled_nodes <- sampled_points_sf[!st_is_empty(sampled_points_sf), ]
+  sampled_nodes <- st_cast(sampled_points_sf, "POINT")
 
   # Combine the list of data frames into a single `sf` object
-  sampled_nodes <- do.call(rbind, sampled_geometries)
-  sampled_nodes <- st_as_sf(sampled_nodes, agr = "constant")
-
-  # Remove duplicated nodes
-  sampled_nodes <- sampled_nodes[!duplicated(sampled_nodes$geometry), ]
+  combined_nodes <- rbind(nodes[c("parent_link", "parent_road")], sampled_nodes)
+  combined_nodes <- st_set_agr(combined_nodes, "constant")
 
   # Assign unique IDs to nodes
-  sampled_nodes$id <- sprintf("sn_%08x", seq_along(sampled_nodes$parent_link))
-  rownames(sampled_nodes) <- sampled_nodes$id
+  combined_nodes$id <- generate_ids(combined_nodes$parent_link, "sn_%08x")
+  combined_nodes <- combined_nodes[order(combined_nodes$id), ]
 
-  return(sampled_nodes[c("id", "parent_link", "parent_road")])
+  return(combined_nodes[c("id", "parent_link", "parent_road")])
 }
