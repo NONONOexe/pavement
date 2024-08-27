@@ -23,9 +23,10 @@ extract_road_network_nodes <- function(roads) {
 
   # Assign unique IDs to nodes
   first_ids <- sapply(network_nodes$parent_road, function(road) road[1])
-  indices <- order(strtoi(substr(first_ids, 7 - 3, 7), base = 16))
+  id_numbers <- strtoi(substr(first_ids, 7 - 3, 7), base = 16)
+  indices <- rank(id_numbers, ties.method = "first")
   network_nodes$id <- sprintf("jn_%06x", indices)
-  network_nodes <- network_nodes[indices, ]
+  network_nodes <- network_nodes[order(indices), ]
 
   # Select columns and set row names
   network_nodes <- network_nodes[c("id", "parent_road", "num_overlaps")]
