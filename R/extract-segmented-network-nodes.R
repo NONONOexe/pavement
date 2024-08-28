@@ -53,6 +53,7 @@ extract_segmented_network_nodes.road_network <- function(
   # Assign unique IDs to nodes
   combined_nodes$id <- generate_ids(combined_nodes$parent_link, "sn_%08x")
   combined_nodes <- combined_nodes[order(combined_nodes$id), ]
+  row.names(combined_nodes) <- NULL
 
   return(combined_nodes[c("id", "parent_link", "parent_road")])
 }
