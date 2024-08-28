@@ -66,25 +66,12 @@ a road network</p>
 <span class="r-in"><span><span class="va">road_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_road_network.html">create_road_network</a></span><span class="op">(</span><span class="va">demo_roads</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Extract nodes with a segment length of 1</span></span></span>
-<span class="r-in"><span><span class="fu">extract_segmented_network_nodes</span><span class="op">(</span><span class="va">road_network</span>, <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 29 features and 3 fields</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Attribute-geometry relationships: constant (2), NA's (1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 0 ymin: 0 xmax: 7 ymax: 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              id  parent_link  parent_road                    geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   sn_00000001    lk_000001      rd_0001                 POINT (0 0)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   sn_00000002 lk_00000.... rd_0001,....                 POINT (4 3)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11  sn_00000003    lk_000001      rd_0001          POINT (1.027046 0)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.1 sn_00000004    lk_000001      rd_0001          POINT (2.054093 0)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.2 sn_00000005    lk_000001      rd_0001 POINT (3.025658 0.07697505)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.3 sn_00000006    lk_000001      rd_0001   POINT (3.350439 1.051317)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.4 sn_00000007    lk_000001      rd_0001   POINT (3.675219 2.025658)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   sn_00000008 lk_00000.... rd_0002,....                 POINT (6 1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   sn_00000009    lk_000002      rd_0002                 POINT (7 1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   sn_0000000a    lk_000003      rd_0002                 POINT (0 1)</span>
+<span class="r-in"><span><span class="va">segmented_network_nodes</span> <span class="op">&lt;-</span> <span class="fu">extract_segmented_network_nodes</span><span class="op">(</span><span class="va">road_network</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plot the segmented network nodes</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">road_network</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">segmented_network_nodes</span><span class="op">$</span><span class="va">geometry</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, pch <span class="op">=</span> <span class="fl">16</span>, col <span class="op">=</span> <span class="st">"#E69F00"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="extract_segmented_network_nodes-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

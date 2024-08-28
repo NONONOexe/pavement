@@ -59,6 +59,31 @@
     <p>A 2x2 matrix representing the bounding box.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create a bounding box from cardinal coordinates</span></span></span>
+<span class="r-in"><span><span class="fu">create_bbox</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  north <span class="op">=</span>  <span class="fl">35.1899</span>,</span></span>
+<span class="r-in"><span>  south <span class="op">=</span>  <span class="fl">35.1399</span>,</span></span>
+<span class="r-in"><span>  east  <span class="op">=</span> <span class="fl">136.9524</span>,</span></span>
+<span class="r-in"><span>  west  <span class="op">=</span> <span class="fl">136.8524</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        min      max</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x 136.8524 136.9524</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> y  35.1399  35.1899</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create a bounding box from center coordinates and dimensions</span></span></span>
+<span class="r-in"><span><span class="fu">create_bbox</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  center_lon <span class="op">=</span> <span class="fl">136.9024</span>,</span></span>
+<span class="r-in"><span>  center_lat <span class="op">=</span>  <span class="fl">35.1649</span>,</span></span>
+<span class="r-in"><span>  width      <span class="op">=</span> <span class="fl">0.10</span>,</span></span>
+<span class="r-in"><span>  height     <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        min      max</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x 136.8524 136.9524</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> y  35.1399  35.1899</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
