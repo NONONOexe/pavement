@@ -15,6 +15,10 @@ demo_roads
 It intended for demonstration and testing.
 }
 \examples{
+# Show information about the demonstration roads
 demo_roads
+
+# Shape of the demonstration roads
+plot(demo_roads$geometry)
 }
 \keyword{datasets}

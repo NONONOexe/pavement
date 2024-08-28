@@ -7,6 +7,10 @@ globalVariables("demo_roads")
 #'
 #' @format A `sf` linestring object
 #' @examples
+#' # Show information about the demonstration roads
 #' demo_roads
+#'
+#' # Shape of the demonstration roads
+#' plot(demo_roads$geometry)
 #' @name demo_roads
 "demo_roads"

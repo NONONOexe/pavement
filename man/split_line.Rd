@@ -36,7 +36,7 @@ split_points <- st_sfc(
 )
 
 # Plot the line and split points
-plot(line, lwd = 2)
+plot(line)
 plot(split_points, add = TRUE, pch = 3, lwd = 2)
 
 # Split the line at the specified points
