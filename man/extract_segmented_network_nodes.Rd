@@ -23,5 +23,9 @@ a road network
 road_network <- create_road_network(demo_roads)
 
 # Extract nodes with a segment length of 1
-extract_segmented_network_nodes(road_network, 1)
+segmented_network_nodes <- extract_segmented_network_nodes(road_network, 1)
+
+# Plot the segmented network nodes
+plot(road_network)
+plot(segmented_network_nodes$geometry, add = TRUE, pch = 16, col = "#E69F00")
 }

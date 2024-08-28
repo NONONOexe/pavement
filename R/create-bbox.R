@@ -7,6 +7,22 @@
 #' @param x A named vector containing the bounding box coordinates.
 #' @return A 2x2 matrix representing the bounding box.
 #' @export
+#' @examples
+#' # Create a bounding box from cardinal coordinates
+#' create_bbox(c(
+#'   north =  35.1899,
+#'   south =  35.1399,
+#'   east  = 136.9524,
+#'   west  = 136.8524
+#' ))
+#'
+#' # Create a bounding box from center coordinates and dimensions
+#' create_bbox(c(
+#'   center_lon = 136.9024,
+#'   center_lat =  35.1649,
+#'   width      = 0.10,
+#'   height     = 0.05)
+#' )
 create_bbox <- function(x) {
   # Check if the input is numeric
   if (!is.numeric(x)) {

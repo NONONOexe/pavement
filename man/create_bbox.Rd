@@ -17,3 +17,20 @@ This function creates a bounding box from either cardinal coordinates
 (north, south, east and west) or center coordinates and dimensions
 (center longitude and latitude, and size of width and height).
 }
+\examples{
+# Create a bounding box from cardinal coordinates
+create_bbox(c(
+  north =  35.1899,
+  south =  35.1399,
+  east  = 136.9524,
+  west  = 136.8524
+))
+
+# Create a bounding box from center coordinates and dimensions
+create_bbox(c(
+  center_lon = 136.9024,
+  center_lat =  35.1649,
+  width      = 0.10,
+  height     = 0.05)
+)
+}
