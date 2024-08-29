@@ -20,8 +20,8 @@ decompose_linestring <- function(linestring) {
 
   # Create a matrix of `from` and `to` points
   num_points <- nrow(coordinates)
-  from <- coordinates[seq_len(num_points - 1), c("X", "Y")]
-  to <- coordinates[seq_len(num_points - 1) + 1, c("X", "Y")]
+  from <- coordinates[seq_len(num_points - 1), c("X", "Y"), drop = FALSE]
+  to <- coordinates[seq_len(num_points - 1) + 1, c("X", "Y"), drop = FALSE]
 
   # Create a list of line segments
   segments <- apply(cbind(from, to), 1, create_linestring, simplify = FALSE)
