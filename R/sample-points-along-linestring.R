@@ -12,8 +12,8 @@
 #'
 #' # Create a linestrings
 #' linestrings <- st_sfc(
-#'   create_linestring(0, 0, 1, 1, 1, 2),
-#'   create_linestring(1, 1, 3, 1)
+#'   create_linestring(0, 1, 2, 1),
+#'   create_linestring(1, 1.3, 1, 0, 2, 0.5)
 #' )
 #'
 #' # Sample points along the linestrings
