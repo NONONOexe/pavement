@@ -11,30 +11,17 @@
 #' @examples
 #' # Create the road network
 #' road_network <- create_road_network(demo_roads)
+#' road_network
 #'
 #' # Plot the road network
 #' plot(road_network)
 create_road_network <- function(roads, directed = FALSE) {
-  # Extract nodes and links from road network
+  # Extract nodes and links of road network
   nodes <- extract_road_network_nodes(roads)
   links <- extract_road_network_links(roads, nodes)
 
   # Create graph from nodes and links
-  edges <- links[, c("from", "to")]
-  node_coordinates <- st_coordinates(nodes)
-  vertices <- data.frame(
-    id = nodes$id,
-    x  = node_coordinates[, 1],
-    y  = node_coordinates[, 2]
-  )
-  graph <- graph_from_data_frame(
-    edges,
-    directed = directed,
-    vertices = vertices
-  )
-
-  # Set edge weights based on link length
-  E(graph)$weight <- st_length(links)
+  graph <- create_graph(nodes, links, directed)
 
   # Construct the road network object
   road_network <- structure(list(

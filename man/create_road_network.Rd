@@ -22,6 +22,7 @@ as intersections between roads and endpoints of road segments.
 \examples{
 # Create the road network
 road_network <- create_road_network(demo_roads)
+road_network
 
 # Plot the road network
 plot(road_network)
