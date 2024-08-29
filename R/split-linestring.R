@@ -36,6 +36,22 @@ split_linestring <- function(linestring, split_points, tolerance = 0.01) {
 }
 
 #' @export
+split_linestring.sfc_LINESTRING <- function(linestring,
+                                            split_points,
+                                            tolerance = 0.01) {
+  # Check if `linestring` is a single linestring
+  if (length(linestring) != 1) {
+    stop("`linestring` must be a single linestring")
+  }
+
+  # Split the linestring into segments
+  segments <- split_linestring.LINESTRING(linestring[[1]], split_points)
+  segments <- st_sfc(segments, crs = st_crs(linestring))
+
+  return(segments)
+}
+
+#' @export
 split_linestring.LINESTRING <- function(linestring,
                                         split_points,
                                         tolerance = 0.01) {
@@ -55,6 +71,10 @@ split_linestring.LINESTRING <- function(linestring,
       line_segment,
       tolerance
     )
+    distances_to_start_point <- as.vector(
+      st_distance(valid_points, st_startpoint(line_segment))
+    )
+    valid_points <- valid_points[order(distances_to_start_point)]
     c(st_startpoint(line_segment), valid_points)
   })
 
@@ -76,7 +96,8 @@ split_linestring.LINESTRING <- function(linestring,
   segment_points_list[-length(segment_points_list)] <- mapply(
     c,
     segment_points_list[-length(segment_points_list)],
-    lapply(all_points[is_split_point], st_sfc)
+    lapply(all_points[is_split_point], st_sfc),
+    SIMPLIFY = FALSE
   )
 
   # Create linestring objects for each linestring segment
