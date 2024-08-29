@@ -67,6 +67,25 @@ as intersections between roads and endpoints of road segments.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create the road network</span></span></span>
 <span class="r-in"><span><span class="va">road_network</span> <span class="op">&lt;-</span> <span class="fu">create_road_network</span><span class="op">(</span><span class="va">demo_roads</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">road_network</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Road network</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Nodes:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          id  parent_road num_overlaps    geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 jn_000001      rd_0001            1 POINT (0 0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 jn_000002 rd_0001,....            3 POINT (4 3)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 jn_000003 rd_0002,....            2 POINT (6 1)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 jn_000004      rd_0002            1 POINT (0 1)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 jn_000005      rd_0002            1 POINT (7 1)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ... 5 more nodes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Links:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          id      from        to parent_road                       geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 lk_000001 jn_000001 jn_000002     rd_0001     LINESTRING (0 0, 3 0, 4 3)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 lk_000002 jn_000003 jn_000005     rd_0002          LINESTRING (6 1, 7 1)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 lk_000003 jn_000004 jn_000003     rd_0002          LINESTRING (0 1, 6 1)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 lk_000004 jn_000006 jn_000006     rd_0003 LINESTRING (2 3, 1 4, 0 3, ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 lk_000005 jn_000006 jn_000002     rd_0004          LINESTRING (2 3, 4 3)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ... 5 more links</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Plot the road network</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">road_network</span><span class="op">)</span></span></span>
