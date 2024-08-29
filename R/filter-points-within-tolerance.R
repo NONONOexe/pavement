@@ -1,14 +1,14 @@
-#' Filter geometries within a tolerance distance
+#' Filter points within a tolerance distance
 #'
-#' This function filters geometries that are within a specified tolerance
-#' distance from a reference geometry.
+#' This function filters points that are within a specified tolerance
+#' distance from a reference linestring.
 #'
-#' @param geometries A `sfc` object containing geometries to filter.
-#' @param reference_geometry A single geometry object to use as a reference.
-#' @param tolerance The maximum distance allowed between geometries and
-#' the reference geometry. Geometries within this distance from
-#' the reference geometry will be kept in the result.
-#' @return A `sfc` object containing the filtered geometries.
+#' @param points A `sfc` object containing points to filter.
+#' @param linestring A linestring object.
+#' @param tolerance The maximum distance allowed between points and
+#' the linestring. Points within this distance from the linestring
+#' are kept in the result.
+#' @return A `sfc` object containing the filtered points.
 #' @export
 #' @examples
 #' library(sf)
@@ -31,19 +31,19 @@
 #' plot(points, add = TRUE)
 #'
 #' # Filter points within a tolerance distance (default: 0.01)
-#' filtered_points <- filter_geometries_within_tolerance(points, linestring)
+#' filtered_points <- filter_points_within_tolerance(points, linestring)
 #'
 #' # Plot the filtered points
 #' plot(linestring, col = "gray")
 #' plot(filtered_points, add = TRUE)
-filter_geometries_within_tolerance <- function(geometries,
-                                               reference_geometry,
-                                               tolerance = 0.01) {
-  # Calculate the distance between the geometries and the reference geometry
-  distance_to_geometries <- st_distance(reference_geometry, geometries)[1, ]
+filter_points_within_tolerance <- function(points,
+                                           linestring,
+                                           tolerance = 0.01) {
+  # Calculate the distance between the points and the linestring
+  distances_to_linestring <- as.vector(st_distance(points, linestring))
 
-  # Filter geometries that are within the tolerance distance
-  filtered_geometries <- geometries[distance_to_geometries <= tolerance]
+  # Filter points that are within the tolerance distance
+  filtered_points <- points[distances_to_linestring <= tolerance]
 
-  return(filtered_geometries)
+  return(filtered_points)
 }
