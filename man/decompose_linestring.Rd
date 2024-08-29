@@ -2,7 +2,7 @@
 % Please edit documentation in R/decompose-linestring.R
 \name{decompose_linestring}
 \alias{decompose_linestring}
-\title{Decompose a linestring into a list of segments}
+\title{Decompose a linestring into a list of line segments}
 \usage{
 decompose_linestring(linestring)
 }
@@ -14,14 +14,14 @@ A list of linestring objects, each representing a segment of the
 input linestring.
 }
 \description{
-This function decomposes a linestring into a list of segments, where each
-segment is a linestring connecting two consecutive points of the input
-linestring.
+This function decomposes a linestring into a list of line segments,
+where each segment is a linestring connecting two consecutive points
+of the input linestring.
 }
 \examples{
 # Create a linestring object
 linestring <- create_linestring(0, 0, 1, 1, 2, 1, 4, 0)
 
-# Decompose the linestring into segments
+# Decompose the linestring into line segments
 decompose_linestring(linestring)
 }

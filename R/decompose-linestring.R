@@ -1,8 +1,8 @@
-#' Decompose a linestring into a list of segments
+#' Decompose a linestring into a list of line segments
 #'
-#' This function decomposes a linestring into a list of segments, where each
-#' segment is a linestring connecting two consecutive points of the input
-#' linestring.
+#' This function decomposes a linestring into a list of line segments,
+#' where each segment is a linestring connecting two consecutive points
+#' of the input linestring.
 #'
 #' @param linestring A linestring object.
 #' @return A list of linestring objects, each representing a segment of the
@@ -12,7 +12,7 @@
 #' # Create a linestring object
 #' linestring <- create_linestring(0, 0, 1, 1, 2, 1, 4, 0)
 #'
-#' # Decompose the linestring into segments
+#' # Decompose the linestring into line segments
 #' decompose_linestring(linestring)
 decompose_linestring <- function(linestring) {
   # Extract the coordinates of the linestring
@@ -23,7 +23,7 @@ decompose_linestring <- function(linestring) {
   from <- coordinates[seq_len(num_points - 1), c("X", "Y")]
   to <- coordinates[seq_len(num_points - 1) + 1, c("X", "Y")]
 
-  # Create a list of segments
+  # Create a list of line segments
   segments <- apply(cbind(from, to), 1, create_linestring, simplify = FALSE)
   segments <- st_sfc(segments, crs = st_crs(linestring))
 

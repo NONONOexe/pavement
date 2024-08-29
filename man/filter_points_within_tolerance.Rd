@@ -11,9 +11,9 @@ filter_points_within_tolerance(points, linestring, tolerance = 0.01)
 
 \item{linestring}{A linestring object.}
 
-\item{tolerance}{The maximum distance allowed between points and
-the linestring. Points within this distance from the linestring
-are kept in the result.}
+\item{tolerance}{A numeric value representing the maximum allowable
+distance between points and the linestring. Points within this
+distance from the linestring will be included in the filtered set.}
 }
 \value{
 A \code{sfc} object containing the filtered points.
@@ -27,16 +27,15 @@ library(sf)
 
 # Create a points
 points <- st_sfc(
-  st_point(c(0.000, 0.000)),
-  st_point(c(1.000, 0.100)),
-  st_point(c(2.000, 0.010)),
-  st_point(c(4.000, 0.001)),
-  st_point(c(5.001, 0.000)),
-  st_point(c(6.000, 0.000))
+  st_point(c(0.000, 1.000)),
+  st_point(c(0.500, 0.600)),
+  st_point(c(1.000, 0.010)),
+  st_point(c(1.500, 0.501)),
+  st_point(c(2.000, 0.990))
 )
 
-# Create a linestring (reference geometry)
-linestring <- create_linestring(0, 0, 5, 0)
+# Create a linestring
+linestring <- create_linestring(0, 1, 1, 0, 2, 1)
 
 # Plot the points
 plot(linestring, col = "gray")
