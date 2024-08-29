@@ -20,8 +20,10 @@ of the input linestring.
 }
 \examples{
 # Create a linestring object
-linestring <- create_linestring(0, 0, 1, 1, 2, 1, 4, 0)
+linestring <- create_linestring(0, -1, 0, 1, 2, 1, 2, 0, 0, 0)
+plot(linestring)
 
 # Decompose the linestring into line segments
-decompose_linestring(linestring)
+segments <- decompose_linestring(linestring)
+plot(segments, col = c("#E69F00", "#56B4E9", "#009E73", "#F0E442"))
 }

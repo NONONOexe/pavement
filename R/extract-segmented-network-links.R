@@ -19,7 +19,7 @@
 #' # Create a road network
 #' road_network <- create_road_network(demo_roads)
 #'
-#' # Extract segmented network nodes by length 1
+#' # Extract segmented network nodes by length of 1
 #' segmented_network_nodes <- extract_segmented_network_nodes(road_network, 1)
 #'
 #' # Extract segmented network links
@@ -30,7 +30,7 @@
 #' segmented_network_links
 #'
 #' # Plot the segmented network nodes and links
-#' plot(segmented_network_links$geometry)
+#' plot(segmented_network_links$geometry, col = "#E69F00")
 #' plot(segmented_network_nodes$geometry, pch = 16, add = TRUE)
 extract_segmented_network_links <- function(road_network,
                                             segmented_network_nodes,

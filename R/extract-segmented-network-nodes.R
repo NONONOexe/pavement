@@ -13,6 +13,7 @@
 #'
 #' # Extract nodes with a segment length of 1
 #' segmented_network_nodes <- extract_segmented_network_nodes(road_network, 1)
+#' segmented_network_nodes
 #'
 #' # Plot the segmented network nodes
 #' plot(road_network)
