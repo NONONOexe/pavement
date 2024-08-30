@@ -39,8 +39,9 @@ remove_points_near_endpoints <- function(points,
                                          linestring,
                                          tolerance = 0.01) {
   # Get the start and end points of the linestring
-  start_point <- st_startpoint(linestring)
-  end_point <- st_endpoint(linestring)
+  linestring_sfc <- st_sfc(linestring, crs = st_crs(points))
+  start_point <- st_startpoint(linestring_sfc)
+  end_point <- st_endpoint(linestring_sfc)
 
   # Filter points based on distance from start and end points
   filtered_points <- points[

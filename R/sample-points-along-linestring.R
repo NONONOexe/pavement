@@ -30,7 +30,7 @@ sample_points_along_linestring <- function(linestrings, segment_length) {
 
   # Calculate the number of segments to sample along each linestring
   linestrings_length <- st_length(linestrings)
-  num_segments <- round(linestrings_length / segment_length)
+  num_segments <- as.integer(round(linestrings_length / segment_length))
 
   # Sample points along each linestring segment
   sampled_points <- lapply(
