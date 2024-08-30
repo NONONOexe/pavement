@@ -29,7 +29,7 @@ extract_segmented_network_nodes.road_network <- function(
   # Attach parent link IDs to nodes
   nodes <- road_network$nodes
   nodes$parent_link <- I(lapply(road_network$nodes$id, function(id) {
-    get_connected_links(road_network, id)$id
+    get_connected_links(road_network, id)
   }))
 
   # Sample points along each link geometry

@@ -37,7 +37,7 @@ create_segmented_network <- function(road_network, segment_length = 1) {
     links          = links,
     origin_network = road_network,
     segment_length = segment_length
-  ), class = c("segmented_network"))
+  ), class = "segmented_network")
 
   return(segmented_network)
 }

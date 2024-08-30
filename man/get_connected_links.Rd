@@ -2,17 +2,17 @@
 % Please edit documentation in R/get-connected-links.R
 \name{get_connected_links}
 \alias{get_connected_links}
-\title{Get connected links from a node}
+\title{Get connected links from a specified node}
 \usage{
 get_connected_links(network, node_id)
 }
 \arguments{
-\item{network}{A road network object.}
+\item{network}{A \code{road_network} or \code{segmented_network} object.}
 
 \item{node_id}{The ID of the node.}
 }
 \value{
-A data frame containing the connected links.
+A vector of link IDs connected to the specified node.
 }
 \description{
 This function retrieves all links connected to a specified node in a road
@@ -21,11 +21,17 @@ network.
 \examples{
 # Create a road network
 road_network <- create_road_network(demo_roads)
-target_node <- road_network$nodes[3,]
-connected_links <- get_connected_links(road_network, target_node$id)
+target_node <- road_network$nodes[3,]$id
+target_node
+
+# Get connected links
+connected_links <- get_connected_links(road_network, target_node)
+connected_links
 
 # Plot the target node and the connected links
+is_connected <- road_network$links$id \%in\% connected_links
+connected_links_geom <- road_network$links$geometry[is_connected]
 plot(road_network, col = "gray")
-plot(connected_links$geometry, add = TRUE, col = "#E69F00", lwd = 2)
-plot(target_node$geometry, add = TRUE, pch = 19)
+plot(connected_links_geom, add = TRUE, col = "#E69F00", lwd = 2)
+plot(road_network$nodes[3,]$geometry, add = TRUE, pch = 19)
 }
