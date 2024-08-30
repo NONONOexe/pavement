@@ -4,15 +4,18 @@
 \alias{get_adjacent_links}
 \title{Get adjacent links of a specified link}
 \usage{
-get_adjacent_links(network, link_id)
+get_adjacent_links(network, link_ids, reachable_only = FALSE)
 }
 \arguments{
 \item{network}{A \code{road_network} or \code{segmented_network} object.}
 
-\item{link_id}{The ID of the link to find adjacent links for.}
+\item{link_ids}{The ID of the link to find adjacent links for.}
+
+\item{reachable_only}{If \code{FALSE}, the default, all adjacent links are
+returned. If \code{TRUE}, only reachable links are returned.}
 }
 \value{
-A vector of link IDs adjacent to the specified link.
+A vector of link ID adjacent to the specified link.
 }
 \description{
 This function returns a vector of link IDs that are adjacent to a specified
@@ -21,7 +24,7 @@ link in a road network.
 \examples{
 # Create a road network
 road_network <- create_road_network(demo_roads)
-target_link <- road_network$links[3,]$id
+target_link <- road_network$links$id[7]
 target_link
 
 # Get adjacent links
@@ -32,6 +35,6 @@ adjacent_links
 is_adjacent <- road_network$links$id \%in\% adjacent_links
 adjacent_links_geom <- road_network$links$geometry[is_adjacent]
 plot(road_network, col = "gray")
-plot(road_network$links[3,]$geometry, add = TRUE, pch = 19)
+plot(road_network$links$geometry[7], add = TRUE, pch = 19)
 plot(adjacent_links_geom, add = TRUE, col = "#E69F00", lwd = 2)
 }

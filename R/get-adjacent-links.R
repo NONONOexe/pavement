@@ -4,13 +4,15 @@
 #' link in a road network.
 #'
 #' @param network A `road_network` or `segmented_network` object.
-#' @param link_id The ID of the link to find adjacent links for.
-#' @return A vector of link IDs adjacent to the specified link.
+#' @param link_ids The ID of the link to find adjacent links for.
+#' @param reachable_only If `FALSE`, the default, all adjacent links are
+#'   returned. If `TRUE`, only reachable links are returned.
+#' @return A vector of link ID adjacent to the specified link.
 #' @export
 #' @examples
 #' # Create a road network
 #' road_network <- create_road_network(demo_roads)
-#' target_link <- road_network$links[3,]$id
+#' target_link <- road_network$links$id[7]
 #' target_link
 #'
 #' # Get adjacent links
@@ -21,19 +23,25 @@
 #' is_adjacent <- road_network$links$id %in% adjacent_links
 #' adjacent_links_geom <- road_network$links$geometry[is_adjacent]
 #' plot(road_network, col = "gray")
-#' plot(road_network$links[3,]$geometry, add = TRUE, pch = 19)
+#' plot(road_network$links$geometry[7], add = TRUE, pch = 19)
 #' plot(adjacent_links_geom, add = TRUE, col = "#E69F00", lwd = 2)
-get_adjacent_links <- function(network, link_id) {
-  # Extract the link with the specified ID
-  link <- network$links[network$links$id == link_id, ]
+get_adjacent_links <- function(network, link_ids, reachable_only = FALSE) {
+  # Extract all links
+  all_links <- network$links
 
-  # Get the nodes connected to the specified link
-  nodes <- c(link$from, link$to)
+  # Extract the links with the specified ID
+  links <- all_links[all_links$id %in% link_ids, ]
 
   # Find the adjacent links
-  is_other <- network$links$id != link_id
-  is_connected <- network$links$from %in% nodes | network$links$to %in% nodes
-  adjacent_links <- network$links$id[is_other & is_connected]
+  adjacent_links <- apply(links, 1, function(link) {
+    if (reachable_only && is_directed(network$graph)) {
+      all_links$id[all_links$from == link$to]
+    } else {
+      link_ids <- get_connected_links(network, c(link$to, link$from))
+      link_ids[link_ids != link$id]
+    }
+  })
+  adjacent_links <- unname(adjacent_links)
 
   return(adjacent_links)
 }

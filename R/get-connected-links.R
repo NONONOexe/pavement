@@ -4,7 +4,7 @@
 #' network.
 #'
 #' @param network A `road_network` or `segmented_network` object.
-#' @param node_id The ID of the node.
+#' @param node_ids A vector of node IDs to find connected links for.
 #' @return A vector of link IDs connected to the specified node.
 #' @export
 #' @examples
@@ -23,9 +23,9 @@
 #' plot(road_network, col = "gray")
 #' plot(connected_links_geom, add = TRUE, col = "#E69F00", lwd = 2)
 #' plot(road_network$nodes[3,]$geometry, add = TRUE, pch = 19)
-get_connected_links <- function(network, node_id) {
-  is_outgoing <- node_id == network$links$from
-  is_incoming <- node_id == network$links$to
+get_connected_links <- function(network, node_ids) {
+  is_outgoing <- network$links$from %in% node_ids
+  is_incoming <- network$links$to %in% node_ids
   connected_links <- network$links[is_outgoing | is_incoming, ]$id
 
   return(connected_links)

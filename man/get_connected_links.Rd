@@ -4,12 +4,12 @@
 \alias{get_connected_links}
 \title{Get connected links from a specified node}
 \usage{
-get_connected_links(network, node_id)
+get_connected_links(network, node_ids)
 }
 \arguments{
 \item{network}{A \code{road_network} or \code{segmented_network} object.}
 
-\item{node_id}{The ID of the node.}
+\item{node_ids}{A vector of node IDs to find connected links for.}
 }
 \value{
 A vector of link IDs connected to the specified node.
