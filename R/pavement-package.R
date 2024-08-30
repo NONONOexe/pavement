@@ -16,6 +16,7 @@
 #' @importFrom sf st_as_sf
 #' @importFrom sf st_boundary
 #' @importFrom sf st_cast
+#' @importFrom sf st_centroid
 #' @importFrom sf st_collection_extract
 #' @importFrom sf st_contains
 #' @importFrom sf st_coordinates

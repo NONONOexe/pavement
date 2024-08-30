@@ -19,17 +19,12 @@
 #' plot(graph)
 create_graph <- function(nodes, links, directed = FALSE) {
   # Create graph from nodes and links
-  edges <- st_drop_geometry(links)[, c("from", "to")]
-  node_coordinates <- st_coordinates(nodes)
-  vertices <- data.frame(
-    id = nodes$id,
-    x  = node_coordinates[, 1],
-    y  = node_coordinates[, 2]
-  )
+  graph_links <- st_drop_geometry(links)[, c("from", "to", "id")]
+  graph_nodes <- create_graph_nodes(nodes$id, nodes$geometry)
   graph <- graph_from_data_frame(
-    edges,
+    graph_links,
     directed = directed,
-    vertices = vertices
+    vertices = graph_nodes
   )
 
   # Set edge weights based on link length
