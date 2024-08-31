@@ -35,6 +35,7 @@ create_segmented_network <- function(road_network, segment_length = 1) {
     graph          = graph,
     nodes          = nodes,
     links          = links,
+    events         = NULL,
     origin_network = road_network,
     segment_length = segment_length
   ), class = "segmented_network")
@@ -61,12 +62,44 @@ print.segmented_network <- function(x, ...) {
     print(as.data.frame(x$links)[1:5, ], ...)
     cat("...", nrow(x$links) - 5, "more links\n")
   }
+  cat("\n")
+  if (is.null(x$events)) {
+    cat("Events: None\n")
+  } else {
+    cat("Events:\n")
+    if (nrow(x$events) <= 5) {
+      print(as.data.frame(x$events), ...)
+    } else {
+      print(as.data.frame(x$events)[1:5, ], ...)
+      cat("...", nrow(x$events) - 5, "more events\n")
+    }
+  }
 }
 
 #' @export
-plot.segmented_network <- function(x, ...) {
-  plot(x$links$geometry, lwd = 1, ...)
-  plot(x$nodes$geometry, cex = 1, pch = 16, add = TRUE, ...)
+plot.segmented_network <- function(
+    x,
+    y,
+    mode = c("default", "event", "count", "density"),
+    ...
+    ) {
+  mode <- match.arg(mode)
+  if (mode == "event") {
+    plot(x$links$geometry, lwd = 1)
+    plot(x$events$geometry, cex = 1, pch = 4, col = "red", add = TRUE)
+  } else if (mode %in% c("count", "density")) {
+    targets <- x$links[[mode]]
+    colors <- heat.colors(100, rev = TRUE)
+    normalized_values <- targets / max(targets)
+    link_colors <- colors[as.numeric(cut(normalized_values, breaks = 100))]
+    link_colors[targets == 0] <- "#ACACAC"
+    link_widths <- 1
+    link_widths[targets != 0] <- 2
+    plot(x$links$geometry, col = link_colors, lwd = link_widths)
+  } else {
+    plot(x$links$geometry, lwd = 1, ...)
+    plot(x$nodes$geometry, cex = 1, pch = 16, add = TRUE, ...)
+  }
 }
 
 #' @export

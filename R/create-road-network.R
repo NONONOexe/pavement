@@ -55,7 +55,7 @@ print.road_network <- function(x, ...) {
 }
 
 #' @export
-plot.road_network <- function(x, ...) {
+plot.road_network <- function(x, y, ...) {
   plot(x$links$geometry, lwd = 1, ...)
   plot(x$nodes$geometry, cex = 1, pch = 16, add = TRUE, ...)
 }

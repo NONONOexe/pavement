@@ -66,6 +66,8 @@ extract_segmented_network_links <- function(road_network,
     to          = to,
     parent_link = rep(road_network$links$id, lengths(segments_list)),
     parent_road = rep(road_network$links$parent_road, lengths(segments_list)),
+    count       = 0,
+    density     = 0,
     geometry    = segments_sfc
   )
 

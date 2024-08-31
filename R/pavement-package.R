@@ -2,6 +2,7 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom grDevices heat.colors
 #' @importFrom igraph E
 #' @importFrom igraph E<-
 #' @importFrom igraph graph_from_data_frame
@@ -30,6 +31,7 @@
 #' @importFrom sf st_length
 #' @importFrom sf st_line_sample
 #' @importFrom sf st_linestring
+#' @importFrom sf st_nearest_feature
 #' @importFrom sf st_point
 #' @importFrom sf st_reverse
 #' @importFrom sf st_set_agr
