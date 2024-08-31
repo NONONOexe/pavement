@@ -14,7 +14,6 @@
 <url><loc>https://nononoexe.github.io/pavement/reference/create_road_network.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/create_segmented_network.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/decompose_linestring.html</loc></url>
-<url><loc>https://nononoexe.github.io/pavement/reference/demo_roads.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/exclude_points.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_road_endpoints.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_road_intersections.html</loc></url>
@@ -32,6 +31,7 @@
 <url><loc>https://nononoexe.github.io/pavement/reference/pavement-package.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/remove_points_near_endpoints.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/sample_points_along_linestring.html</loc></url>
+<url><loc>https://nononoexe.github.io/pavement/reference/sample_roads.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/split_linestring.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/transform_to_cartesian.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/transform_to_geographic.html</loc></url>
