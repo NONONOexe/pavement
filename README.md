@@ -24,10 +24,29 @@ You can install the development version of pavement from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("NONONOexe/pavement")
+# install.packages("pak")
+pak::pak("NONONOexe/pavement")
 ```
 
-## Example
+## Usage
 
-Examples will be added soon.
+This example demonstrates how to visualize the distribution of roads and
+traffic accidents using pavement:
+
+``` r
+library(pavement)
+
+segmented_network <- sample_roads |>
+  create_road_network() |>
+  create_segmented_network(segment_length = 0.5) |>
+  assign_event_to_link(events = sample_accidents)
+plot(segmented_network, mode = "event")
+```
+
+<img src="man/figures/README-example-1.png" width="100%" />
+
+``` r
+plot(segmented_network, mode = "count")
+```
+
+<img src="man/figures/README-example-2.png" width="100%" />
