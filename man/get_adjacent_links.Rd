@@ -23,7 +23,7 @@ link in a road network.
 }
 \examples{
 # Create a road network
-road_network <- create_road_network(demo_roads)
+road_network <- create_road_network(sample_roads)
 target_link <- road_network$links$id[7]
 target_link
 

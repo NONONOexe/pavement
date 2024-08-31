@@ -9,7 +9,7 @@
 #' @export
 #' @examples
 #' # Create a road network
-#' road_network <- create_road_network(demo_roads)
+#' road_network <- create_road_network(sample_roads)
 #'
 #' # Extract nodes with a segment length of 1
 #' segmented_network_nodes <- extract_segmented_network_nodes(road_network, 1)

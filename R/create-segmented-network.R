@@ -10,7 +10,7 @@
 #' @export
 #' @examples
 #' # Create a road network
-#' road_network <- create_road_network(demo_roads)
+#' road_network <- create_road_network(sample_roads)
 #'
 #' # Create a segmented road network
 #' segmented_network <- create_segmented_network(road_network)

@@ -12,7 +12,7 @@ test_that("`extract_road_network_links` works correctly", {
     create_linestring(6, 1, 6, 3)
   )
 
-  nodes <- extract_road_network_nodes(demo_roads)
-  links <- extract_road_network_links(demo_roads, nodes)
+  nodes <- extract_road_network_nodes(sample_roads)
+  links <- extract_road_network_links(sample_roads, nodes)
   expect_equal(links$geometry, expected_link_linestrings)
 })

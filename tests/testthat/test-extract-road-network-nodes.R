@@ -1,4 +1,4 @@
-nodes <- extract_road_network_nodes(demo_roads)
+nodes <- extract_road_network_nodes(sample_roads)
 
 test_that("`extract_road_network_nodes` works correctly", {
   expected_node_points <- st_sfc(

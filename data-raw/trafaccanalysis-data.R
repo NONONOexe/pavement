@@ -1,11 +1,22 @@
 library(sf)
 library(pavement)
+library(usethis)
+library(here)
 
-source("data-raw/osm_highway_values.R")
-source("data-raw/demo_roads.R")
+clean_data <- function() {
+  unlink(here("data", "*.rda"))
+}
 
-usethis::use_data(
-  osm_highway_values,
-  demo_roads,
-  overwrite = TRUE
-)
+create_data <- function() {
+  source(here("data-raw", "osm_highway_values.R"))
+  source(here("data-raw", "sample_roads.R"))
+
+  use_data(
+    osm_highway_values,
+    sample_roads,
+    overwrite = TRUE
+  )
+}
+
+clean_data()
+create_data()

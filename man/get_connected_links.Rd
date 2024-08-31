@@ -20,7 +20,7 @@ network.
 }
 \examples{
 # Create a road network
-road_network <- create_road_network(demo_roads)
+road_network <- create_road_network(sample_roads)
 target_node <- road_network$nodes[3,]$id
 target_node
 

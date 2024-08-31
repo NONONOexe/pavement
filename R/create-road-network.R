@@ -10,7 +10,7 @@
 #' @export
 #' @examples
 #' # Create the road network
-#' road_network <- create_road_network(demo_roads)
+#' road_network <- create_road_network(sample_roads)
 #' road_network
 #'
 #' # Plot the road network

@@ -1,5 +1,5 @@
 # Define a simple roads object for demonstration and testing
-demo_roads <- st_sf(
+sample_roads <- st_sf(
   id       = sprintf("rd_%04x", 1:6),
   layer    = c(1, NA, NA, NA, NA, NA),
   geometry = st_sfc(

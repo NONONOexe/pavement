@@ -9,8 +9,8 @@
 #' @export
 #' @examples
 #' # Create nodes and links
-#' nodes <- extract_road_network_nodes(demo_roads)
-#' links <- extract_road_network_links(demo_roads, nodes)
+#' nodes <- extract_road_network_nodes(sample_roads)
+#' links <- extract_road_network_links(sample_roads, nodes)
 #'
 #' # Create the graph
 #' graph <- create_graph(nodes, links)
