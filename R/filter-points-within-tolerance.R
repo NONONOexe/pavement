@@ -11,15 +11,9 @@
 #' @return A `sfc` object containing the filtered points.
 #' @export
 #' @examples
-#' library(sf)
-#'
 #' # Create a points
-#' points <- st_sfc(
-#'   st_point(c(0.000, 1.000)),
-#'   st_point(c(0.500, 0.600)),
-#'   st_point(c(1.000, 0.010)),
-#'   st_point(c(1.500, 0.501)),
-#'   st_point(c(2.000, 0.990))
+#' points <- create_points(
+#'   0.000, 1.000, 0.500, 0.600, 1.000, 0.010, 1.500, 0.501, 2.000, 0.990
 #' )
 #'
 #' # Create a linestring

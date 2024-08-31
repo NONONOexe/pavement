@@ -8,16 +8,9 @@
 #'   not in `points_to_exclude`.
 #' @export
 #' @examples
-#' library(sf)
-#'
 #' # Create a set of points and a set of points to exclude
-#' points <- st_sfc(
-#'   st_point(c(0, 0)), st_point(c(1, 0)),
-#'   st_point(c(0, 1)), st_point(c(1, 1))
-#' )
-#' points_to_exclude <- st_sfc(
-#'   st_point(c(0, 0)), st_point(c(1, 1))
-#' )
+#' points <- create_points(0, 0, 1, 0, 0, 1, 1, 1)
+#' points_to_exclude <- create_points(0, 0, 1, 1)
 #' plot(points)
 #' plot(points_to_exclude, add = TRUE, pch = 4)
 #'

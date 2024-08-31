@@ -19,17 +19,11 @@ This function creates a data frame of nodes for a graph from a set of node
 IDs and geometries.
 }
 \examples{
-library(sf)
-
 # Create node IDs and geometries
 node_ids <- c("jn_000001", "jn_000002", "jn_000003")
 
 # Create some node geometries
-node_geometries <- st_sfc(
-  st_point(c(0, 1)),
-  st_point(c(1, 0)),
-  st_point(c(2, 1))
-)
+node_geometries <- create_points(0, 1, 1, 0, 2, 1)
 
 # Create a data frame of nodes
 create_graph_nodes(node_ids, node_geometries)

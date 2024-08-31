@@ -24,17 +24,11 @@ A \code{sfc} object containing the split linestrings.
 Split a linestring into multiple segments
 }
 \examples{
-library(sf)
-
 # Create a linestring
 linestring <- create_linestring(0, -1, 0, 1, 2, 1, 2, 0, 0, 0)
 
 # Create a set of split points
-split_points <- st_sfc(
-  st_point(c(0, 0)),
-  st_point(c(1, 1)),
-  st_point(c(2, 0))
-)
+split_points <- create_points(0, 0, 1, 1, 2, 0)
 
 # Plot the linestring and split points
 plot(linestring)
