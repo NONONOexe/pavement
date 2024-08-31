@@ -37,7 +37,7 @@ pak::pak("NONONOexe/pavement")
 
 This example demonstrates how to visualize the distribution of roads and traffic accidents using pavement:
 
-```{r}
+```{r example}
 library(pavement)
 
 segmented_network <- sample_roads |>
