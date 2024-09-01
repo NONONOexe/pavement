@@ -50,3 +50,9 @@ plot(segmented_network, mode = "count")
 ```
 
 <img src="man/figures/README-example-2.png" width="100%" />
+
+## Code of conduct
+
+Please note that this project is released with a [Contributor Code of
+Conduct](https://nononoexe.github.io/pavement/CODE_OF_CONDUCT.html). By
+participating in this project you agree to abide by its terms.
