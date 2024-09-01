@@ -1,4 +1,96 @@
 url: https://nononoexe.github.io/pavement/
+
 template:
+  package: tidytemplate
   bootstrap: 5
 
+development:
+  mode: auto
+
+authors:
+  Keisuke Ando:
+    href: https://nononoexe.github.io/blog/about.html
+
+reference:
+- title: Geospatial data manipulation
+  desc: >
+    Geospatial data provides insights into spatial events such as disersters and
+    crimes through their relationships. These functions facilitate the
+    retrieval and conversion data from OpenStreetMap and other external sources,
+    enabling you to begin your spatial analysis.
+  contents:
+  - osm_roads
+  - osm_highway_values
+  - transform_to_cartesian
+  - transform_to_geographic
+  - create_bbox
+
+- title: Network operations
+
+- subtitle: Network creation
+  desc: >
+    A road network represents a system of interconnected roads, where
+    intersections act as nodes and road segments act as links.
+    `create_road_network` constructs a road network from road data.
+    For more detailed analysis and visualization, there is also a function,
+    `create_segment_network`, to create a segmented road network.
+  contents:
+  - create_road_network
+  - create_segment_network
+
+- subtitle: Network information retrieval
+  desc: >
+    These functions provide tools to extract specific information from a road
+    network, enabling you to understand the network structure and relationships.
+  contents:
+  - get_adjacent_nodes
+  - get_connected_links
+
+- subtitle: Network building utilities
+  desc: >
+    These functions provide tools to create and manipulate road networks.
+  contents:
+  - create_graph
+  - create_graph_nodes
+  - create_graph_links
+  - extract_road_network_nodes
+  - extract_road_network_links
+  - extract_segment_network_nodes
+  - extract_segment_network_links
+  - extract_road_endpoints
+  - extract_road_intersections
+  - generate_ids
+
+- title: Segmented network analysis
+  desc: >
+    Analyzing events on segmented road networks can provide valuable insights
+    into spatial relationships and patterns. By assigning events to network
+    links and leveraging the detailed network structure, you can identify areas
+    with high event frequency with these functions.
+  contents:
+  - assign_event_to_link
+  - create_midpoint_graph
+
+- title: Geometry manipulation
+  desc: >
+    Geometric operations are essential for spatial analysis. These functions
+    are helpers for working with sf functions, allowing you to create, modify,
+    and decompose geometries such as points, linestrings, and polygons.
+  contents:
+  - create_points
+  - create_linestring
+  - create_polygon
+  - sample_points_along_linestring
+  - filter_points_within_tolerance
+  - exclude_points
+  - remove_points_near_endpoints
+  - decompose_linestring
+  - split_linestring
+
+- title: Sample data
+  desc: >
+    Pre-generated sample datasets related to roads and accidents.
+    These datasets can be used to immediately begin using pavement.
+  contents:
+  - sample_roads
+  - sample_accidents
