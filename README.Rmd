@@ -47,3 +47,8 @@ segmented_network <- sample_roads |>
 plot(segmented_network, mode = "event")
 plot(segmented_network, mode = "count")
 ```
+
+## Code of conduct
+
+Please note that this project is released with a [Contributor Code of Conduct](https://nononoexe.github.io/pavement/CODE_OF_CONDUCT.html).
+By participating in this project you agree to abide by its terms.
