@@ -14,8 +14,8 @@ a column named \code{road_id}.}
 A points object representing road endpoints. Each endpoint
 has the following columns:
 \itemize{
-\item origins: A list of road IDs that intersect at the endpoint.
-\item n.overlaps: The number of roads that intersect at the endpoint.
+\item parent_road: A list of road IDs that intersect at the endpoint.
+\item num_overlaps: The number of roads that intersect at the endpoint.
 }
 }
 \description{

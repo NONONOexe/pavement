@@ -13,8 +13,9 @@ a column named \code{layer} and a column named \code{road_id}.}
 \value{
 A data frame with the following columns:
 \itemize{
-\item origins: A list of road IDs that intersect at the intersection.
-\item n.overlaps: The number of roads that intersect at the intersection.
+\item parent_road: A list of road IDs that intersect at the intersection.
+\item num_overlaps: The number of roads that intersect at the
+intersection.
 }
 }
 \description{
