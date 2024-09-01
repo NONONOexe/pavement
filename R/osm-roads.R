@@ -42,7 +42,7 @@ osm_roads <- function(bbox, crop = TRUE) {
   # Crop to the specified bounding box
   if (crop) {
     lines <- st_set_agr(lines, "constant")
-    area <- bbox_to_polygon(bbox)
+    area <- create_polygon(bbox)
     lines <- st_crop(lines, area)
   }
 

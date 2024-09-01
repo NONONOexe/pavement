@@ -1,4 +1,4 @@
-test_that("`bbox_to_polygon` converts bounding box to correct polygon", {
+test_that("`create_polygon` creates correct polygon from bounding box", {
   # Define a bounding box as a matrix
   bbox <- matrix(
     c(136.90090, 35.16377, 136.91590, 35.17377),
@@ -6,7 +6,7 @@ test_that("`bbox_to_polygon` converts bounding box to correct polygon", {
   )
 
   # Convert the bounding box to a polygon
-  polygon <- bbox_to_polygon(bbox)
+  polygon <- create_polygon(bbox)
 
   # Extract the coordinates of the polygon
   actual_coords <- unname(polygon[[1]])
