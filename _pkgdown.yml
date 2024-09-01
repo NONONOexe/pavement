@@ -1,8 +1,8 @@
 url: https://nononoexe.github.io/pavement/
 
 template:
-  package: tidytemplate
   bootstrap: 5
+  light-switch: true
 
 development:
   mode: auto
@@ -33,17 +33,17 @@ reference:
     intersections act as nodes and road segments act as links.
     `create_road_network` constructs a road network from road data.
     For more detailed analysis and visualization, there is also a function,
-    `create_segment_network`, to create a segmented road network.
+    `create_segmented_network`, to create a segmented road network.
   contents:
   - create_road_network
-  - create_segment_network
+  - create_segmented_network
 
 - subtitle: Network information retrieval
   desc: >
     These functions provide tools to extract specific information from a road
     network, enabling you to understand the network structure and relationships.
   contents:
-  - get_adjacent_nodes
+  - get_adjacent_links
   - get_connected_links
 
 - subtitle: Network building utilities
@@ -55,8 +55,8 @@ reference:
   - create_graph_links
   - extract_road_network_nodes
   - extract_road_network_links
-  - extract_segment_network_nodes
-  - extract_segment_network_links
+  - extract_segmented_network_nodes
+  - extract_segmented_network_links
   - extract_road_endpoints
   - extract_road_intersections
   - generate_ids
