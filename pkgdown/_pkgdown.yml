@@ -79,6 +79,7 @@ reference:
     are helpers for working with sf functions, allowing you to create, modify,
     and decompose geometries such as points, linestrings, and polygons.
   contents:
+  - create_coordinates
   - create_points
   - create_linestring
   - create_polygon
