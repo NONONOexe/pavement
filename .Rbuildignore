@@ -4,8 +4,7 @@
 ^README\.Rmd$
 ^cran-comments\.md$
 ^data-raw$
-^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
 ^\.github$
-^CODE_OF_CONDUCT\.md$
+^codecov\.yml$

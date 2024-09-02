@@ -9,6 +9,8 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/pavement)](https://CRAN.R-project.org/package=pavement)
+[![Codecov test
+coverage](https://codecov.io/gh/NONONOexe/pavement/branch/main/graph/badge.svg)](https://app.codecov.io/gh/NONONOexe/pavement?branch=main)
 <!-- badges: end -->
 
 ## Overview
