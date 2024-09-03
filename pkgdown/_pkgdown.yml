@@ -21,8 +21,7 @@ reference:
     retrieval and conversion data from OpenStreetMap and other external sources,
     enabling you to begin your spatial analysis.
   contents:
-  - osm_roads
-  - osm_highway_values
+  - download_roads
   - transform_to_cartesian
   - transform_to_geographic
   - create_bbox
@@ -97,3 +96,4 @@ reference:
   contents:
   - sample_roads
   - sample_accidents
+  - osm_highway_values

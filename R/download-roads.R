@@ -11,7 +11,7 @@
 #' @return A data frame containing OpenStreetMap road data.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Download road data
 #' bbox <- create_bbox(
 #'   north =  35.17377,
