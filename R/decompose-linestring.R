@@ -26,8 +26,10 @@ decompose_linestring <- function(linestring) {
   to <- coordinates[seq_len(num_points - 1) + 1, c("X", "Y"), drop = FALSE]
 
   # Create a list of line segments
-  segments <- apply(cbind(from, to), 1, create_linestring, simplify = FALSE)
-  segments <- st_sfc(segments, crs = st_crs(linestring))
+  segments <- do.call(
+    c,
+    apply(cbind(from, to), 1, create_linestring, crs = st_crs(linestring))
+  )
 
   return(segments)
 }

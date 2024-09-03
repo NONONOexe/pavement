@@ -3,25 +3,30 @@
 \name{create_linestring}
 \alias{create_linestring}
 \title{Create a linestring geometry}
-\usage{
-create_linestring(x = NULL, ...)
-}
 \arguments{
-\item{x}{A numeric vector, or the first x coordinate.}
+\item{...}{A series of x, y coordinates.}
 
-\item{...}{Additional numeric vectors.}
+\item{coordinates}{A \code{coordinates} object.}
+
+\item{crs}{The coordinate reference system of the points.}
 }
 \value{
-A \code{sf} linestring object.
+A simple feature linestring object.
 }
 \description{
-This function takes a series of numeric arguments representing x and y
-coordinates and creates a linestring geometry object.
+This function creates a simple feature linestring object
+from a series of x, y coordinates.
 }
 \examples{
 # Create a linestring from individual coordinates
-create_linestring(0, 0, 3, 0, 4, 3)
+linestring_1 <- create_linestring(0, 1, 1, 0, 2, 1)
+linestring_1
+plot(linestring_1)
 
 # Create a linestring from a numeric vector
-create_linestring(c(0, 0, 3, 0, 4, 3))
+linestring_2 <- create_linestring(
+  c(0, 1, 1, 1, 1, 0, 0, 0, 0, 0.5, 1, 0.5)
+)
+linestring_2
+plot(linestring_2)
 }

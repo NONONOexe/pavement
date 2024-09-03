@@ -2,7 +2,7 @@
 % Please edit documentation in R/create-points.R
 \name{create_points}
 \alias{create_points}
-\title{Create a simple feature collection of points}
+\title{Create points geometry}
 \arguments{
 \item{...}{A series of x, y coordinates.}
 
@@ -18,9 +18,15 @@ This function creates a simple feature collection of points
 from a series of x, y coordinates.
 }
 \examples{
-# Create points
-points <- create_points(0, 1, 1, 0, 2, 1)
+# Create a points from individual coordinates
+points_1 <- create_points(0, 1, 1, 0, 2, 1)
+points_1
+plot(points_1)
 
-# Plot the points
-plot(points)
+# Create a linestring from a numeric vector
+points_2 <- create_points(
+  c(0, 1, 1, 1, 1, 0, 0, 0, 0, 0.5, 1, 0.5)
+)
+points_2
+plot(points_2)
 }

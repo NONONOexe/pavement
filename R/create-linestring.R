@@ -1,40 +1,44 @@
 #' Create a linestring geometry
 #'
-#' This function takes a series of numeric arguments representing x and y
-#' coordinates and creates a linestring geometry object.
+#' This function creates a simple feature linestring object
+#' from a series of x, y coordinates.
 #'
-#' @param x A numeric vector, or the first x coordinate.
-#' @param ... Additional numeric vectors.
-#' @return A `sf` linestring object.
-#' @export
+#' @name create_linestring
+#' @param ... A series of x, y coordinates.
+#' @param coordinates A `coordinates` object.
+#' @param crs The coordinate reference system of the points.
+#' @return A simple feature linestring object.
 #' @examples
 #' # Create a linestring from individual coordinates
-#' create_linestring(0, 0, 3, 0, 4, 3)
+#' linestring_1 <- create_linestring(0, 1, 1, 0, 2, 1)
+#' linestring_1
+#' plot(linestring_1)
 #'
 #' # Create a linestring from a numeric vector
-#' create_linestring(c(0, 0, 3, 0, 4, 3))
-create_linestring <- function(x = NULL, ...) {
-  # Collect all arguments
-  arguments <- if (missing(...)) as.list(x) else list(x, ...)
+#' linestring_2 <- create_linestring(
+#'   c(0, 1, 1, 1, 1, 0, 0, 0, 0, 0.5, 1, 0.5)
+#' )
+#' linestring_2
+#' plot(linestring_2)
+NULL
 
-  # If no arguments are provided, create an empty linestring
-  if (length(arguments) == 0) {
-    return(st_linestring())
-  }
+#' @export
+create_linestring <- function(...) {
+  UseMethod("create_linestring")
+}
 
-  # Check if all arguments are numeric
-  if (!all(sapply(arguments, is.numeric))) {
-    stop("all arguments must be numeric")
-  }
-  # Check if the number of arguments is even
-  if (length(arguments) %% 2 != 0) {
-    stop("arguments must be provided in pairs (x, y) coordinates")
-  }
+#'@export
+create_linestring.numeric <- function(..., crs = NULL) {
+  coordinates <- create_coordinates(...)
+  if(is.null(crs) || is.na(crs)) crs <- "NA"
 
-  # Create a matrix of coordinates
-  coordinates <- matrix(unlist(arguments), ncol = 2, byrow = TRUE)
-  # Create a linestring object
+  return(create_linestring.coordinates(coordinates, crs))
+}
+
+#'@export
+create_linestring.coordinates <- function(coordinates, crs = NULL, ...) {
   linestring <- st_linestring(coordinates)
+  linestring <- st_sfc(linestring, crs = crs)
 
   return(linestring)
 }

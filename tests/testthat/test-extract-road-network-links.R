@@ -1,5 +1,5 @@
 test_that("`extract_road_network_links` works correctly", {
-  expected_link_linestrings <- st_sfc(
+  expected_link_linestrings <- c(
     create_linestring(0, 0, 3, 0, 4, 3),
     create_linestring(6, 1, 7, 1),
     create_linestring(0, 1, 6, 1),
