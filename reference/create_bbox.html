@@ -49,15 +49,52 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_bbox</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_bbox</span><span class="op">(</span></span>
+<span>  north <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  south <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  east <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  west <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  center_lon <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  center_lat <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  width <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  height <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>A named vector containing the bounding box coordinates.</p></dd>
+<dl><dt id="arg-north">north<a class="anchor" aria-label="anchor" href="#arg-north"></a></dt>
+<dd><p>The northernmost latitude.</p></dd>
+
+
+<dt id="arg-south">south<a class="anchor" aria-label="anchor" href="#arg-south"></a></dt>
+<dd><p>The southernmost latitude.</p></dd>
+
+
+<dt id="arg-east">east<a class="anchor" aria-label="anchor" href="#arg-east"></a></dt>
+<dd><p>The easternmost longitude.</p></dd>
+
+
+<dt id="arg-west">west<a class="anchor" aria-label="anchor" href="#arg-west"></a></dt>
+<dd><p>The westernmost longitude.</p></dd>
+
+
+<dt id="arg-center-lon">center_lon<a class="anchor" aria-label="anchor" href="#arg-center-lon"></a></dt>
+<dd><p>The center longitude.</p></dd>
+
+
+<dt id="arg-center-lat">center_lat<a class="anchor" aria-label="anchor" href="#arg-center-lat"></a></dt>
+<dd><p>The center latitude.</p></dd>
+
+
+<dt id="arg-width">width<a class="anchor" aria-label="anchor" href="#arg-width"></a></dt>
+<dd><p>The width of the bounding box.</p></dd>
+
+
+<dt id="arg-height">height<a class="anchor" aria-label="anchor" href="#arg-height"></a></dt>
+<dd><p>The height of the bounding box.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -68,22 +105,26 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create a bounding box from cardinal coordinates</span></span></span>
-<span class="r-in"><span><span class="fu">create_bbox</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="fu">create_bbox</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  north <span class="op">=</span>  <span class="fl">35.1899</span>,</span></span>
 <span class="r-in"><span>  south <span class="op">=</span>  <span class="fl">35.1399</span>,</span></span>
 <span class="r-in"><span>  east  <span class="op">=</span> <span class="fl">136.9524</span>,</span></span>
 <span class="r-in"><span>  west  <span class="op">=</span> <span class="fl">136.8524</span></span></span>
-<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in create_bbox(c(north = 35.1899, south = 35.1399, east = 136.9524,     west = 136.8524)):</span> invalid argument provided</span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        min      max</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x 136.8524 136.9524</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> y  35.1399  35.1899</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create a bounding box from center coordinates and dimensions</span></span></span>
-<span class="r-in"><span><span class="fu">create_bbox</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="fu">create_bbox</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  center_lon <span class="op">=</span> <span class="fl">136.9024</span>,</span></span>
 <span class="r-in"><span>  center_lat <span class="op">=</span>  <span class="fl">35.1649</span>,</span></span>
 <span class="r-in"><span>  width      <span class="op">=</span> <span class="fl">0.10</span>,</span></span>
-<span class="r-in"><span>  height     <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  height     <span class="op">=</span> <span class="fl">0.05</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in create_bbox(c(center_lon = 136.9024, center_lat = 35.1649, width = 0.1,     height = 0.05)):</span> invalid argument provided</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        min      max</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x 136.8524 136.9524</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> y  35.1399  35.1899</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

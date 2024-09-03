@@ -18,6 +18,7 @@
 <url><loc>https://nononoexe.github.io/pavement/reference/create_road_network.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/create_segmented_network.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/decompose_linestring.html</loc></url>
+<url><loc>https://nononoexe.github.io/pavement/reference/download_roads.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/exclude_points.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_road_endpoints.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_road_intersections.html</loc></url>
@@ -31,7 +32,6 @@
 <url><loc>https://nononoexe.github.io/pavement/reference/get_connected_links.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/index.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/osm_highway_values.html</loc></url>
-<url><loc>https://nononoexe.github.io/pavement/reference/osm_roads.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/pavement-package.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/remove_points_near_endpoints.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/sample_accidents.html</loc></url>
