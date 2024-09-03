@@ -3,16 +3,15 @@
 \name{create_points}
 \alias{create_points}
 \title{Create a simple feature collection of points}
-\usage{
-create_points(..., crs = "NA")
-}
 \arguments{
 \item{...}{A series of x, y coordinates.}
+
+\item{coordinates}{A \code{coordinates} object.}
 
 \item{crs}{The coordinate reference system of the points.}
 }
 \value{
-A simple feature collection of points.
+A simple feature points object.
 }
 \description{
 This function creates a simple feature collection of points
@@ -21,7 +20,6 @@ from a series of x, y coordinates.
 \examples{
 # Create points
 points <- create_points(0, 1, 1, 0, 2, 1)
-points
 
 # Plot the points
 plot(points)

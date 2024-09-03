@@ -3,35 +3,36 @@
 #' This function creates a simple feature collection of points
 #' from a series of x, y coordinates.
 #'
+#' @name create_points
 #' @param ... A series of x, y coordinates.
+#' @param coordinates A `coordinates` object.
 #' @param crs The coordinate reference system of the points.
-#' @return A simple feature collection of points.
-#' @export
+#' @return A simple feature points object.
 #' @examples
 #' # Create points
 #' points <- create_points(0, 1, 1, 0, 2, 1)
-#' points
 #'
 #' # Plot the points
 #' plot(points)
-create_points <- function(..., crs = "NA") {
-  # Unlist the arguments to a vector
-  points <- unlist(list(...))
+NULL
 
-  # If no arguments are provided, return an empty collection of points
-  if (length(points) == 0) {
-    return(st_sfc(st_point(), crs = crs))
-  }
+#' @export
+create_points <- function(...) {
+  UseMethod("create_points")
+}
 
-  # Check if the number of arguments is even
-  if (length(points) %% 2 != 0) {
-    stop("arguments must be provided in pairs (x, y) coordinates")
-  }
+#'@export
+create_points.numeric <- function(..., crs = NULL) {
+  coordinates <- create_coordinates(...)
+  crs <- ifelse(is.null(crs), "NA", crs)
 
-  # Create a simple feature collection of points
-  points_mat <- matrix(points, ncol = 2, byrow = TRUE)
-  points_sfg <- apply(points_mat, 1, st_point, simplify = FALSE)
-  points <- st_sfc(points_sfg, crs = crs)
+  return(create_points.coordinates(coordinates, crs))
+}
+
+#'@export
+create_points.coordinates <- function(coordinates, crs = NULL, ...) {
+  points <- apply(coordinates, 1, st_point, simplify = FALSE)
+  points <- st_sfc(points, crs = crs)
 
   return(points)
 }
