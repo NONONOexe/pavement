@@ -20,7 +20,16 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Keisuke ANDO \email{ando@maslab.aitech.ac.jp}
+\strong{Maintainer}: Keisuke Ando \email{ando@maslab.aitech.ac.jp}
+
+Other contributors:
+\itemize{
+  \item Takeshi Uchitane [thesis advisor]
+  \item Naoto Mukai [thesis advisor]
+  \item Kazunori Iwata [thesis advisor]
+  \item Nobuhiro Ito [thesis advisor]
+  \item Yong Jiang [thesis advisor]
+}
 
 }
 \keyword{internal}

@@ -23,11 +23,17 @@ phenomena.
 ## Installation
 
 You can install the development version of pavement from
-[GitHub](https://github.com/) with:
+[R-universe](https://r-universe.dev) with:
 
 ``` r
-# install.packages("pak")
-pak::pak("NONONOexe/pavement")
+# Enable the R-universe
+options(repos = c(
+  nononoexe = "https://nononoexe.r-universe.dev",
+  cran = "https://cloud.r-project.org"
+))
+
+# Install the package
+install.packages("pavement")
 ```
 
 ## Usage
