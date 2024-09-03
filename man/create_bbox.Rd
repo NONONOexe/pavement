@@ -4,10 +4,33 @@
 \alias{create_bbox}
 \title{Create a bounding box}
 \usage{
-create_bbox(x)
+create_bbox(
+  north = NULL,
+  south = NULL,
+  east = NULL,
+  west = NULL,
+  center_lon = NULL,
+  center_lat = NULL,
+  width = NULL,
+  height = NULL
+)
 }
 \arguments{
-\item{x}{A named vector containing the bounding box coordinates.}
+\item{north}{The northernmost latitude.}
+
+\item{south}{The southernmost latitude.}
+
+\item{east}{The easternmost longitude.}
+
+\item{west}{The westernmost longitude.}
+
+\item{center_lon}{The center longitude.}
+
+\item{center_lat}{The center latitude.}
+
+\item{width}{The width of the bounding box.}
+
+\item{height}{The height of the bounding box.}
 }
 \value{
 A 2x2 matrix representing the bounding box.
@@ -19,18 +42,18 @@ This function creates a bounding box from either cardinal coordinates
 }
 \examples{
 # Create a bounding box from cardinal coordinates
-create_bbox(c(
+create_bbox(
   north =  35.1899,
   south =  35.1399,
   east  = 136.9524,
   west  = 136.8524
-))
+)
 
 # Create a bounding box from center coordinates and dimensions
-create_bbox(c(
+create_bbox(
   center_lon = 136.9024,
   center_lat =  35.1649,
   width      = 0.10,
-  height     = 0.05)
+  height     = 0.05
 )
 }

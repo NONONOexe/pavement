@@ -19,12 +19,12 @@
 #'   east  = 136.91590,
 #'   west  = 136.90090
 #' )
-#' roads <- osm_roads(bbox)
+#' roads <- download_roads(bbox)
 #'
 #' # Plot the roads
 #' plot(roads$geometry)
 #' }
-osm_roads <- function(bbox, crop = TRUE) {
+download_roads <- function(bbox, crop = TRUE) {
   # Download OpenStreetMap highway data
   query <- add_osm_feature(
     opq(bbox),

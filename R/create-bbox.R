@@ -4,7 +4,14 @@
 #' (north, south, east and west) or center coordinates and dimensions
 #' (center longitude and latitude, and size of width and height).
 #'
-#' @param x A named vector containing the bounding box coordinates.
+#' @param north The northernmost latitude.
+#' @param south The southernmost latitude.
+#' @param east The easternmost longitude.
+#' @param west The westernmost longitude.
+#' @param center_lon The center longitude.
+#' @param center_lat The center latitude.
+#' @param width The width of the bounding box.
+#' @param height The height of the bounding box.
 #' @return A 2x2 matrix representing the bounding box.
 #' @export
 #' @examples
