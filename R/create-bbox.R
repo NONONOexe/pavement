@@ -9,72 +9,47 @@
 #' @export
 #' @examples
 #' # Create a bounding box from cardinal coordinates
-#' create_bbox(c(
+#' create_bbox(
 #'   north =  35.1899,
 #'   south =  35.1399,
 #'   east  = 136.9524,
 #'   west  = 136.8524
-#' ))
+#' )
 #'
 #' # Create a bounding box from center coordinates and dimensions
-#' create_bbox(c(
+#' create_bbox(
 #'   center_lon = 136.9024,
 #'   center_lat =  35.1649,
 #'   width      = 0.10,
-#'   height     = 0.05)
+#'   height     = 0.05
 #' )
-create_bbox <- function(x) {
-  # Check if the input is numeric
-  if (!is.numeric(x)) {
-    stop("`x` must be numeric")
+create_bbox <- function(north = NULL, south = NULL,
+                        east = NULL, west = NULL,
+                        center_lon = NULL, center_lat = NULL,
+                        width = NULL, height = NULL) {
+  if (!is.null(north) && !is.null(south) && !is.null(east) && !is.null(west)) {
+    validate_cardinal_points(north, south, east, west)
+  } else if (!is.null(center_lon) && !is.null(center_lat) &&
+             !is.null(width) && !is.null(height)) {
+    validate_dimensions(width, height)
+    west <- center_lon - width / 2
+    east <- center_lon + width / 2
+    south <- center_lat - height / 2
+    north <- center_lat + height / 2
+  } else {
+    stop("invalid argument provided")
   }
 
-  # Create bounding box from cardinal coordinates
-  if (all(c("north", "south", "east", "west") %in% names(x))) {
-    return(create_bbox_from_cardinal_points(x))
-  }
-
-  # Create bounding box from center coordinates and dimensions
-  if (all(c("center_lon", "center_lat", "width", "height") %in% names(x))){
-    return(create_bbox_from_center(x))
-  }
-
-  # Stop execution if invalid argument is provided
-  stop("Invalid argument provided")
-}
-
-# Create a bounding box from cardinal coordinates (north, south, east and west)
-create_bbox_from_cardinal_points <- function(x) {
-  if (x["north"] <= x["south"])
-      stop("`north` must be greater than `south`")
-
-  if (x["east"] <= x["west"])
-    stop("`east` must be greater than `west`")
-
-  data <- c(x["west"], x["south"], x["east"], x["north"])
-  bbox <- matrix(data, nrow = 2)
+  bbox <- matrix(c(west, south, east, north), nrow = 2)
   dimnames(bbox) <- list(c("x", "y"), c("min", "max"))
-
   return(bbox)
 }
 
-# Create a bounding box from center coordinates (center longitude and latitude)
-# and dimensions (size of width and height)
-create_bbox_from_center <- function(x) {
-  if (x["width"] <= 0)
-    stop("`width` must be positive")
+validate_cardinal_points <- function(north, south, east, west) {
+  if (north <= south) stop("`north` must be greater than `south`")
+  if (east <= west) stop("`east` must be greater than `west`")
+}
 
-  if (x["height"] <= 0)
-    stop("`height` must be positive")
-
-  min_lon <- x["center_lon"] - x["width"] / 2
-  max_lon <- x["center_lon"] + x["width"] / 2
-  min_lat <- x["center_lat"] - x["height"] / 2
-  max_lat <- x["center_lat"] + x["height"] / 2
-
-  data <- c(min_lon, min_lat, max_lon, max_lat)
-  bbox <- matrix(data, nrow = 2)
-  dimnames(bbox) <- list(c("x", "y"), c("min", "max"))
-
-  return(bbox)
+validate_dimensions <- function(width, height) {
+  if (width <= 0 || height <= 0) stop("`width` and `height` must be positive")
 }

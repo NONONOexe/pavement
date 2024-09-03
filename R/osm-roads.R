@@ -13,10 +13,12 @@
 #' @examples
 #' \dontrun{
 #' # Download road data
-#' bbox <- create_bbox(c(
-#'   north = 35.17377, south = 35.16377,
-#'   east = 136.91590, west = 136.90090
-#' ))
+#' bbox <- create_bbox(
+#'   north =  35.17377,
+#'   south =  35.16377,
+#'   east  = 136.91590,
+#'   west  = 136.90090
+#' )
 #' roads <- osm_roads(bbox)
 #'
 #' # Plot the roads
