@@ -38,7 +38,10 @@ create_coordinates <- function(...) {
 
 #' @export
 print.coordinates <- function(x, ...) {
-  cat("{")
-  cat(apply(x, 1, function(c) paste0("(", paste(c, collapse = ", "), ")")))
-  cat("}")
+  coordinates_str <- apply(
+    x,
+    1,
+    function(c) paste0("(", paste0(c, collapse = ", "), ")")
+  )
+  cat("{", paste0(coordinates_str, collapse = ", "), "}", sep = "")
 }
