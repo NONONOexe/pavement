@@ -31,7 +31,7 @@ test_that("`create_bbox` works with valid center coordinates and dimensions", {
   expect_equal(bbox[2, "max"], center_lat + height / 2)
 })
 
-test_that("`create_bbox` throws an error with invalid cardinal points", {
+test_that("`create_bbox` throws an error with invalid `north` and `south`", {
   north <-  0
   south <- 10
   east  <-  5
@@ -40,6 +40,18 @@ test_that("`create_bbox` throws an error with invalid cardinal points", {
   expect_error(
     create_bbox(north = north, south = south, east = east, west = west),
     "`north` must be greater than `south`"
+  )
+})
+
+test_that("`create_bbox` throws an error with invalid `east` and `west`", {
+  north <- 10
+  south <-  0
+  east  <- -5
+  west  <-  5
+
+  expect_error(
+    create_bbox(north = north, south = south, east = east, west = west),
+    "`east` must be greater than `west`"
   )
 })
 
