@@ -44,10 +44,6 @@ from a series of x, y coordinates."><meta property="og:image" content="https://n
 from a series of x, y coordinates.</p>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_points</span><span class="op">(</span><span class="va">...</span>, crs <span class="op">=</span> <span class="st">"NA"</span><span class="op">)</span></span></code></pre></div>
-    </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
@@ -57,28 +53,23 @@ from a series of x, y coordinates.</p>
 <dd><p>A series of x, y coordinates.</p></dd>
 
 
+<dt id="arg-coordinates">coordinates<a class="anchor" aria-label="anchor" href="#arg-coordinates"></a></dt>
+<dd><p>A <code>coordinates</code> object.</p></dd>
+
+
 <dt id="arg-crs">crs<a class="anchor" aria-label="anchor" href="#arg-crs"></a></dt>
 <dd><p>The coordinate reference system of the points.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A simple feature collection of points.</p>
+    <p>A simple feature points object.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create points</span></span></span>
 <span class="r-in"><span><span class="va">points</span> <span class="op">&lt;-</span> <span class="fu">create_points</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">points</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry set for 3 features </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 0 ymin: 0 xmax: 2 ymax: 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           NA</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (0 1)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (1 0)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (2 1)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Plot the points</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">points</span><span class="op">)</span></span></span>
