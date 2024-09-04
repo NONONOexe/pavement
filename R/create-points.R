@@ -3,7 +3,6 @@
 #' This function creates a simple feature collection of points
 #' from a series of x, y coordinates.
 #'
-#' @name create_points
 #' @param ... A series of x, y coordinates.
 #' @param coordinates A `coordinates` object.
 #' @param crs The coordinate reference system of the points.
@@ -20,15 +19,10 @@
 #' )
 #' points_2
 #' plot(points_2)
-NULL
-
-#' @rdname create_points
-#' @export
 create_points <- function(...) {
   UseMethod("create_points")
 }
 
-#' @rdname create_points
 #' @export
 create_points.numeric <- function(..., crs = NULL) {
   coordinates <- create_coordinates(...)
@@ -37,7 +31,6 @@ create_points.numeric <- function(..., crs = NULL) {
   return(create_points.coordinates(coordinates, crs))
 }
 
-#' @rdname create_points
 #' @export
 create_points.coordinates <- function(coordinates, crs = NULL, ...) {
   points <- apply(coordinates, 1, st_point, simplify = FALSE)
