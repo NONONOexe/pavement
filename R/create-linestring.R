@@ -3,6 +3,7 @@
 #' This function creates a simple feature linestring object
 #' from a series of x, y coordinates.
 #'
+#' @name create_linestring
 #' @param ... A series of x, y coordinates.
 #' @param coordinates A `coordinates` object.
 #' @param crs The coordinate reference system of the points.
@@ -19,10 +20,15 @@
 #' )
 #' linestring_2
 #' plot(linestring_2)
+NULL
+
+#' @rdname create_linestring
+#' @export
 create_linestring <- function(...) {
   UseMethod("create_linestring")
 }
 
+#' @rdname create_linestring
 #' @export
 create_linestring.numeric <- function(..., crs = NULL) {
   coordinates <- create_coordinates(...)
@@ -31,6 +37,7 @@ create_linestring.numeric <- function(..., crs = NULL) {
   return(create_linestring.coordinates(coordinates, crs))
 }
 
+#' @rdname create_linestring
 #' @export
 create_linestring.coordinates <- function(coordinates, crs = NULL, ...) {
   linestring <- st_linestring(coordinates)

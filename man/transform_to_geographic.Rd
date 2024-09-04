@@ -16,6 +16,15 @@ A spatial object transformed to geographic coordinates.
 This function transforms a spatial object to geographic coordinates
 (WGS84, EPSG:4326).
 }
+\examples{
+# Create points
+points <- create_points(-24073.54, -92614.18, crs = 6675)
+points
+
+# Transform to geographic coordinates
+transformed <- transform_to_geographic(points)
+transformed
+}
 \seealso{
 \code{\link[=transform_to_cartesian]{transform_to_cartesian()}} to transform to Cartesian coordinates.
 }

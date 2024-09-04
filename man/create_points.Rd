@@ -2,13 +2,22 @@
 % Please edit documentation in R/create-points.R
 \name{create_points}
 \alias{create_points}
+\alias{create_points.numeric}
+\alias{create_points.coordinates}
 \title{Create points geometry}
+\usage{
+create_points(...)
+
+\method{create_points}{numeric}(..., crs = NULL)
+
+\method{create_points}{coordinates}(coordinates, crs = NULL, ...)
+}
 \arguments{
 \item{...}{A series of x, y coordinates.}
 
-\item{coordinates}{A \code{coordinates} object.}
-
 \item{crs}{The coordinate reference system of the points.}
+
+\item{coordinates}{A \code{coordinates} object.}
 }
 \value{
 A simple feature points object.

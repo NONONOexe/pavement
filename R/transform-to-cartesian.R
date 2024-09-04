@@ -8,6 +8,14 @@
 #' @return A spatial object transformed to Cartesian coordinates.
 #' @seealso [transform_to_geographic()] to transform to geographic coordinates.
 #' @export
+#' @examples
+#' # Create points
+#' points <- create_points(136.9024, 35.1649, crs = 4326)
+#' points
+#'
+#' # Transform to Cartesian coordinates
+#' transformed <- transform_to_cartesian(points)
+#' transformed
 transform_to_cartesian <- function(x) {
   transformed <- st_transform(x, 6675)
 

@@ -2,13 +2,22 @@
 % Please edit documentation in R/create-linestring.R
 \name{create_linestring}
 \alias{create_linestring}
+\alias{create_linestring.numeric}
+\alias{create_linestring.coordinates}
 \title{Create a linestring geometry}
+\usage{
+create_linestring(...)
+
+\method{create_linestring}{numeric}(..., crs = NULL)
+
+\method{create_linestring}{coordinates}(coordinates, crs = NULL, ...)
+}
 \arguments{
 \item{...}{A series of x, y coordinates.}
 
-\item{coordinates}{A \code{coordinates} object.}
-
 \item{crs}{The coordinate reference system of the points.}
+
+\item{coordinates}{A \code{coordinates} object.}
 }
 \value{
 A simple feature linestring object.

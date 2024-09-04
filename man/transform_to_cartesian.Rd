@@ -17,6 +17,15 @@ This function transforms a spatial object to Cartesian coordinates (plane
 rectangular coordinate system). Currently, it supports the coordinate
 system used in Aichi Prefecture (JDG2011, EPSG:6675).
 }
+\examples{
+# Create points
+points <- create_points(136.9024, 35.1649, crs = 4326)
+points
+
+# Transform to Cartesian coordinates
+transformed <- transform_to_cartesian(points)
+transformed
+}
 \seealso{
 \code{\link[=transform_to_geographic]{transform_to_geographic()}} to transform to geographic coordinates.
 }
