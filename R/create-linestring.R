@@ -22,12 +22,14 @@
 #' plot(linestring_2)
 NULL
 
+#' @rdname create_linestring
 #' @export
 create_linestring <- function(...) {
   UseMethod("create_linestring")
 }
 
-#'@export
+#' @rdname create_linestring
+#' @export
 create_linestring.numeric <- function(..., crs = NULL) {
   coordinates <- create_coordinates(...)
   if(is.null(crs) || is.na(crs)) crs <- "NA"
@@ -35,7 +37,8 @@ create_linestring.numeric <- function(..., crs = NULL) {
   return(create_linestring.coordinates(coordinates, crs))
 }
 
-#'@export
+#' @rdname create_linestring
+#' @export
 create_linestring.coordinates <- function(coordinates, crs = NULL, ...) {
   linestring <- st_linestring(coordinates)
   linestring <- st_sfc(linestring, crs = crs)

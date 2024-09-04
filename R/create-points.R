@@ -22,12 +22,14 @@
 #' plot(points_2)
 NULL
 
+#' @rdname create_points
 #' @export
 create_points <- function(...) {
   UseMethod("create_points")
 }
 
-#'@export
+#' @rdname create_points
+#' @export
 create_points.numeric <- function(..., crs = NULL) {
   coordinates <- create_coordinates(...)
   if(is.null(crs) || is.na(crs)) crs <- "NA"
@@ -35,7 +37,8 @@ create_points.numeric <- function(..., crs = NULL) {
   return(create_points.coordinates(coordinates, crs))
 }
 
-#'@export
+#' @rdname create_points
+#' @export
 create_points.coordinates <- function(coordinates, crs = NULL, ...) {
   points <- apply(coordinates, 1, st_point, simplify = FALSE)
   points <- st_sfc(points, crs = crs)
