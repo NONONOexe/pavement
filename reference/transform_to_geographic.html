@@ -66,6 +66,29 @@
     <div class="dont-index"><p><code><a href="transform_to_cartesian.html">transform_to_cartesian()</a></code> to transform to Cartesian coordinates.</p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create points</span></span></span>
+<span class="r-in"><span><span class="va">points</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_points.html">create_points</a></span><span class="op">(</span><span class="op">-</span><span class="fl">24073.54</span>, <span class="op">-</span><span class="fl">92614.18</span>, crs <span class="op">=</span> <span class="fl">6675</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">points</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry set for 1 feature </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -24073.54 ymin: -92614.18 xmax: -24073.54 ymax: -92614.18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Projected CRS: JGD2011 / Japan Plane Rectangular CS VII</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (-24073.54 -92614.18)</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Transform to geographic coordinates</span></span></span>
+<span class="r-in"><span><span class="va">transformed</span> <span class="op">&lt;-</span> <span class="fu">transform_to_geographic</span><span class="op">(</span><span class="va">points</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">transformed</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry set for 1 feature </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 136.9024 ymin: 35.1649 xmax: 136.9024 ymax: 35.1649</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (136.9024 35.1649)</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
