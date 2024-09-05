@@ -12,6 +12,14 @@
 #'       intersection.
 #'   }
 #' @export
+#' @examples
+#' # Extract road intersections
+#' intersections <- extract_road_intersections(sample_roads)
+#' intersections
+#'
+#' # Plot the intersections
+#' plot(sample_roads$geometry)
+#' plot(intersections$geometry, pch = 16, col = "#E69F00", add = TRUE)
 extract_road_intersections <- function(roads) {
   # Find all intersections between roads
   intersections <- st_intersection(roads)
