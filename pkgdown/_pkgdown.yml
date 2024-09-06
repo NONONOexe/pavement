@@ -71,6 +71,7 @@ reference:
   contents:
   - assign_event_to_link
   - create_midpoint_graph
+  - start_with("calculate_weights_")
 
 - title: Geometry manipulation
   desc: >
