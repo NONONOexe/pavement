@@ -108,7 +108,7 @@ reset_layout <- function() {
 plot_coloured_segmented_network <- function(network_linestrings,
                                             segment_values,
                                             ...) {
-  par(fig = c(0, 0.75, 0, 1), mar = c(0, 0, 0, 0))
+  par(fig = c(0, 0.8, 0, 1), mar = c(5, 4, 4, 2))
   plot(network_linestrings, lwd = 1, ...)
   plot(
     network_linestrings,
@@ -125,9 +125,10 @@ plot_legends <- function(segment_values, mode, ...) {
   labels <- unique(round(seq(0, max(segment_values), length.out = 5), digits))
 
   par(
-    fig = c(0.75, 0.95, 0.3, 0.7),
-    mar = c(0, 0, 3, 0.5),
-    cex.main = 1,
+    fig = c(0.75, 0.95, 0.2, 0.8),
+    mar = c(0, 0, 2.5, 0.5),
+    cex.main = 0.8,
+    cex.axis = 0.7,
     new = TRUE
   )
   plot(
@@ -142,8 +143,8 @@ plot_legends <- function(segment_values, mode, ...) {
     main = main
   )
   segments(
-    x0 = 0.4,
-    x1 = 0.6,
+    x0 = 0.45,
+    x1 = 0.55,
     y0 = seq(0, 1, length.out = 100),
     y1 = seq(0, 1, length.out = 100),
     col = get_heatmap_colours(seq(0, 1, length.out = 100)),
@@ -154,7 +155,7 @@ plot_legends <- function(segment_values, mode, ...) {
     4,
     at = seq(0, 1, length.out = length(labels)),
     labels = labels,
-    line = -1.5,
+    line = -2.0,
     tick = TRUE,
     las = 2
   )
