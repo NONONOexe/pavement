@@ -1,9 +1,7 @@
-#' Epanechnikov kernel
+#' Compute the Epanechnikov function
 #'
-#' The kernel is one of the quadratic kernels used
-#' in kernel density estimation.
-#'
-#' Epanechnikov kernel is defined as follows:
+#' The Epanechnikov function is one of the quadratic kernels used in
+#' kernel density estimation. It is defined as follows:
 #' \deqn{K(x) = \frac{3}{4}(1 - x^2) \quad \text{if} \quad |x| \leq 1\text{.}}
 #'
 #' @param x A numeric vector.
@@ -11,8 +9,8 @@
 #' @export
 #' @examples
 #' x <- seq(-3, 3, 0.1)
-#' y <- calculate_weights_epanechnikov(x)
-#' plot(x, y, type = "l")
-calculate_weights_epanechnikov <- function(x) {
+#' y <- compute_epanechnikov(x)
+#' plot(x, y, xlim = c(-3, 3), ylim = c(0, 1), type = "l")
+compute_epanechnikov <- function(x) {
   return(ifelse(abs(x) <= 1, (3 / 4) * (1 - x^2), 0))
 }
