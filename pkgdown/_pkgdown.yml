@@ -2,10 +2,14 @@ url: https://nononoexe.github.io/pavement/
 
 template:
   bootstrap: 5
-  math-rendering: katex
+  math-rendering: mathjax
   light-switch: true
   theme: gruvbox-light
   theme-dark: gruvbox-dark
+  includes:
+    after_body: >
+      <script data-goatcounter="https://nononoexe.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 
 development:
   mode: auto
