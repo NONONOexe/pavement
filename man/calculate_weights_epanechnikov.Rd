@@ -18,10 +18,7 @@ in kernel density estimation.
 }
 \details{
 Epanechnikov kernel is defined as follows:
-\loadmathjax
-\mjdeqn{
-  K(x) = \frac{3}{4}(1 - x^2) \quad \text{if} \quad |x| \leq 1
-}{ascii}
+\deqn{K(x) = \frac{3}{4}(1 - x^2) \quad \text{if} \quad |x| \leq 1\text{.}}
 }
 \examples{
 x <- seq(-3, 3, 0.1)

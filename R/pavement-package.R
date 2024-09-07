@@ -2,7 +2,6 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @import mathjaxr
 #' @importFrom grDevices heat.colors
 #' @importFrom igraph E
 #' @importFrom igraph E<-

@@ -4,10 +4,7 @@
 #' in kernel density estimation.
 #'
 #' Epanechnikov kernel is defined as follows:
-#' \loadmathjax
-#' \mjdeqn{
-#'   K(x) = \frac{3}{4}(1 - x^2) \quad \text{if} \quad |x| \leq 1
-#' }{ascii}
+#' \deqn{K(x) = \frac{3}{4}(1 - x^2) \quad \text{if} \quad |x| \leq 1\text{.}}
 #'
 #' @param x A numeric vector.
 #' @return A numeric vector of weights of the kernel for each input points.

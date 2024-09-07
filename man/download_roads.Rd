@@ -22,7 +22,7 @@ bounding box. It corrects the geometries of reversed one-way roads.
 Optionally, it crops the data to the bounding box.
 }
 \examples{
-\donttest{
+\dontrun{
 # Download road data
 bbox <- create_bbox(
   north =  35.17377,

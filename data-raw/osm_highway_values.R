@@ -1,4 +1,3 @@
-# Define a vector of OpenStreetMap highway types
 osm_highway_values <- c(
   "motorway",
   "trunk",
