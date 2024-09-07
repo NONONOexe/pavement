@@ -24,7 +24,10 @@ input road network into segments of a specified length.
 road_network <- create_road_network(sample_roads)
 
 # Create a segmented road network
-segmented_network <- create_segmented_network(road_network)
+segmented_network <- create_segmented_network(
+  road_network,
+  segment_length = 0.5
+)
 segmented_network
 
 # Plot the segmented road network

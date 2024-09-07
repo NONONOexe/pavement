@@ -13,7 +13,10 @@
 #' road_network <- create_road_network(sample_roads)
 #'
 #' # Create a segmented road network
-#' segmented_network <- create_segmented_network(road_network)
+#' segmented_network <- create_segmented_network(
+#'   road_network,
+#'   segment_length = 0.5
+#' )
 #' segmented_network
 #'
 #' # Plot the segmented road network
@@ -84,22 +87,85 @@ plot.segmented_network <- function(
     ...
     ) {
   mode <- match.arg(mode)
+
   if (mode == "event") {
-    plot(x$links$geometry, lwd = 1)
-    plot(x$events$geometry, cex = 1, pch = 4, col = "red", add = TRUE)
+    plot(x$links$geometry, lwd = 1, ...)
+    plot(x$events$geometry, cex = 1, pch = 4, col = "red", add = TRUE, ...)
   } else if (mode %in% c("count", "density")) {
-    targets <- x$links[[mode]]
-    colors <- heat.colors(100, rev = TRUE)
-    normalized_values <- targets / max(targets)
-    link_colors <- colors[as.numeric(cut(normalized_values, breaks = 100))]
-    link_colors[targets == 0] <- "#ACACAC"
-    link_widths <- 1
-    link_widths[targets != 0] <- 2
-    plot(x$links$geometry, col = link_colors, lwd = link_widths)
+    plot_coloured_segmented_network(x$links$geometry, x$links[[mode]], ...)
+    plot_legends(x$links[[mode]], mode, ...)
+    reset_layout()
   } else {
     plot(x$links$geometry, lwd = 1, ...)
     plot(x$nodes$geometry, cex = 1, pch = 16, add = TRUE, ...)
   }
+}
+
+reset_layout <- function() {
+  par(fig = c(0, 1, 0, 1), mar = c(5, 4, 4, 2) + 0.1, oma = c(0, 0, 0, 0))
+}
+
+plot_coloured_segmented_network <- function(network_linestrings,
+                                            segment_values,
+                                            ...) {
+  par(fig = c(0, 0.75, 0, 1), mar = c(0, 0, 0, 0))
+  plot(network_linestrings, lwd = 1, ...)
+  plot(
+    network_linestrings,
+    col = get_heatmap_colours(segment_values),
+    lwd = ifelse(segment_values == 0, 1, 2),
+    add = TRUE,
+    ...
+  )
+}
+
+plot_legends <- function(segment_values, mode, ...) {
+  main <- switch (mode, count = "Count", density = "Probability\ndensity")
+  digits <- ifelse(mode == "count", 0, 3)
+  labels <- unique(round(seq(0, max(segment_values), length.out = 5), digits))
+
+  par(
+    fig = c(0.75, 0.95, 0.3, 0.7),
+    mar = c(0, 0, 3, 0.5),
+    cex.main = 1,
+    new = TRUE
+  )
+  plot(
+    x = rep(1, 100),
+    y = seq(0, 1, length.out = 100),
+    xlim = c(0, 1),
+    col = get_heatmap_colours(seq(0, 1, length.out = 100)),
+    type = "n",
+    xaxs = "i",
+    yaxs = "i",
+    axes = FALSE,
+    main = main
+  )
+  segments(
+    x0 = 0.4,
+    x1 = 0.6,
+    y0 = seq(0, 1, length.out = 100),
+    y1 = seq(0, 1, length.out = 100),
+    col = get_heatmap_colours(seq(0, 1, length.out = 100)),
+    lwd = 20,
+    lend = "butt"
+  )
+  axis(
+    4,
+    at = seq(0, 1, length.out = length(labels)),
+    labels = labels,
+    line = -1.5,
+    tick = TRUE,
+    las = 2
+  )
+}
+
+get_heatmap_colours <- function(segment_values) {
+  heatmap_colours <- paste0(heat.colors(100, rev = TRUE), "CD")
+  normalized_values <- segment_values / max(segment_values)
+  colours <- heatmap_colours[as.numeric(cut(normalized_values, breaks = 100))]
+
+  return(colours)
 }
 
 #' @export

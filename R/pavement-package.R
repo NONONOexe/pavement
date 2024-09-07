@@ -2,6 +2,9 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom graphics axis
+#' @importFrom graphics par
+#' @importFrom graphics segments
 #' @importFrom grDevices heat.colors
 #' @importFrom igraph E
 #' @importFrom igraph E<-
