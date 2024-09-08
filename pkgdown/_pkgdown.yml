@@ -75,8 +75,9 @@ reference:
     with high event frequency with these functions.
   contents:
   - assign_event_to_link
-  - create_line_graph
+  - convolute_segmented_network
   - starts_with("compute_")
+  - create_line_graph
 
 - title: Geometry manipulation
   desc: >
