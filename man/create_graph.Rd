@@ -26,6 +26,7 @@ links <- extract_road_network_links(sample_roads, nodes)
 
 # Create the graph
 graph <- create_graph(nodes, links)
+graph
 
 # Plot the graph
 plot(graph)

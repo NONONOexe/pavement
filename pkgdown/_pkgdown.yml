@@ -75,7 +75,7 @@ reference:
     with high event frequency with these functions.
   contents:
   - assign_event_to_link
-  - create_midpoint_graph
+  - create_line_graph
   - starts_with("compute_")
 
 - title: Geometry manipulation
