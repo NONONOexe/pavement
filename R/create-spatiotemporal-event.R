@@ -1,4 +1,4 @@
-#' Create a Spatiotemporal Event Collection
+#' Create a spatiotemporal event collection
 #'
 #' This function creates a spatiotemporal event collection object from
 #' a given `sf` object, allowing spatial and temporal data to be
@@ -45,14 +45,17 @@ create_spatiotemporal_event.sf <- function(x,
   return(x)
 }
 
+#' @rdname create_spatiotemporal_event
 #' @export
 print.spatiotemporal_event <- function(x, ...) {
   cat("Spatiotemporal event collection with",
       nrow(x), "events and", ncol(x) - 2, "fields\n")
-  cat("Geometry:    ", as.character(unique(st_geometry_type(x))), "\n")
-  cat("Time column: ", attr(x, "time_column"), "\n")
-  cat("Time format: ", attr(x, "time_format"), "\n")
+  cat("Geometry type:", as.character(unique(st_geometry_type(x))), "\n")
+  cat("Time column:  ", attr(x, "time_column"), "\n")
+  cat("Time format:  ", attr(x, "time_format"), "\n")
   cat("Data:\n")
   print(as.data.frame(x)[1:5, ])
   if (5 < nrow(x)) cat("...", nrow(x) - 5, "more events\n")
+
+  return(invisible(x))
 }

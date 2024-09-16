@@ -3,7 +3,8 @@
 \name{create_spatiotemporal_event}
 \alias{create_spatiotemporal_event}
 \alias{create_spatiotemporal_event.sf}
-\title{Create a Spatiotemporal Event Collection}
+\alias{print.spatiotemporal_event}
+\title{Create a spatiotemporal event collection}
 \usage{
 create_spatiotemporal_event(x, ...)
 
@@ -13,6 +14,8 @@ create_spatiotemporal_event(x, ...)
   time_format = "\%H",
   ...
 )
+
+\method{print}{spatiotemporal_event}(x, ...)
 }
 \arguments{
 \item{x}{A \code{sf} object representing the spatial data.}
