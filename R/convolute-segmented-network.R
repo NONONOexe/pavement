@@ -26,16 +26,13 @@
 #' # Create a road network
 #' road_network <- create_road_network(sample_roads)
 #'
+#' # Assign sample accidents data
+#' road_network <- set_events(road_network, sample_accidents)
+#'
 #' # Segment the road network
 #' segmented_network <- create_segmented_network(
 #'   road_network,
 #'   segment_length = 0.5
-#' )
-#'
-#' # Assign sample accidents data to the links of the segmented road network
-#' segmented_network <- assign_event_to_link(
-#'   segmented_network,
-#'   sample_accidents
 #' )
 #'
 #' # Check the segmented road network after assigning events
