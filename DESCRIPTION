@@ -5,7 +5,7 @@ Authors@R: c(
     person("Keisuke", "ANDO",
            email   = "ando@maslab.aitech.ac.jp",
            role    = c("aut", "cre"),
-           comment = c(OCRID = "0009-0002-4085-2067")),
+           comment = c(ORCID = "0009-0002-4085-2067")),
     person("Takeshi", "UCHITANE", role = "ths"),
     person("Naoto", "MUKAI", role = "ths"),
     person("Kazunori", "IWATA", role = "ths"),
