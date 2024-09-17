@@ -92,8 +92,33 @@ summary.road_network <- function(object, ...) {
   }
 }
 
+#' Plot a road network
+#'
+#' This function plots a road network.
+#'
+#' @param x A road network object.
+#' @param y This argument is not used.
+#' @param mode The plotting mode. "event" mode shows the location events
+#'   assigned to the road network. "graph" mode shows the direction of links
+#'   when the network is directed. This utilizes the `plot.igraph` function.
+#' @param ... Additional arguments passed to or from other methods.
 #' @export
-plot.road_network <- function(x, y, mode = c("default", "graph", "event"), ...) {
+#' @examples
+#' # Create the road network
+#' road_network <- create_road_network(sample_roads, events = sample_accidents)
+#'
+#' # Plot the road network
+#' plot(road_network)
+#'
+#' # Plot the road network with events
+#' plot(road_network, mode = "event")
+#'
+#' # Plot the road network as a graph
+#' plot(road_network, mode = "graph")
+plot.road_network <- function(x,
+                              y,
+                              mode = c("default", "event", "graph"),
+                              ...) {
   # Match the mode argument
   mode <- match.arg(mode)
 
