@@ -46,8 +46,9 @@ library(pavement)
 
 segmented_network <- sample_roads |>
   create_road_network() |>
+  set_events(sample_accidents) |>
   create_segmented_network(segment_length = 0.5) |>
-  assign_event_to_link(events = sample_accidents)
+  convolute_segmented_network()
 plot(segmented_network, mode = "event")
 ```
 
@@ -58,6 +59,12 @@ plot(segmented_network, mode = "count")
 ```
 
 <img src="man/figures/README-example-2.png" width="100%" />
+
+``` r
+plot(segmented_network, mode = "density")
+```
+
+<img src="man/figures/README-example-3.png" width="100%" />
 
 ## Code of conduct
 

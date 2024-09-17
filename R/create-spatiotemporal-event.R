@@ -40,17 +40,7 @@ create_spatiotemporal_event.sf <- function(x,
   return(x)
 }
 
-#' Print a spatiotemporal event collection
-#'
-#' This function prints a summary of a spatiotemporal event collection object.
-#'
-#' @param x A `spatiotemporal_event` object.
-#' @param ... Additional arguments passed to or from other methods.
-#' @return The `spatiotemporal_event` object, invisibly.
 #' @export
-#' @examples
-#' spatiotemporal_events <- create_spatiotemporal_event(sample_accidents)
-#' print(spatiotemporal_events)
 print.spatiotemporal_event <- function(x, ...) {
   cat("Spatiotemporal event collection with",
       nrow(x), "events and", ncol(x) - 2, "fields", fill = TRUE)

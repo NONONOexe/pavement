@@ -6,7 +6,11 @@
 #' @param road_network A `road_network` object representing the input road
 #'   network.
 #' @param segment_length A numeric value specifying the length of each segment.
+#' @param events A `sf` object representing events.
+#' @param ... Additional arguments passed to or from other methods.
 #' @return A `segmented_network` object.
+#' @name segmented_network
+#' @aliases create_segmented_network
 #' @export
 #' @examples
 #' # Create a road network
@@ -21,7 +25,17 @@
 #'
 #' # Plot the segmented road network
 #' plot(segmented_network)
-create_segmented_network <- function(road_network, segment_length = 1) {
+create_segmented_network <- function(road_network,
+                                     segment_length = 1,
+                                     events = NULL, ...) {
+  UseMethod("create_segmented_network")
+}
+
+#' @rdname segmented_network
+#' @export
+create_segmented_network.road_network <- function(road_network,
+                                                  segment_length = 1,
+                                                  events = NULL, ...) {
   # Extract nodes and links of segmented road network
   nodes <- extract_segmented_network_nodes(road_network, segment_length)
   links <- extract_segmented_network_links(road_network, nodes)
@@ -38,10 +52,19 @@ create_segmented_network <- function(road_network, segment_length = 1) {
     graph          = graph,
     nodes          = nodes,
     links          = links,
-    events         = NULL,
     origin_network = road_network,
     segment_length = segment_length
   ), class = "segmented_network")
+
+  # Assign events to the segmented network
+  if (!is.null(events)) {
+    if (!is.null(road_network$events)) {
+      warning("events already exist in the road network")
+    }
+    segmented_network <- set_events(segmented_network, events)
+  } else if ("events" %in% names(road_network)) {
+    segmented_network <- set_events(segmented_network, road_network$event)
+  }
 
   return(segmented_network)
 }
@@ -110,13 +133,17 @@ plot_coloured_segmented_network <- function(network_linestrings,
                                             ...) {
   par(fig = c(0, 0.8, 0, 1), mar = c(5, 4, 4, 2))
   plot(network_linestrings, lwd = 1, ...)
-  plot(
-    network_linestrings,
-    col = get_heatmap_colours(segment_values),
-    lwd = ifelse(segment_values == 0, 1, 2),
-    add = TRUE,
-    ...
-  )
+  if (max(segment_values) == 0) {
+    warning("all segment values are zero")
+  } else {
+    plot(
+      network_linestrings,
+      col = get_heatmap_colours(segment_values),
+      lwd = ifelse(segment_values == 0, 1, 2),
+      add = TRUE,
+      ...
+    )
+  }
 }
 
 plot_legends <- function(segment_values, mode, ...) {

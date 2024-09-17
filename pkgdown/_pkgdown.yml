@@ -74,7 +74,7 @@ reference:
     links and leveraging the detailed network structure, you can identify areas
     with high event frequency with these functions.
   contents:
-  - create_spatiotemporal_event
+  - spatiotemporal_event
   - assign_event_to_link
   - convolute_segmented_network
   - starts_with("compute_")
