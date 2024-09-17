@@ -107,18 +107,15 @@ method for networks, its computational method and a GIS-based tool.
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create a road network</span></span></span>
-<span class="r-in"><span><span class="va">road_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_road_network.html">create_road_network</a></span><span class="op">(</span><span class="va">sample_roads</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">road_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="road_network.html">create_road_network</a></span><span class="op">(</span><span class="va">sample_roads</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Assign sample accidents data</span></span></span>
+<span class="r-in"><span><span class="va">road_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="set_events.html">set_events</a></span><span class="op">(</span><span class="va">road_network</span>, <span class="va">sample_accidents</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Segment the road network</span></span></span>
-<span class="r-in"><span><span class="va">segmented_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_segmented_network.html">create_segmented_network</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">segmented_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="segmented_network.html">create_segmented_network</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">road_network</span>,</span></span>
 <span class="r-in"><span>  segment_length <span class="op">=</span> <span class="fl">0.5</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Assign sample accidents data to the links of the segmented road network</span></span></span>
-<span class="r-in"><span><span class="va">segmented_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="assign_event_to_link.html">assign_event_to_link</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="va">segmented_network</span>,</span></span>
-<span class="r-in"><span>  <span class="va">sample_accidents</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Check the segmented road network after assigning events</span></span></span>
