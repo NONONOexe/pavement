@@ -130,13 +130,13 @@ plot.road_network <- function(x,
   # Handle different plot modes
   switch(
     mode,
-    "event" = {
+    event = {
       if (!("events" %in% names(x))) {
         stop("no events assigned to the road network")
       }
       plot(x$events$geometry, cex = 1, pch = 4, col = "red", add = TRUE, ...)
     },
-    "graph" = plot(x$graph, ...),
-    "default" = plot(x$nodes$geometry, cex = 1, pch = 16, add = TRUE, ...)
+    graph = plot(x$graph, ...),
+    default = plot(x$nodes$geometry, cex = 1, pch = 16, add = TRUE, ...)
   )
 }

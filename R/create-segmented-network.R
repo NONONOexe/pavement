@@ -89,9 +89,7 @@ print.segmented_network <- function(x, ...) {
     cat("...", nrow(x$links) - 5, "more links\n")
   }
   cat("\n")
-  if (is.null(x$events)) {
-    cat("Events: None\n")
-  } else {
+  if (!is.null(x$events)) {
     cat("Events:\n")
     if (nrow(x$events) <= 5) {
       print(as.data.frame(x$events), ...)
@@ -100,100 +98,6 @@ print.segmented_network <- function(x, ...) {
       cat("...", nrow(x$events) - 5, "more events\n")
     }
   }
-}
-
-#' @export
-plot.segmented_network <- function(
-    x,
-    y,
-    mode = c("default", "event", "count", "density"),
-    ...
-    ) {
-  mode <- match.arg(mode)
-
-  if (mode == "event") {
-    plot(x$links$geometry, lwd = 1, ...)
-    plot(x$events$geometry, cex = 1, pch = 4, col = "red", add = TRUE, ...)
-  } else if (mode %in% c("count", "density")) {
-    plot_coloured_segmented_network(x$links$geometry, x$links[[mode]], ...)
-    plot_legends(x$links[[mode]], mode, ...)
-    reset_layout()
-  } else {
-    plot(x$links$geometry, lwd = 1, ...)
-    plot(x$nodes$geometry, cex = 1, pch = 16, add = TRUE, ...)
-  }
-}
-
-reset_layout <- function() {
-  par(fig = c(0, 1, 0, 1), mar = c(5, 4, 4, 2) + 0.1, oma = c(0, 0, 0, 0))
-}
-
-plot_coloured_segmented_network <- function(network_linestrings,
-                                            segment_values,
-                                            ...) {
-  par(fig = c(0, 0.8, 0, 1), mar = c(5, 4, 4, 2))
-  plot(network_linestrings, lwd = 1, ...)
-  if (max(segment_values) == 0) {
-    warning("all segment values are zero")
-  } else {
-    plot(
-      network_linestrings,
-      col = get_heatmap_colours(segment_values),
-      lwd = ifelse(segment_values == 0, 1, 2),
-      add = TRUE,
-      ...
-    )
-  }
-}
-
-plot_legends <- function(segment_values, mode, ...) {
-  main <- switch (mode, count = "Count", density = "Probability\ndensity")
-  digits <- ifelse(mode == "count", 0, 3)
-  labels <- unique(round(seq(0, max(segment_values), length.out = 5), digits))
-
-  par(
-    fig = c(0.75, 0.95, 0.2, 0.8),
-    mar = c(0, 0, 2.5, 0.5),
-    cex.main = 0.8,
-    cex.axis = 0.7,
-    new = TRUE
-  )
-  plot(
-    x = rep(1, 100),
-    y = seq(0, 1, length.out = 100),
-    xlim = c(0, 1),
-    col = get_heatmap_colours(seq(0, 1, length.out = 100)),
-    type = "n",
-    xaxs = "i",
-    yaxs = "i",
-    axes = FALSE,
-    main = main
-  )
-  segments(
-    x0 = 0.45,
-    x1 = 0.55,
-    y0 = seq(0, 1, length.out = 100),
-    y1 = seq(0, 1, length.out = 100),
-    col = get_heatmap_colours(seq(0, 1, length.out = 100)),
-    lwd = 20,
-    lend = "butt"
-  )
-  axis(
-    4,
-    at = seq(0, 1, length.out = length(labels)),
-    labels = labels,
-    line = -2.0,
-    tick = TRUE,
-    las = 2
-  )
-}
-
-get_heatmap_colours <- function(segment_values) {
-  heatmap_colours <- paste0(heat.colors(100, rev = TRUE), "CD")
-  normalized_values <- segment_values / max(segment_values)
-  colours <- heatmap_colours[as.numeric(cut(normalized_values, breaks = 100))]
-
-  return(colours)
 }
 
 #' @export
@@ -206,4 +110,96 @@ summary.segmented_network <- function(object, ...) {
   cat("  Min.   : ", min(st_length(object$links)), "\n")
   cat("Number of nodes: ", nrow(object$nodes), "\n")
   cat("Number of links: ", nrow(object$links), "\n")
+}
+
+#' @export
+plot.segmented_network <- function(
+    x,
+    y,
+    mode = c("default", "event", "count", "density"),
+    ...
+    ) {
+  mode <- match.arg(mode)
+
+  if (mode == "event") {
+    if (!("events" %in% names(x))) {
+      stop("no events assigned to the road network")
+    }
+    plot_links_and_points(x$links$geometry, x$events$geometry,
+                          col = "red", pch = 4, ...)
+  } else if (mode %in% c("count", "density")) {
+    plot_coloured_segmented_network(x$links$geometry,
+                                    x$links[[mode]],
+                                    mode, ...)
+  } else {
+    plot_links_and_points(x$links$geometry, x$nodes$geometry,
+                          col = "black", pch = 16, ...)
+  }
+}
+
+plot_links_and_points <- function(links, points, col, pch, ...) {
+  plot(links, lwd = 1, ...)
+  plot(points, cex = 1, col = col, pch = pch, add = TRUE, ...)
+}
+
+plot_coloured_segmented_network <- function(network_linestrings,
+                                            segment_values,
+                                            mode,
+                                            ...) {
+  par(fig = c(0, 0.8, 0, 1), mar = c(5, 4, 4, 2))
+  plot(network_linestrings, lwd = 1, ...)
+
+  if (max(segment_values) == 0) {
+    warning("all segment values are zero")
+  } else {
+    plot(network_linestrings,
+         col = get_heatmap_colours(segment_values),
+         lwd = ifelse(segment_values == 0, 1, 2),
+         add = TRUE,
+         ...)
+  }
+
+  plot_legends(segment_values, mode, ...)
+  reset_layout()
+}
+
+plot_legends <- function(segment_values, mode, ...) {
+  main <- switch(mode, count = "Count", density = "Probability\ndensity")
+  digits <- ifelse(mode == "count", 0, 3)
+  labels <- unique(round(seq(0, max(segment_values), length.out = 5), digits))
+
+  par(fig = c(0.75, 0.95, 0.2, 0.8),
+      mar = c(0, 0, 2.5, 0.5),
+      cex.main = 0.8,
+      cex.axis = 0.7,
+      new = TRUE)
+  plot(x = rep(1, 100),
+       y = seq(0, 1, length.out = 100),
+       xlim = c(0, 1),
+       col = get_heatmap_colours(seq(0, 1, length.out = 100)),
+       type = "n",
+       xaxs = "i",
+       yaxs = "i",
+       axes = FALSE,
+       main = main)
+
+  segments(x0 = 0.45, x1 = 0.55,
+           y0 = seq(0, 1, length.out = 100),
+           y1 = seq(0, 1, length.out = 100),
+           col = get_heatmap_colours(seq(0, 1, length.out = 100)),
+           lwd = 20, lend = "butt")
+  axis(4, at = seq(0, 1, length.out = length(labels)),
+       labels = labels, line = -2.0, tick = TRUE, las = 2)
+}
+
+get_heatmap_colours <- function(segment_values) {
+  heatmap_colours <- paste0(heat.colors(100, rev = TRUE), "CD")
+  normalized_values <- segment_values / max(segment_values)
+  colours <- heatmap_colours[as.numeric(cut(normalized_values, breaks = 100))]
+
+  return(colours)
+}
+
+reset_layout <- function() {
+  par(fig = c(0, 1, 0, 1), mar = c(5, 4, 4, 2) + 0.1, oma = c(0, 0, 0, 0))
 }
