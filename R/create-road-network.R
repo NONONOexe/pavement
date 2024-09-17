@@ -15,6 +15,8 @@
 #' @examples
 #' # Create the road network
 #' road_network <- create_road_network(sample_roads)
+#'
+#' # Print the road network summary
 #' road_network
 #'
 #' # Plot the road network
@@ -81,24 +83,6 @@ print.road_network <- function(x, ...) {
 }
 
 #' @export
-plot.road_network <- function(x, y, mode = c("default", "event"), ...) {
-  # Match the mode argument
-  mode <- match.arg(mode)
-
-  # Check if events are assigned to the road network
-  if (mode == "event" && !("events" %in% names(x))) {
-    stop("no events assigned to the road network")
-  }
-
-  plot(x$links$geometry, lwd = 1, ...)
-  if (mode == "event") {
-    plot(x$events$geometry, cex = 1, pch = 4, col = "red", add = TRUE, ...)
-  } else {
-    plot(x$nodes$geometry, cex = 1, pch = 16, add = TRUE, ...)
-  }
-}
-
-#' @export
 summary.road_network <- function(object, ...) {
   cat("Road network summary\n")
   cat("Number of nodes:  ", nrow(object$nodes), "\n")
@@ -106,4 +90,28 @@ summary.road_network <- function(object, ...) {
   if ("events" %in% names(object)) {
     cat("Number of events: ", nrow(object$events), "\n")
   }
+}
+
+#' @export
+plot.road_network <- function(x, y, mode = c("default", "graph", "event"), ...) {
+  # Match the mode argument
+  mode <- match.arg(mode)
+
+  # Base plot of road network links
+  if (mode != "graph") {
+    plot(x$links$geometry, lwd = 1, ...)
+  }
+
+  # Handle different plot modes
+  switch(
+    mode,
+    "event" = {
+      if (!("events" %in% names(x))) {
+        stop("no events assigned to the road network")
+      }
+      plot(x$events$geometry, cex = 1, pch = 4, col = "red", add = TRUE, ...)
+    },
+    "graph" = plot(x$graph, ...),
+    "default" = plot(x$nodes$geometry, cex = 1, pch = 16, add = TRUE, ...)
+  )
 }

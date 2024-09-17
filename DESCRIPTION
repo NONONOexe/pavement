@@ -2,13 +2,15 @@ Package: pavement
 Title: Analyzing Spatial Events on Roadways
 Version: 0.0.1
 Authors@R: c( 
-    person("Keisuke", "Ando", , "ando@maslab.aitech.ac.jp",
-           role = c("aut", "cre")),
-    person("Takeshi", "Uchitane", role = "ths"),
-    person("Naoto", "Mukai", role = "ths"),
-    person("Kazunori", "Iwata", role = "ths"),
-    person("Nobuhiro", "Ito", role = "ths"),
-    person("Yong", "Jiang", role = "ths")
+    person("Keisuke", "ANDO",
+           email   = "ando@maslab.aitech.ac.jp",
+           role    = c("aut", "cre"),
+           comment = c(OCRID = "0009-0002-4085-2067")),
+    person("Takeshi", "UCHITANE", role = "ths"),
+    person("Naoto", "MUKAI", role = "ths"),
+    person("Kazunori", "IWATA", role = "ths"),
+    person("Nobuhiro", "ITO", role = "ths"),
+    person("Yong", "JIANG", role = "ths")
   )
 Description: Pavement is a package designed to analyze spatial events
     occurring on roadways. It provides a comprehensive toolkit for
