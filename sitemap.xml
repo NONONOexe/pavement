@@ -11,15 +11,12 @@
 <url><loc>https://nononoexe.github.io/pavement/reference/create_bbox.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/create_coordinates.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/create_graph.html</loc></url>
-<url><loc>https://nononoexe.github.io/pavement/reference/create_graph_links.html</loc></url>
-<url><loc>https://nononoexe.github.io/pavement/reference/create_graph_nodes.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/create_line_graph.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/create_linestring.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/create_points.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/create_polygon.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/decompose_linestring.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/download_roads.html</loc></url>
-<url><loc>https://nononoexe.github.io/pavement/reference/exclude_points.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_road_endpoints.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_road_intersections.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_road_network_links.html</loc></url>
@@ -28,7 +25,6 @@
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_segmented_network_nodes.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/filter_points_within_tolerance.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/generate_ids.html</loc></url>
-<url><loc>https://nononoexe.github.io/pavement/reference/get_adjacent_links.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/get_connected_links.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/index.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/osm_highway_values.html</loc></url>
