@@ -20,7 +20,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Keisuke ANDO \email{ando@maslab.aitech.ac.jp} (0009-0002-4085-2067)
+\strong{Maintainer}: Keisuke ANDO \email{ando@maslab.aitech.ac.jp} (\href{https://orcid.org/0009-0002-4085-2067}{ORCID})
 
 Other contributors:
 \itemize{

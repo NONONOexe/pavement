@@ -21,7 +21,7 @@ authors:
 reference:
 - title: Geospatial data manipulation
   desc: >
-    Geospatial data provides insights into spatial events such as disersters and
+    Geospatial data provides insights into spatial events such as disasters and
     crimes through their relationships. These functions facilitate the
     retrieval and conversion data from OpenStreetMap and other external sources,
     enabling you to begin your spatial analysis.
@@ -50,7 +50,6 @@ reference:
     These functions provide tools to extract specific information from a road
     network, enabling you to understand the network structure and relationships.
   contents:
-  - get_adjacent_links
   - get_connected_links
 
 - subtitle: Network building utilities
@@ -58,8 +57,6 @@ reference:
     These functions provide tools to create and manipulate road networks.
   contents:
   - create_graph
-  - create_graph_nodes
-  - create_graph_links
   - extract_road_network_nodes
   - extract_road_network_links
   - extract_segmented_network_nodes
@@ -93,7 +90,6 @@ reference:
   - create_polygon
   - sample_points_along_linestring
   - filter_points_within_tolerance
-  - exclude_points
   - remove_points_near_endpoints
   - decompose_linestring
   - split_linestring
