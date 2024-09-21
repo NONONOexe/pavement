@@ -55,8 +55,8 @@ convolute_segmented_network <- function(segmented_network,
   # Create the line graph
   line_graph <- create_line_graph(segmented_network)
 
-  # Get the counts of events assigned to each link
-  counts <- segmented_network$links$count
+  # Get the counts of events assigned to each segment
+  counts <- segmented_network$segments$count
 
   # Identify the links with events
   source_links <- which(0 < counts)
@@ -88,7 +88,7 @@ convolute_segmented_network <- function(segmented_network,
   densities <- densities / sum(densities)
 
   # Update the segmented network with the computed densities
-  segmented_network$links$density <- densities
+  segmented_network$segments$density <- densities
 
   return(segmented_network)
 }

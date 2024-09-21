@@ -4,8 +4,7 @@ test_that("`create_segmented_network` works with valid input", {
 
   expect_s3_class(segmented_network, "segmented_network")
   expect_equal(segmented_network$segment_length, 1)
-  expect_gt(nrow(segmented_network$nodes), nrow(road_network$nodes))
-  expect_gt(nrow(segmented_network$links), nrow(road_network$links))
+  expect_gt(nrow(segmented_network$segments), nrow(road_network$links))
 })
 
 test_that("`create_segmented_network` works with events", {
@@ -40,8 +39,7 @@ test_that("`print.segmented_network` works", {
 
   expect_output(print(segmented_network), "Segmented network")
   expect_output(print(segmented_network), "Segment length")
-  expect_output(print(segmented_network), "Nodes")
-  expect_output(print(segmented_network), "Links")
+  expect_output(print(segmented_network), "Segments")
 })
 
 test_that("`summary.segmented_network` works", {
@@ -50,8 +48,7 @@ test_that("`summary.segmented_network` works", {
 
   expect_output(summary(segmented_network), "Segmented network summary")
   expect_output(summary(segmented_network), "Segment length")
-  expect_output(summary(segmented_network), "Number of nodes")
-  expect_output(summary(segmented_network), "Number of links")
+  expect_output(summary(segmented_network), "Number of segments")
 })
 
 test_that("`plot.segmented_network` works with default modes", {

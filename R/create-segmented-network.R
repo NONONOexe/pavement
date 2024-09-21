@@ -49,9 +49,9 @@ create_segmented_network.road_network <- function(road_network,
 
   # Construct the road network object
   segmented_network <- structure(list(
+    segments       = links,
     graph          = graph,
     nodes          = nodes,
-    links          = links,
     origin_network = road_network,
     segment_length = segment_length
   ), class = "segmented_network")
@@ -71,88 +71,71 @@ create_segmented_network.road_network <- function(road_network,
 
 #' @export
 print.segmented_network <- function(x, ...) {
-  cat("Segmented network\n")
-  cat("Segment length: ", x$segment_length, "\n")
-  cat("Nodes:\n")
-  if (nrow(x$nodes) <= 5) {
-    print(as.data.frame(x$nodes), ...)
-  } else {
-    print(as.data.frame(x$nodes)[1:5, ], ...)
-    cat("...", nrow(x$nodes) - 5, "more nodes\n")
-  }
-  cat("\n")
-  cat("Links:\n")
-  if (nrow(x$links) <= 5) {
-    print(as.data.frame(x$links), ...)
-  } else {
-    print(as.data.frame(x$links)[1:5, ], ...)
-    cat("...", nrow(x$links) - 5, "more links\n")
-  }
-  cat("\n")
-  if (!is.null(x$events)) {
-    cat("Events:\n")
-    if (nrow(x$events) <= 5) {
-      print(as.data.frame(x$events), ...)
-    } else {
-      print(as.data.frame(x$events)[1:5, ], ...)
-      cat("...", nrow(x$events) - 5, "more events\n")
-    }
-  }
+  cat("Segmented network", fill = TRUE)
+  cat("Segment length: ", x$segment_length, fill = TRUE)
+  cat("Segments:", fill = TRUE)
+  print(as.data.frame(x$segments)[1:5, ])
+  if (5 < nrow(x$segments))
+    cat("...", nrow(x$segments) - 5, "more segments", fill = TRUE)
+  if (is.null(x$events)) return(invisible(x))
+
+  cat("Events:", fill = TRUE)
+  print(as.data.frame(x$events)[1:5, ])
+  if (5 < nrow(x$events))
+    cat("...", nrow(x$segments) - 5, "more events", fill = TRUE)
 }
 
 #' @export
 summary.segmented_network <- function(object, ...) {
-  cat("Segmented network summary\n")
-  cat("Segment length:\n")
-  cat("  Desired: ", object$segment_length, "\n")
-  cat("  Max.   : ", max(st_length(object$links)), "\n")
-  cat("  Mean   : ", mean(st_length(object$links)), "\n")
-  cat("  Min.   : ", min(st_length(object$links)), "\n")
-  cat("Number of nodes: ", nrow(object$nodes), "\n")
-  cat("Number of links: ", nrow(object$links), "\n")
+  cat("Segmented network summary", fill = TRUE)
+  cat("Segment length:", fill = TRUE)
+  cat("  Desired: ", object$segment_length, fill = TRUE)
+  cat("  Max.   : ", max(st_length(object$segments)), fill = TRUE)
+  cat("  Mean   : ", mean(st_length(object$segments)), fill = TRUE)
+  cat("  Min.   : ", min(st_length(object$segments)), fill = TRUE)
+  cat("Number of segments: ", nrow(object$segments), fill = TRUE)
 }
 
 #' @export
-plot.segmented_network <- function(
-    x,
-    y,
-    mode = c("default", "event", "count", "density"),
-    ...
-    ) {
+plot.segmented_network <- function(x,
+                                   y,
+                                   mode = c("default", "event", "count", "density"),
+                                   ...
+                                   ) {
   mode <- match.arg(mode)
 
   if (mode == "event") {
     if (!("events" %in% names(x))) {
       stop("no events assigned to the road network")
     }
-    plot_links_and_points(x$links$geometry, x$events$geometry,
-                          col = "red", pch = 4, ...)
+    plot_segments_and_points(x$segments$geometry, x$events$geometry,
+                             col = "red", pch = 4, ...)
   } else if (mode %in% c("count", "density")) {
-    plot_coloured_segmented_network(x$links$geometry,
-                                    x$links[[mode]],
+    plot_coloured_segmented_network(x$segments$geometry,
+                                    x$segments[[mode]],
                                     mode, ...)
   } else {
-    plot_links_and_points(x$links$geometry, x$nodes$geometry,
-                          col = "black", pch = 16, ...)
+    plot_segments_and_points(x$segments$geometry, x$nodes$geometry,
+                             col = "black", pch = 16, ...)
   }
 }
 
-plot_links_and_points <- function(links, points, col, pch, ...) {
-  plot(links, lwd = 1, ...)
+plot_segments_and_points <- function(segments, points, col, pch, ...) {
+  plot(segments, lwd = 1, ...)
   plot(points, cex = 1, col = col, pch = pch, add = TRUE, ...)
 }
 
-plot_coloured_segmented_network <- function(network_linestrings,
+plot_coloured_segmented_network <- function(segments,
                                             segment_values,
                                             mode,
                                             ...) {
   par(fig = c(0, 0.8, 0, 1), mar = c(5, 4, 4, 2))
-  plot(network_linestrings, lwd = 1, ...)
+  plot(segments, lwd = 1, ...)
 
   if (max(segment_values) == 0) {
     warning("all segment values are zero")
   } else {
-    plot(network_linestrings,
+    plot(segments,
          col = get_heatmap_colours(segment_values),
          lwd = ifelse(segment_values == 0, 1, 2),
          add = TRUE,

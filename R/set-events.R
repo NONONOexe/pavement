@@ -30,12 +30,12 @@ set_events.road_network <- function(x, events, ...) {
 set_events.segmented_network <- function(x, events, ...) {
   x <- validate_and_set_events(x, events)
 
-  # Count events on each link
-  event_counts <- table(st_nearest_feature(events, x$links))
-  # Get the indices of the links with events
-  link_indices <- as.integer(names(event_counts))
-  # Update the count of events of each link
-  x$links$count[link_indices] <- event_counts
+  # Count events on each segment
+  event_counts <- table(st_nearest_feature(events, x$segments))
+  # Get the indices of the segments with events
+  segment_indices <- as.integer(names(event_counts))
+  # Update the count of events of each segment
+  x$segments$count[segment_indices] <- event_counts
 
   return(x)
 }

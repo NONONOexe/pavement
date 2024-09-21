@@ -49,7 +49,7 @@ print.spatiotemporal_event <- function(x, ...) {
   cat("Time format:  ", attr(x, "time_format"), fill = TRUE)
   cat("Data:", fill = TRUE)
   print(as.data.frame(x)[1:5, ])
-  if (5 < nrow(x)) cat("...", nrow(x) - 5, "more events\n")
+  if (5 < nrow(x)) cat("...", nrow(x) - 5, "more events", fill = TRUE)
 
   return(invisible(x))
 }
