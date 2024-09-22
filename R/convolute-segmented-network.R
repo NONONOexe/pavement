@@ -11,9 +11,14 @@
 #'   Epanechnikov kernel).
 #' @param bandwidth Numeric value representing the bandwidth for the kernel
 #'   function (default is 3).
-#' @param esd If `TRUE`, considers branching in the kernel using the
+#' @param use_esd If `TRUE`, considers branching in the kernel using the
 #'   Equal Split Discontinous kernel (ESD). ESD follows the method described in
-#'   Okabe et al.
+#'   Okabe et al., accounting for road intersections and ensuring that kernel
+#'   weights are correctly distributed across accross branches
+#'   (default is `TRUE`).
+#' @param correct_boundary_effects If `TRUE`, corrects for boundary effects
+#'   by normalizing the kernel weights to account for kernel values outside
+#'   the network (default is `TRUE`).
 #' @param ... Additional arguments passed to the kernel function.
 #' @return The segmented network with updated link densities.
 #' @references
@@ -50,7 +55,8 @@
 convolute_segmented_network <- function(segmented_network,
                                         kernel = compute_epanechnikov,
                                         bandwidth = 3,
-                                        esd = FALSE,
+                                        use_esd = TRUE,
+                                        correct_boundary_effects = TRUE,
                                         ...) {
   # Create the line graph
   line_graph <- create_line_graph(segmented_network)
@@ -65,16 +71,16 @@ convolute_segmented_network <- function(segmented_network,
   distance_matrix <- distances(line_graph, v = source_links)
 
   # Apply the kernel function to calculate weights
-  weights <- counts[source_links] * kernel(distance_matrix / bandwidth, ...)
+  weights <- kernel(distance_matrix / bandwidth, ...) / bandwidth
 
-  # If `esd` is `TRUE`, adjust for branching in the network
-  if (esd) {
+  # Adjust for branching in the network
+  if (use_esd) {
     # Calculate branch adjustments for each source link
     branches <- sapply(source_links, function(source_link) {
       path <- shortest_paths(line_graph, source_link, output = "epath")$epath
       sapply(path, function(link) {
         degrees <- degree(segmented_network$graph)[link$name]
-        prod(pmax(degree - 1, 1))
+        prod(pmax(degrees - 1, 1))
       })
     })
 
@@ -82,8 +88,16 @@ convolute_segmented_network <- function(segmented_network,
     weights <- weights / t(branches)
   }
 
-  # Calculate the densities for each link by summing and normalizing
-  # the weights
+  # Normalize the weights to account for kernel values outside the network
+  if (correct_boundary_effects) {
+    weights <- weights / rowSums(weights)
+  }
+
+  # Multiply the weights by the counts
+  weights <- counts[source_links] * weights
+
+  # Calculate the densities for each link
+  # by summing and normalizing the weights
   densities <- colSums(weights)
   densities <- densities / sum(densities)
 

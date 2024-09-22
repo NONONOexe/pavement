@@ -73,8 +73,9 @@ reference:
     with high event frequency with these functions.
   contents:
   - spatiotemporal_events
-  - set_events
   - durations
+  - set_events
+  - find_duration
   - convolute_segmented_network
   - starts_with("compute_")
   - create_line_graph

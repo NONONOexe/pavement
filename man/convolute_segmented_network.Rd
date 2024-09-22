@@ -8,7 +8,8 @@ convolute_segmented_network(
   segmented_network,
   kernel = compute_epanechnikov,
   bandwidth = 3,
-  esd = FALSE,
+  use_esd = TRUE,
+  correct_boundary_effects = TRUE,
   ...
 )
 }
@@ -21,9 +22,15 @@ Epanechnikov kernel).}
 \item{bandwidth}{Numeric value representing the bandwidth for the kernel
 function (default is 3).}
 
-\item{esd}{If \code{TRUE}, considers branching in the kernel using the
+\item{use_esd}{If \code{TRUE}, considers branching in the kernel using the
 Equal Split Discontinous kernel (ESD). ESD follows the method described in
-Okabe et al.}
+Okabe et al., accounting for road intersections and ensuring that kernel
+weights are correctly distributed across accross branches
+(default is \code{TRUE}).}
+
+\item{correct_boundary_effects}{If \code{TRUE}, corrects for boundary effects
+by normalizing the kernel weights to account for kernel values outside
+the network (default is \code{TRUE}).}
 
 \item{...}{Additional arguments passed to the kernel function.}
 }
