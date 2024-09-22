@@ -59,7 +59,8 @@ branching in the network.</p>
 <span>  <span class="va">segmented_network</span>,</span>
 <span>  kernel <span class="op">=</span> <span class="va">compute_epanechnikov</span>,</span>
 <span>  bandwidth <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>  esd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  use_esd <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  correct_boundary_effects <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -82,10 +83,18 @@ Epanechnikov kernel).</p></dd>
 function (default is 3).</p></dd>
 
 
-<dt id="arg-esd">esd<a class="anchor" aria-label="anchor" href="#arg-esd"></a></dt>
+<dt id="arg-use-esd">use_esd<a class="anchor" aria-label="anchor" href="#arg-use-esd"></a></dt>
 <dd><p>If <code>TRUE</code>, considers branching in the kernel using the
 Equal Split Discontinous kernel (ESD). ESD follows the method described in
-Okabe et al.</p></dd>
+Okabe et al., accounting for road intersections and ensuring that kernel
+weights are correctly distributed across accross branches
+(default is <code>TRUE</code>).</p></dd>
+
+
+<dt id="arg-correct-boundary-effects">correct_boundary_effects<a class="anchor" aria-label="anchor" href="#arg-correct-boundary-effects"></a></dt>
+<dd><p>If <code>TRUE</code>, corrects for boundary effects
+by normalizing the kernel weights to account for kernel values outside
+the network (default is <code>TRUE</code>).</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -156,10 +165,10 @@ method for networks, its computational method and a GIS-based tool.
 <span class="r-out co"><span class="r-pr">#&gt;</span> Segments:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            id        from          to parent_link parent_road count     density</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 sl_00000001 sn_00000001 sn_00000003   lk_000001     rd_0001     0 0.000000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 sl_00000002 sn_00000003 sn_00000004   lk_000001     rd_0001     0 0.002209509</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 sl_00000003 sn_00000004 sn_00000005   lk_000001     rd_0001     0 0.004387816</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 sl_00000004 sn_00000005 sn_00000006   lk_000001     rd_0001     0 0.006082055</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 sl_00000005 sn_00000006 sn_00000007   lk_000001     rd_0001     0 0.007292226</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 sl_00000002 sn_00000003 sn_00000004   lk_000001     rd_0001     0 0.003439447</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 sl_00000003 sn_00000004 sn_00000005   lk_000001     rd_0001     0 0.006830324</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 sl_00000004 sn_00000005 sn_00000006   lk_000001     rd_0001     0 0.009467673</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 sl_00000005 sn_00000006 sn_00000007   lk_000001     rd_0001     0 0.011351494</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         geometry</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  LINESTRING (0 0, 0.5135231 0)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 LINESTRING (0.5135231 0, 1....</span>
