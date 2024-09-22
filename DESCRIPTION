@@ -25,9 +25,11 @@ Imports:
     graphics,
     grDevices,
     igraph,
+    lubridate,
     lwgeom,
     osmdata,
-    sf
+    sf,
+    utils
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

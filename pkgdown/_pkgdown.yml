@@ -74,6 +74,7 @@ reference:
   contents:
   - spatiotemporal_event
   - set_events
+  - durations
   - convolute_segmented_network
   - starts_with("compute_")
   - create_line_graph

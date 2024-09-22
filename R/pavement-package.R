@@ -18,6 +18,8 @@
 #' @importFrom igraph shortest_paths
 #' @importFrom igraph V
 #' @importFrom igraph V<-
+#' @importFrom lubridate %within%
+#' @importFrom lubridate interval
 #' @importFrom lwgeom st_endpoint
 #' @importFrom lwgeom st_split
 #' @importFrom lwgeom st_startpoint
@@ -50,5 +52,7 @@
 #' @importFrom sf st_sf
 #' @importFrom sf st_sfc
 #' @importFrom sf st_transform
+#' @importFrom utils head
+#' @importFrom utils tail
 ## usethis namespace: end
 NULL
