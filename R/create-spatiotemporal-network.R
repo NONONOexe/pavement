@@ -8,6 +8,8 @@
 #' @param events A event collection object.
 #' @param ... Additional arguments passed to or from other methods.
 #' @return A `spatiotemporal_network` object.
+#' @name spatiotemporal_network
+#' @aliases create_spatiotemporal_network
 #' @export
 #' @examples
 #' # Create a road network

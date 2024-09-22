@@ -39,10 +39,12 @@ reference:
     intersections act as nodes and road segments act as links.
     `create_road_network` constructs a road network from road data.
     For more detailed analysis and visualization, there is also a function,
-    `create_segmented_network`, to create a segmented road network.
+    `create_segmented_network` or `spatiotemporal_network`,
+    to create a segmented road network.
   contents:
-  - create_road_network
-  - create_segmented_network
+  - road_network
+  - segmented_network
+  - spatiotemporal_network
   - plot.road_network
 
 - subtitle: Network information retrieval
