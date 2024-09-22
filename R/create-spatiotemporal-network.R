@@ -1,10 +1,28 @@
+#' Create spatiotemporal network
+#'
+#' This function creates a spatiotemporal network from a road network.
+#'
+#' @param road_network A `road_network` object.
+#' @param spatial_length The spatial length of segment.
+#' @param temporal_length The temporal length of segment.
+#' @param events A event collection object.
+#' @param ... Additional arguments passed to or from other methods.
+#' @return A `spatiotemporal_network` object.
+#' @export
 #' @examples
 #' # Create a road network
 #' road_network <- create_road_network(sample_roads)
-#' accidents <- create_spatiotemporal_events(sample_accidents)
 #'
-#' spatiotemporal_network <- create_spatiotemporal_network(road_network)
+#' # Create a spatiotemporal road network
+#' spatiotemporal_network <- create_spatiotemporal_network(
+#'   road_network,
+#'   spatial_length = 0.5,
+#'   temporal_length = "4 hour"
+#' )
+#' spatiotemporal_network
 #'
+#' # Plot the spatiotemporal road network
+#' plot(spatiotemporal_network)
 create_spatiotemporal_network <- function(road_network,
                                           spatial_length = 1,
                                           temporal_length = "1 hour",
@@ -13,6 +31,7 @@ create_spatiotemporal_network <- function(road_network,
   UseMethod("create_spatiotemporal_network")
 }
 
+#' @export
 create_spatiotemporal_network.road_network <- function(road_network,
                                                        spatial_length = 1,
                                                        temporal_length = "1 hour",
@@ -36,7 +55,9 @@ create_spatiotemporal_network.road_network <- function(road_network,
   spatiotemporal_segments <- data.frame(
     id       = sprintf("ts_%010x", seq_len(total_segments)),
     geometry = rep(network_links$id, num_intervals),
-    duration = rep(network_durations$id, each = num_segments)
+    duration = rep(network_durations$id, each = num_segments),
+    count    = 0,
+    density  = 0
   )
 
   # Create the spatiotemporal network object
@@ -61,4 +82,9 @@ create_spatiotemporal_network.road_network <- function(road_network,
   }
 
   return(spatiotemporal_network)
+}
+
+#' @export
+plot.spatiotemporal_network <- function(x, y, ...) {
+  plot(x$segment_geometries$geometry, ...)
 }

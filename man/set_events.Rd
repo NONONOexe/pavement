@@ -2,23 +2,14 @@
 % Please edit documentation in R/set-events.R
 \name{set_events}
 \alias{set_events}
-\alias{set_events.road_network}
-\alias{set_events.segmented_network}
-\alias{set_events.spatiotemporal_network}
 \title{Set events on a space.}
 \usage{
 set_events(x, events, ...)
-
-\method{set_events}{road_network}(x, events, ...)
-
-\method{set_events}{segmented_network}(x, events, ...)
-
-\method{set_events}{spatiotemporal_network}(x, events, ...)
 }
 \arguments{
-\item{x}{A \code{road_network} or \code{segmented_network} object.}
+\item{x}{A space object.}
 
-\item{events}{A \code{sf} object representing events.}
+\item{events}{A sf or spatiotemporal events object.}
 
 \item{...}{Additional arguments passed to or from other methods.}
 }
