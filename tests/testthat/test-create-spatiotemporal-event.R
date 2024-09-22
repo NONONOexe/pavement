@@ -1,14 +1,14 @@
-test_that("`create_spatiotemporal_event` works with valid input", {
-  spatiotemporal_events <- create_spatiotemporal_event(sample_accidents)
+test_that("`create_spatiotemporal_events` works with valid input", {
+  spatiotemporal_events <- create_spatiotemporal_events(sample_accidents)
 
   # Check the structure of the spatiotemporal events
-  expect_s3_class(spatiotemporal_events, "spatiotemporal_event")
+  expect_s3_class(spatiotemporal_events, "spatiotemporal_events")
   expect_equal(attr(spatiotemporal_events, "time_column"), "time")
   expect_equal(attr(spatiotemporal_events, "time_format"), "%H")
 })
 
-test_that("`print.spatiotemporal_event` prints the correct information", {
-  spatiotemporal_events <- create_spatiotemporal_event(sample_accidents)
+test_that("`print.spatiotemporal_events` prints the correct information", {
+  spatiotemporal_events <- create_spatiotemporal_events(sample_accidents)
 
   # Check the print function
   expect_output(print(spatiotemporal_events),

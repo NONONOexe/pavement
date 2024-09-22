@@ -4,6 +4,7 @@
 \alias{set_events}
 \alias{set_events.road_network}
 \alias{set_events.segmented_network}
+\alias{set_events.spatiotemporal_network}
 \title{Set events on a space.}
 \usage{
 set_events(x, events, ...)
@@ -11,6 +12,8 @@ set_events(x, events, ...)
 \method{set_events}{road_network}(x, events, ...)
 
 \method{set_events}{segmented_network}(x, events, ...)
+
+\method{set_events}{spatiotemporal_network}(x, events, ...)
 }
 \arguments{
 \item{x}{A \code{road_network} or \code{segmented_network} object.}

@@ -6,19 +6,19 @@
 #'
 #' @param x A `sf` object representing the spatial data.
 #' @param ... Additional arguments passed to or from other methods.
-#' @return An `sf` object with class `spatiotemporal_event` added,
+#' @return An `sf` object with class `spatiotemporal_events` added,
 #'   representing a spatiotemporal event collection.
-#' @name spatiotemporal_event
-#' @aliases create_spatiotemporal_event
+#' @name spatiotemporal_events
+#' @aliases create_spatiotemporal_events
 #' @export
 #' @examples
 #' # Simple feature collection object representing accidents
 #' sample_accidents
 #'
 #' # Create a spatiotemporal event collection
-#' create_spatiotemporal_event(sample_accidents)
-create_spatiotemporal_event <- function(x, ...) {
-  UseMethod("create_spatiotemporal_event")
+#' create_spatiotemporal_events(sample_accidents)
+create_spatiotemporal_events <- function(x, ...) {
+  UseMethod("create_spatiotemporal_events")
 }
 
 #' @param time_column_name A character string specifying the column name
@@ -27,13 +27,13 @@ create_spatiotemporal_event <- function(x, ...) {
 #'   the time data in the `time_column_name`. For example, you can
 #'   use formats like `"%Y-%m-%d"` for dates or `"%H:%M:%S"` for time.
 #'   Defaults to `"%H"`.
-#' @rdname spatiotemporal_event
+#' @rdname spatiotemporal_events
 #' @export
-create_spatiotemporal_event.sf <- function(x,
+create_spatiotemporal_events.sf <- function(x,
                                            time_column_name = "time",
                                            time_format = "%H",
                                            ...) {
-  attributes(x)$class <- c("spatiotemporal_event", "sf", "data.frame")
+  attributes(x)$class <- c("spatiotemporal_events", "sf", "data.frame")
   attr(x, "time_column") <- time_column_name
   attr(x, "time_format") <- time_format
 
@@ -41,7 +41,7 @@ create_spatiotemporal_event.sf <- function(x,
 }
 
 #' @export
-print.spatiotemporal_event <- function(x, ...) {
+print.spatiotemporal_events <- function(x, ...) {
   cat("Spatiotemporal event collection with",
       nrow(x), "events and", ncol(x) - 2, "fields", fill = TRUE)
   cat("Geometry type:", as.character(unique(st_geometry_type(x))), fill = TRUE)

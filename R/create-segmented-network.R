@@ -41,29 +41,25 @@ create_segmented_network.road_network <- function(road_network,
   links <- extract_segmented_network_links(road_network, nodes)
 
   # Create graph from nodes and links
-  graph <- create_graph(
-    nodes,
-    links,
-    directed = is_directed(road_network$graph)
-  )
+  graph <- create_graph(nodes,
+                        links,
+                        directed = is_directed(road_network$graph))
 
   # Construct the road network object
-  segmented_network <- structure(list(
-    segments       = links,
-    graph          = graph,
-    nodes          = nodes,
-    origin_network = road_network,
-    segment_length = segment_length
-  ), class = "segmented_network")
+  segmented_network <- list(segments       = links,
+                            graph          = graph,
+                            nodes          = nodes,
+                            origin_network = road_network,
+                            segment_length = segment_length)
+  class(segmented_network) <- "segmented_network"
 
-  # Assign events to the segmented network
-  if (!is.null(events)) {
-    if (!is.null(road_network$events)) {
+  # Assign events if available
+  if (!is.null(events) || !is.null(road_network$events)) {
+    if (!is.null(events) && !is.null(road_network$events)) {
       warning("events already exist in the road network")
     }
-    segmented_network <- set_events(segmented_network, events)
-  } else if ("events" %in% names(road_network)) {
-    segmented_network <- set_events(segmented_network, road_network$event)
+    event_data <- if (!is.null(events)) events else road_network$events
+    segmented_network <- set_events(segmented_network, event_data)
   }
 
   return(segmented_network)
