@@ -36,7 +36,7 @@ create_durations.character <- function(duration_length, ...) {
     id = sprintf("ti_%04x", seq_along(time_slices)),
     duration = time_slices
   )
-  class(durations) <- "durations"
+  class(durations) <- c("durations", "data.frame")
 
   return(durations)
 }
