@@ -2,17 +2,37 @@
 % Please edit documentation in R/create-polygon.R
 \name{create_polygon}
 \alias{create_polygon}
-\title{Create polygon from bounding box}
+\alias{create_polygon.matrix}
+\alias{create_polygon.coordinates}
+\title{Create a polygon geometry}
 \usage{
-create_polygon(bbox)
+create_polygon(...)
+
+\method{create_polygon}{matrix}(bbox, crs = NULL, ...)
+
+\method{create_polygon}{coordinates}(coordinates, crs = NULL, ...)
 }
 \arguments{
+\item{...}{Arguments passed to methods.}
+
 \item{bbox}{A numeric matrix with two columns and two rows.
 \code{bbox} represents the minimum and maximum coordinates.}
+
+\item{crs}{The coordinate reference system.}
+
+\item{coordinates}{A \code{coordinates} object.}
 }
 \value{
-A rectangle polygon with the same size as \code{bbox}.
+A polygon object.
 }
 \description{
-This function creates a rectangle polygon from a bounding box.
+This function creates a polygon from a bounding box or a series of
+x, y coordinates.
+}
+\examples{
+bbox <- create_bbox(center_lon = 136.9024,
+                    center_lat =  35.1649,
+                    width      = 0.10,
+                    height     = 0.05)
+bbox_sfc <- create_polygon(bbox, crs = 4326)
 }

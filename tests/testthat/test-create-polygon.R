@@ -9,7 +9,7 @@ test_that("`create_polygon` creates correct polygon from bounding box", {
   polygon <- create_polygon(bbox)
 
   # Extract the coordinates of the polygon
-  actual_coords <- unname(polygon[[1]])
+  actual_coords <- st_coordinates(polygon)[, c("X", "Y")]
 
   # Define the expected coordinates of the polygon
   expected_coords <- matrix(
@@ -20,7 +20,7 @@ test_that("`create_polygon` creates correct polygon from bounding box", {
       136.9009, 35.17377,
       136.9009, 35.16377
     ),
-    ncol = 2, byrow = TRUE
+    ncol = 2, byrow = TRUE, dimnames = list(NULL, c("X", "Y"))
   )
 
   # Assert that the actual coordinates match the expected coordinates

@@ -15,7 +15,7 @@ create_points(...)
 \arguments{
 \item{...}{A series of x, y coordinates.}
 
-\item{crs}{The coordinate reference system of the points.}
+\item{crs}{The coordinate reference system.}
 
 \item{coordinates}{A \code{coordinates} object.}
 }

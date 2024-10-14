@@ -17,13 +17,6 @@ set_events <- function(x, events, ...) {
   UseMethod("set_events")
 }
 
-update_segment_event_counts <- function(segments, event_indices) {
-  event_counts <- table(event_indices)
-  segments$count[event_indices] <- event_counts
-
-  return(segments)
-}
-
 validate_and_set_events <- function(x, events, type) {
   if (!inherits(events, type)) {
     stop("events must be a `", type, "` object")
@@ -34,6 +27,17 @@ validate_and_set_events <- function(x, events, type) {
   x$events <- events
 
   return(x)
+}
+
+assign_event_counts_to_segments <- function(segments, event_indices) {
+  # Create a frequency table of event occurrences
+  event_counts <- table(event_indices)
+
+  # Assign counts to the appropriate segment rows
+  segment_indices <- as.integer(names(event_counts))
+  segments$count[segment_indices] <- event_counts
+
+  return(segments)
 }
 
 #' @export
@@ -50,8 +54,8 @@ set_events.segmented_network <- function(x, events, ...) {
   # Get the indices of the segments with events
   segment_indices <- st_nearest_feature(events, x$segments)
 
-  # Update the count of events of each segment
-  x$segments <- update_segment_event_counts(x$segments, segment_indices)
+  # Assign event counts to corresponding segments based on event indices
+  x$segments <- assign_event_counts_to_segments(x$segments, segment_indices)
 
   return(x)
 }
@@ -68,8 +72,8 @@ set_events.spatiotemporal_network <- function(x, events, ...) {
   # Calculate the segment indices
   segment_indices <- spatial_indices + (temporal_indices - 1) * num_geometries
 
-  # Update the count of events of each segment
-  x$segments <- update_segment_event_counts(x$segments, segment_indices)
+  # Assign event counts to corresponding segments based on event indices
+  x$segments <- assign_event_counts_to_segments(x$segments, segment_indices)
 
   return(x)
 }

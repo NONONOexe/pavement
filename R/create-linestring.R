@@ -6,7 +6,7 @@
 #' @name create_linestring
 #' @param ... A series of x, y coordinates.
 #' @param coordinates A `coordinates` object.
-#' @param crs The coordinate reference system of the points.
+#' @param crs The coordinate reference system.
 #' @return A simple feature linestring object.
 #' @examples
 #' # Create a linestring from individual coordinates

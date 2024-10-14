@@ -47,6 +47,7 @@
 #' @importFrom sf st_linestring
 #' @importFrom sf st_nearest_feature
 #' @importFrom sf st_point
+#' @importFrom sf st_polygon
 #' @importFrom sf st_reverse
 #' @importFrom sf st_set_agr
 #' @importFrom sf st_sf
