@@ -1,5 +1,5 @@
 test_that(
-  "`download_roads()` works with valid bounding box and `crop = TRUE`",
+  "`fetch_roads()` works with valid bounding box and `crop = TRUE`",
   {
     local_mocked_bindings(osmdata_sf = function(q) mock_osmdata_sf)
 
@@ -10,7 +10,7 @@ test_that(
       west  = 136.90090
     )
 
-    roads <- download_roads(bbox)
+    roads <- fetch_roads(bbox)
 
     expect_s3_class(roads, "sf")
     expect_true(all(
@@ -27,7 +27,7 @@ test_that(
 )
 
 test_that(
-  "`download_roads()` works with valid bounding box and `crop = FALSE`",
+  "`fetch_roads()` works with valid bounding box and `crop = FALSE`",
   {
     local_mocked_bindings(osmdata_sf = function(q) mock_osmdata_sf)
 
@@ -38,7 +38,7 @@ test_that(
       west  = 136.90090
     )
 
-    roads <- download_roads(bbox, crop = FALSE)
+    roads <- fetch_roads(bbox, crop = FALSE)
 
     expect_s3_class(roads, "sf")
     expect_true(all(

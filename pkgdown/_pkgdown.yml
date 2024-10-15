@@ -26,7 +26,7 @@ reference:
     retrieval and conversion data from OpenStreetMap and other external sources,
     enabling you to begin your spatial analysis.
   contents:
-  - download_roads
+  - fetch_roads
   - transform_to_cartesian
   - transform_to_geographic
   - create_bbox
