@@ -16,7 +16,6 @@
 <url><loc>https://nononoexe.github.io/pavement/reference/create_points.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/create_polygon.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/decompose_linestring.html</loc></url>
-<url><loc>https://nononoexe.github.io/pavement/reference/download_roads.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/durations.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_road_endpoints.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_road_intersections.html</loc></url>
@@ -24,6 +23,7 @@
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_road_network_nodes.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_segmented_network_links.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/extract_segmented_network_nodes.html</loc></url>
+<url><loc>https://nononoexe.github.io/pavement/reference/fetch_roads.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/filter_points_within_tolerance.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/find_duration.html</loc></url>
 <url><loc>https://nononoexe.github.io/pavement/reference/generate_ids.html</loc></url>
