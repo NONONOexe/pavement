@@ -11,8 +11,8 @@
 #' @export
 #' @examples
 #' plot(1, type = "n", xlab = "", ylab = "", axes = FALSE, xlim = c(0, 12), ylim = c(0, 10))
-#' text(0, c(2, 6), c("Single", "Multiple"), srt = 90, cex = 2)
-#' text(c(2, 6, 10), 8, c("Point", "Linestring", "Polygon"), cex = 2)
+#' text(0, c(2, 6), c("Single", "Multiple"), srt = 90, cex = 1)
+#' text(c(2, 6, 10), 8, c("Point", "Linestring", "Polygon"), cex = 1)
 #'
 #' geometries <- sf::st_sf(geometry = c(
 #'   # POINT
