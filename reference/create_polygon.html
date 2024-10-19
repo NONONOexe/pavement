@@ -48,8 +48,8 @@ x, y coordinates.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_polygon</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S3 method for class 'matrix'</span></span>
-<span><span class="fu">create_polygon</span><span class="op">(</span><span class="va">bbox</span>, crs <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="co"># S3 method for class 'numeric'</span></span>
+<span><span class="fu">create_polygon</span><span class="op">(</span><span class="va">...</span>, crs <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'coordinates'</span></span>
 <span><span class="fu">create_polygon</span><span class="op">(</span><span class="va">coordinates</span>, crs <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
@@ -60,12 +60,7 @@ x, y coordinates.</p>
 
 
 <dl><dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Arguments passed to methods.</p></dd>
-
-
-<dt id="arg-bbox">bbox<a class="anchor" aria-label="anchor" href="#arg-bbox"></a></dt>
-<dd><p>A numeric matrix with two columns and two rows.
-<code>bbox</code> represents the minimum and maximum coordinates.</p></dd>
+<dd><p>A series of x, y coordinates.</p></dd>
 
 
 <dt id="arg-crs">crs<a class="anchor" aria-label="anchor" href="#arg-crs"></a></dt>
@@ -83,11 +78,13 @@ x, y coordinates.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">bbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_bbox.html">create_bbox</a></span><span class="op">(</span>center_lon <span class="op">=</span> <span class="fl">136.9024</span>,</span></span>
-<span class="r-in"><span>                    center_lat <span class="op">=</span>  <span class="fl">35.1649</span>,</span></span>
-<span class="r-in"><span>                    width      <span class="op">=</span> <span class="fl">0.10</span>,</span></span>
-<span class="r-in"><span>                    height     <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">bbox_sfc</span> <span class="op">&lt;-</span> <span class="fu">create_polygon</span><span class="op">(</span><span class="va">bbox</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">polygon</span> <span class="op">&lt;-</span> <span class="fu">create_polygon</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fl">136.9009</span>, <span class="fl">35.16377</span>,</span></span>
+<span class="r-in"><span>  <span class="fl">136.9159</span>, <span class="fl">35.16377</span>,</span></span>
+<span class="r-in"><span>  <span class="fl">136.9159</span>, <span class="fl">35.17377</span>,</span></span>
+<span class="r-in"><span>  <span class="fl">136.9009</span>, <span class="fl">35.17377</span>,</span></span>
+<span class="r-in"><span>  crs <span class="op">=</span> <span class="fl">4326</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
