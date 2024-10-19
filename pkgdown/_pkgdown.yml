@@ -93,7 +93,7 @@ reference:
   - create_points
   - create_linestring
   - create_polygon
-  - filter_and_cast_geometry
+  - filter_and_cast_geometries
   - sample_points_along_linestring
   - filter_points_within_tolerance
   - remove_points_near_endpoints
