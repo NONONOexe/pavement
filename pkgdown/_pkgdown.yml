@@ -30,6 +30,7 @@ reference:
   - transform_to_cartesian
   - transform_to_geographic
   - create_bbox
+  - convert_bbox
 
 - title: Network operations
 
@@ -92,6 +93,7 @@ reference:
   - create_points
   - create_linestring
   - create_polygon
+  - filter_and_cast_geometry
   - sample_points_along_linestring
   - filter_points_within_tolerance
   - remove_points_near_endpoints

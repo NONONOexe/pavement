@@ -24,14 +24,12 @@ create_coordinates <- function(...) {
 
   # Check if the number of arguments is even
   if (length(coordinates_dbl) %% 2 != 0) {
-    stop("arguments must be provided in pairs (x, y) coordinates")
+    stop("Arguments must be provided in pairs (x, y) coordinates")
   }
 
   # Create a matrix of coordinates
-  coordinates <- structure(
-    matrix(coordinates_dbl, ncol = 2, byrow = TRUE),
-    class = "coordinates"
-  )
+  coordinates <- matrix(coordinates_dbl, ncol = 2, byrow = TRUE)
+  class(coordinates) <- c("coordinates", class(coordinates))
 
   return(coordinates)
 }

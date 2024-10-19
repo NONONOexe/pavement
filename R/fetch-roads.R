@@ -44,7 +44,7 @@ fetch_roads <- function(bbox, crop = TRUE) {
   # Crop to the specified bounding box
   if (crop) {
     lines <- st_set_agr(lines, "constant")
-    area <- create_polygon(bbox)
+    area <- convert_bbox_to_polygon(bbox)
     lines <- st_crop(lines, area)
   }
 

@@ -41,7 +41,7 @@ create_linestring.numeric <- function(..., crs = NULL) {
 #' @export
 create_linestring.coordinates <- function(coordinates, crs = NULL, ...) {
   linestring <- st_linestring(coordinates)
-  linestring <- st_sfc(linestring, crs = crs)
+  linestring_sfc <- st_sfc(linestring, crs = crs)
 
-  return(linestring)
+  return(linestring_sfc)
 }

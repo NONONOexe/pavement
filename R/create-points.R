@@ -42,7 +42,7 @@ create_points.numeric <- function(..., crs = NULL) {
 #' @export
 create_points.coordinates <- function(coordinates, crs = NULL, ...) {
   points <- apply(coordinates, 1, st_point, simplify = FALSE)
-  points <- st_sfc(points, crs = crs)
+  points_sfc <- st_sfc(points, crs = crs)
 
-  return(points)
+  return(points_sfc)
 }
