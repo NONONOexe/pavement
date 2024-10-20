@@ -21,38 +21,50 @@
 #' plot(sample_roads$geometry)
 #' plot(intersections$geometry, pch = 16, col = "#E69F00", add = TRUE)
 extract_road_intersections <- function(roads) {
-  # Find all intersections between roads
-  intersections <- st_intersection(roads)
+  # Retrieve the CRS from the input and convert to Cartesian system
+  road_cartesian <- transform_to_cartesian(roads)
 
-  # Remove duplicate intersections while keeping the intersection
-  # with more overlaps
-  n_overlaps_order <- order(intersections$n.overlaps, decreasing = TRUE)
-  intersections <- intersections[n_overlaps_order, ]
-  intersections <- intersections[!duplicated(intersections$geometry), ]
+  # Compute the intersection points of the roads
+  intersections <- st_intersection(road_cartesian)
+  intersections <- st_set_agr(intersections, "constant")
 
-  # Remove intersections where only one road overlaps
-  intersections <- intersections[1 < intersections$n.overlaps, ]
+  # Extract and cast geometries to points
+  points <- get_points(intersections)
+
+  # Restore original CRS to the points
+  crs_roads <- st_crs(roads)
+  if (!is.na(crs_roads$input)) {
+    points <- st_transform(points, crs_roads)
+  }
+
+  # Remove duplicates
+  n_overlaps_order <- order(points$n.overlaps, decreasing = TRUE)
+  points <- points[n_overlaps_order, ]
+  points <- points[!duplicated(points$geometry), ]
+
+  # Filter intersections where more than one road overlaps
+  points <- points[1 < points$n.overlaps, ]
 
   # For each intersections, get the list of roads that intersect there
-  origin_roads_list <- lapply(intersections$origins, function(origins) {
-    roads[unlist(origins), ]
+  origin_roads_list <- lapply(points$origins, function(origins) {
+    roads[as.integer(origins), ]
   })
 
   # Keep only intersections where all roads belong to the same layer
-  is_same_layer <- sapply(origin_roads_list, function(origin_roads) {
+  is_same_layer <- vapply(origin_roads_list, function(origin_roads) {
     length(unique(origin_roads$layer)) == 1
-  })
-  intersections <- intersections[is_same_layer, ]
+  }, logical(1))
+  points <- points[is_same_layer, ]
 
   # Convert data structure
-  origin_road_ids_list <- lapply(intersections$origins, function(origins) {
-    roads[unlist(origins), ]$id
+  origin_road_ids_list <- lapply(points$origins, function(origins) {
+    roads[as.integer(origins), ]$id
   })
-  intersections <- st_sf(
+  points <- st_sf(
     parent_road  = I(origin_road_ids_list),
-    num_overlaps = intersections$n.overlaps,
-    geometry     = intersections$geometry
+    num_overlaps = points$n.overlaps,
+    geometry     = points$geometry
   )
 
-  return(intersections)
+  return(points)
 }

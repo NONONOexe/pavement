@@ -27,8 +27,7 @@ reference:
     enabling you to begin your spatial analysis.
   contents:
   - fetch_roads
-  - transform_to_cartesian
-  - transform_to_geographic
+  - transform_coordinates
   - create_bbox
   - convert_bbox
 
