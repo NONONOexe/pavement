@@ -117,6 +117,7 @@ method for networks, its computational method and a GIS-based tool.
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create a road network</span></span></span>
 <span class="r-in"><span><span class="va">road_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="road_network.html">create_road_network</a></span><span class="op">(</span><span class="va">sample_roads</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>CRS is missing. Returning the input object without transformation.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Assign sample accidents data</span></span></span>
 <span class="r-in"><span><span class="va">road_network</span> <span class="op">&lt;-</span> <span class="fu"><a href="set_events.html">set_events</a></span><span class="op">(</span><span class="va">road_network</span>, <span class="va">sample_accidents</span><span class="op">)</span></span></span>
