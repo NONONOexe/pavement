@@ -22,8 +22,10 @@ phenomena.
 
 ## Installation
 
-You can install the development version of pavement from
-[R-universe](https://r-universe.dev) with:
+You can install the development version of pavement using the following
+methods:
+
+### Using `install.packages()` (R-universe)
 
 ``` r
 # Enable the R-universe
@@ -34,6 +36,13 @@ options(repos = c(
 
 # Install the package
 install.packages("pavement")
+```
+
+### Using `pak`
+
+``` r
+# install.packages("pak)
+pak::pak("nononoexe/pavement")
 ```
 
 ## Usage
@@ -49,6 +58,8 @@ segmented_network <- sample_roads |>
   set_events(sample_accidents) |>
   create_segmented_network(segment_length = 0.5) |>
   convolute_segmented_network()
+#> Warning in transform_coordinates(spatial_object, target = "cartesian", quiet =
+#> quiet): CRS is missing. Returning the input object without transformation.
 plot(segmented_network, mode = "event")
 ```
 

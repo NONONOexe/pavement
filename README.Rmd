@@ -27,7 +27,9 @@ pavement is a package designed to analyze spatial events occurring on roadways. 
 
 ## Installation
 
-You can install the development version of pavement from [R-universe](https://r-universe.dev) with:
+You can install the development version of pavement using the following methods:
+
+### Using `install.packages()` (R-universe)
 
 ``` r
 # Enable the R-universe
@@ -38,6 +40,13 @@ options(repos = c(
 
 # Install the package
 install.packages("pavement")
+```
+
+### Using `pak`
+
+``` r
+# install.packages("pak)
+pak::pak("nononoexe/pavement")
 ```
 
 ## Usage
