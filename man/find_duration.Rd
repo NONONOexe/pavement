@@ -2,7 +2,7 @@
 % Please edit documentation in R/find-duration.R
 \name{find_duration}
 \alias{find_duration}
-\title{Find the index of the duration that contains the event time.}
+\title{Find the index of the duration that contains the event time}
 \usage{
 find_duration(events, durations, ...)
 }

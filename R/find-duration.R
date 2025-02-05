@@ -1,4 +1,4 @@
-#' Find the index of the duration that contains the event time.
+#' Find the index of the duration that contains the event time
 #'
 #' This function find the index of the duration that contains the event time.
 #'
