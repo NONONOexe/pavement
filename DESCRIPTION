@@ -20,7 +20,7 @@ License: MIT + file LICENSE
 URL: https://github.com/NONONOexe/pavement, https://nononoexe.github.io/pavement/
 BugReports: https://github.com/NONONOexe/pavement/issues
 Depends: 
-    R (>= 3.3.0)
+    R (>= 3.5)
 Imports: 
     graphics,
     grDevices,
