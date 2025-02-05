@@ -1,5 +1,3 @@
-library(celestial)
-
 datum_coords <- matrix(
   c(
     129 + 30 / 60, 33.0,
@@ -21,14 +19,19 @@ datum_coords <- matrix(
     131 + 00 / 60, 26.0,
     136 + 00 / 60, 20.0,
     154 + 00 / 60, 26.0
-  ), ncol = 2, byrow = TRUE
+  ),
+  ncol = 2, byrow = TRUE
 )
 
 jdg2011_datum <- data.frame(
-  id  = c("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
-          "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX"),
-  lon = datum_coords[,1],
-  lat = datum_coords[,2],
-  crs = c(6669, 6670, 6671, 6672, 6673, 6674, 6675, 6676, 6677, 6678,
-          6679, 6680, 6681, 6682, 6683, 6684, 6685, 6686, 6687)
+  system_no = c(
+    "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
+    "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX"
+  ),
+  lon = datum_coords[, 1],
+  lat = datum_coords[, 2],
+  crs = c(
+    6669, 6670, 6671, 6672, 6673, 6674, 6675, 6676, 6677, 6678,
+    6679, 6680, 6681, 6682, 6683, 6684, 6685, 6686, 6687
+  )
 )
