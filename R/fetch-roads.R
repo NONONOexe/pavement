@@ -29,7 +29,7 @@ fetch_roads <- function(bbox, crop = TRUE) {
   query <- add_osm_feature(
     opq(bbox),
     key   = "highway",
-    value = osm_highway_values
+    value = data("osm_highway_values", package = "pavement")
   )
   data <- osmdata_sf(query)
   lines <- data$osm_lines
