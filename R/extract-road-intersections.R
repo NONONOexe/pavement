@@ -22,10 +22,12 @@
 #' plot(intersections$geometry, pch = 16, col = "#E69F00", add = TRUE)
 extract_road_intersections <- function(roads) {
   # Retrieve the CRS from the input and convert to Cartesian system
-  road_cartesian <- transform_to_cartesian(roads)
+  if (!is.na(st_crs(roads)$input)) {
+    roads <- transform_to_cartesian(roads)
+  }
 
   # Compute the intersection points of the roads
-  intersections <- st_intersection(road_cartesian)
+  intersections <- st_intersection(roads)
   intersections <- st_set_agr(intersections, "constant")
 
   # Extract and cast geometries to points

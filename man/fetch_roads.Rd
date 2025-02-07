@@ -2,24 +2,59 @@
 % Please edit documentation in R/fetch-roads.R
 \name{fetch_roads}
 \alias{fetch_roads}
-\title{Download and process OpenStreetMap road data}
+\alias{fetch_roads.matrix}
+\alias{fetch_roads.sfc_POINT}
+\alias{fetch_roads.numeric}
+\alias{fetch_roads.character}
+\title{Fetch road data from OpenStreetMap}
 \usage{
-fetch_roads(bbox, crop = TRUE)
+fetch_roads(x, ...)
+
+\method{fetch_roads}{matrix}(x, crop = FALSE, ...)
+
+\method{fetch_roads}{sfc_POINT}(x, radius = 15, crop = FALSE, ...)
+
+\method{fetch_roads}{numeric}(x, y, radius = 15, crop = FALSE, ...)
+
+\method{fetch_roads}{character}(x, crop = FALSE, ...)
 }
 \arguments{
-\item{bbox}{A bounding box in the form of a matrix with two rows and two
-columns.}
+\item{x}{An object defining the area or location of interest. This can be:
+\itemize{
+\item A \code{matrix} representing a bounding box.
+\item An \code{sfc_POINT} object representing a central point.
+\item Numeric values representing longitude (\code{x}) and latitude (\code{y}).
+\item A character string containing a pre-defined Overpass query.
+}}
 
-\item{crop}{A logical value indicating whether to crop the data to the
-bounding box. Defaults to \code{TRUE}.}
+\item{...}{Additional arguments passed to the method.}
+
+\item{crop}{A logical value indicating whether to crop road data to the
+specified area (default: \code{FALSE}).}
+
+\item{radius}{Numeric value representing the search radius in meters
+(default: \code{15}).}
+
+\item{y}{Numeric value representing latitude (required if \code{x} is numeric
+and represents longitude).}
 }
 \value{
-A data frame containing OpenStreetMap road data.
+An \code{sf} object of class \code{LINESTRING}, containing road data with
+the followings columns:
+\describe{
+\item{id}{Unique road identifier}
+\item{highway}{Road classification (e.g. "residential", "primary")}
+\item{name}{Road name}
+\item{layer}{Layer information for roads at different elevations}
+\item{oneway}{Logical indicating whether the road is one-way}
+\item{osm_id}{OpenStreetMap unique identifier}
+}
 }
 \description{
-This function downloads OpenStreetMap highway data within the specified
-bounding box. It corrects the geometries of reversed one-way roads.
-Optionally, it crops the data to the bounding box.
+\code{fetch_roads()} fetches road data from OpenStreetMap. It retrieves roads
+within a specified bounding box or within an area defined by a center point
+and a radius. Additionally, roads can be cropped to fit within the specified
+boundaries.
 }
 \examples{
 \dontrun{

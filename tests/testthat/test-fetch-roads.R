@@ -1,7 +1,8 @@
 test_that(
   "`fetch_roads()` works with valid bounding box and `crop = TRUE`",
   {
-    local_mocked_bindings(osmdata_sf = function(q) mock_osmdata_sf)
+    local_mocked_bindings(osmdata_sf = function(q) mock_osmdata_sf,
+                          .package = "osmdata")
 
     bbox <- create_bbox(
       north =  35.17377,
@@ -10,7 +11,7 @@ test_that(
       west  = 136.90090
     )
 
-    roads <- fetch_roads(bbox)
+    roads <- fetch_roads(bbox, crop = TRUE)
 
     expect_s3_class(roads, "sf")
     expect_true(all(
