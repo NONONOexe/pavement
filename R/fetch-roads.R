@@ -264,11 +264,9 @@ convert_multilinestring_to_linestring <- function(roads) {
 
 # Ensure all required columns exist
 ensure_required_columns <- function(roads) {
-  required_cols <- c("id", "highway", "name", "layer", "oneway", "osm_id")
-  missing_cols <- setdiff(required_cols, colnames(roads))
-
+  empty_roads_sf <- create_empty_roads_sf()
   roads %>%
-    dplyr::mutate(dplyr::across(dplyr::all_of(missing_cols), ~ NA_character_)) %>%
-    dplyr::select(dplyr::all_of(required_cols)) %>%
+    dplyr::bind_rows(empty_roads_sf) %>%
+    dplyr::select(dplyr::all_of(names(empty_roads_sf))) %>%
     tibble::remove_rownames()
 }
