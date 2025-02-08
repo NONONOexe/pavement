@@ -200,8 +200,17 @@ crop_roads <- function(roads, query) {
 # Determine the cropping area from query parameters
 determine_crop_area <- function(params) {
   bbox <- purrr::pluck(params, "bbox")
+
   if (!is.null(bbox)) {
-    return(convert_bbox_to_polygon(bbox, crs = 4326))
+    crop_area <- sf::st_sfc(sf::st_polygon(list(rbind(
+      c(bbox["x", "min"], bbox["y", "max"]),
+      c(bbox["x", "max"], bbox["y", "max"]),
+      c(bbox["x", "max"], bbox["y", "min"]),
+      c(bbox["x", "min"], bbox["y", "min"]),
+      c(bbox["x", "min"], bbox["y", "max"])
+    ))), crs = 4326)
+
+    return(crop_area)
   }
 
   rad <- purrr::pluck(params, "rad")
@@ -209,9 +218,13 @@ determine_crop_area <- function(params) {
   lat <- purrr::pluck(params, "lat")
 
   if (!is.null(rad) && !is.null(lon) && !is.null(lat)) {
-    return(sf::st_point(c(lon, lat)) %>%
-             sf::st_buffer(rad) %>%
-             sf::st_sfc(crs = 4326))
+    center_point <- sf::st_sfc(sf::st_point(c(lon, lat)), crs = 4326)
+    crop_area <- center_point %>%
+      sf::st_transform(crs = 3395) %>%
+      sf::st_buffer(dist = rad) %>%
+      sf::st_transform(crs = 4326)
+
+    return(crop_area)
   }
 
   cli::cli_abort("Either {.code bbox} or {.code rad}, {.code lon}, and {.code lat} must be provided.")
