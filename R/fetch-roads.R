@@ -57,7 +57,7 @@ fetch_roads.matrix <- function(x, crop = FALSE, ...) {
 #' @export
 fetch_roads.sfc_POINT <- function(x, radius = 15, crop = FALSE, ...) {
   coord <- sf::st_coordinates(x)
-  fetch_roads(x = coord[1], y = coord[2], radius = radius, ...)
+  fetch_roads(x = coord[1], y = coord[2], radius = radius, crop = crop, ...)
 }
 
 #' @rdname fetch_roads
