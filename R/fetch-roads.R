@@ -14,6 +14,9 @@
 #'   and represents longitude).
 #' @param crop A logical value indicating whether to crop road data to the
 #'   specified area (default: `FALSE`).
+#' @param circle_crop A logical value indicating whether to crop roads within a
+#'   circular area instead of a bounding box (default: `FALSE`). This is only
+#'   effective if `crop = TRUE`.
 #' @param radius Numeric value representing the search radius in meters
 #'   (default: `15`).
 #' @param ... Additional arguments passed to the method.
@@ -55,21 +58,35 @@ fetch_roads.matrix <- function(x, crop = FALSE, ...) {
 
 #' @rdname fetch_roads
 #' @export
-fetch_roads.sfc_POINT <- function(x, radius = 15, crop = FALSE, ...) {
+fetch_roads.sfc_POINT <- function(x,
+                                  radius      = 15,
+                                  crop        = FALSE,
+                                  circle_crop = FALSE,
+                                  ...) {
   coord <- sf::st_coordinates(x)
-  fetch_roads(x = coord[1], y = coord[2], radius = radius, crop = crop, ...)
+  fetch_roads(x           = coord[1],
+              y           = coord[2],
+              radius      = radius,
+              crop        = crop,
+              circle_crop = circle_crop,
+              ...)
 }
 
 #' @rdname fetch_roads
 #' @export
-fetch_roads.numeric <- function(x, y, radius = 15, crop = FALSE, ...) {
+fetch_roads.numeric <- function(x,
+                                y,
+                                radius      = 15,
+                                crop        = FALSE,
+                                circle_crop = FALSE,
+                                ...) {
   query <- build_query(rad = radius, lon = x, lat = y)
-  fetch_roads(query, crop = crop, ...)
+  fetch_roads(query, crop = crop, circle_crop = circle_crop, ...)
 }
 
 #' @rdname fetch_roads
 #' @export
-fetch_roads.character <- function(x, crop = FALSE, ...) {
+fetch_roads.character <- function(x, crop = FALSE, circle_crop = FALSE, ...) {
   # Retrieve road data from OpenStreetMap
   osm_data <- osmdata::osmdata_sf(x)
   road_lines <- purrr::pluck(osm_data, "osm_lines")
@@ -87,7 +104,7 @@ fetch_roads.character <- function(x, crop = FALSE, ...) {
 
   # Crop road data if required
   if (crop) {
-    road_lines <- crop_roads(road_lines, x)
+    road_lines <- crop_roads(road_lines, x, circle_crop)
   }
 
   # Convert MULTILINESTRING to LINESTRING and ensure required columns
@@ -188,13 +205,16 @@ convert_oneway_to_boolean <- function(roads) {
 }
 
 # Crop road data based on query parameters
-crop_roads <- function(roads, query) {
+crop_roads <- function(roads, query, circle_crop) {
   params <- attr(query, "query_params")
   crop_area <- determine_crop_area(params)
 
-  roads %>%
-    sf::st_set_agr("constant") %>%
-    sf::st_crop(crop_area)
+  roads <- sf::st_set_agr(roads, "constant")
+  if (circle_crop) {
+    sf::st_intersection(roads, crop_area)
+  } else {
+    sf::st_crop(roads, crop_area)
+  }
 }
 
 # Determine the cropping area from query parameters

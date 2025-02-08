@@ -12,11 +12,11 @@ fetch_roads(x, ...)
 
 \method{fetch_roads}{matrix}(x, crop = FALSE, ...)
 
-\method{fetch_roads}{sfc_POINT}(x, radius = 15, crop = FALSE, ...)
+\method{fetch_roads}{sfc_POINT}(x, radius = 15, crop = FALSE, circle_crop = FALSE, ...)
 
-\method{fetch_roads}{numeric}(x, y, radius = 15, crop = FALSE, ...)
+\method{fetch_roads}{numeric}(x, y, radius = 15, crop = FALSE, circle_crop = FALSE, ...)
 
-\method{fetch_roads}{character}(x, crop = FALSE, ...)
+\method{fetch_roads}{character}(x, crop = FALSE, circle_crop = FALSE, ...)
 }
 \arguments{
 \item{x}{An object defining the area or location of interest. This can be:
@@ -34,6 +34,10 @@ specified area (default: \code{FALSE}).}
 
 \item{radius}{Numeric value representing the search radius in meters
 (default: \code{15}).}
+
+\item{circle_crop}{A logical value indicating whether to crop roads within a
+circular area instead of a bounding box (default: \code{FALSE}). This is only
+effective if \code{crop = TRUE}.}
 
 \item{y}{Numeric value representing latitude (required if \code{x} is numeric
 and represents longitude).}
