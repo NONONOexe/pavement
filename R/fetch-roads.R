@@ -97,10 +97,14 @@ fetch_roads.character <- function(x, crop = FALSE, circle_crop = FALSE, ...) {
     return(create_empty_roads_sf())
   }
 
-  # Process road data
-  road_lines <- road_lines %>%
-    correct_oneway_geometries() %>%
-    convert_oneway_to_boolean()
+  # Correct oneway geometries and convert to boolean
+  if ("oneway" %in% names(road_lines)) {
+    road_lines <- road_lines %>%
+      correct_oneway_geometries() %>%
+      convert_oneway_to_boolean()
+  } else {
+    road_lines$oneway <- FALSE
+  }
 
   # Crop road data if required
   if (crop) {
