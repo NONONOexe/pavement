@@ -60,6 +60,9 @@ boundaries.</p>
 <span><span class="co"># S3 method for class 'sfc_POINT'</span></span>
 <span><span class="fu">fetch_roads</span><span class="op">(</span><span class="va">x</span>, radius <span class="op">=</span> <span class="fl">15</span>, crop <span class="op">=</span> <span class="cn">FALSE</span>, circle_crop <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># S3 method for class 'POINT'</span></span>
+<span><span class="fu">fetch_roads</span><span class="op">(</span><span class="va">x</span>, radius <span class="op">=</span> <span class="fl">15</span>, crop <span class="op">=</span> <span class="cn">FALSE</span>, circle_crop <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># S3 method for class 'numeric'</span></span>
 <span><span class="fu">fetch_roads</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, radius <span class="op">=</span> <span class="fl">15</span>, crop <span class="op">=</span> <span class="cn">FALSE</span>, circle_crop <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
@@ -73,7 +76,7 @@ boundaries.</p>
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>An object defining the area or location of interest. This can be:</p><ul><li><p>A <code>matrix</code> representing a bounding box.</p></li>
-<li><p>An <code>sfc_POINT</code> object representing a central point.</p></li>
+<li><p>An <code>sfc_POINT</code> or <code>POINT</code> object representing a central point.</p></li>
 <li><p>Numeric values representing longitude (<code>x</code>) and latitude (<code>y</code>).</p></li>
 <li><p>A character string containing a pre-defined Overpass query.</p></li>
 </ul></dd>
