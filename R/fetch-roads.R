@@ -7,7 +7,7 @@
 #'
 #' @param x An object defining the area or location of interest. This can be:
 #'   - A `matrix` representing a bounding box.
-#'   - An `sfc_POINT` object representing a central point.
+#'   - An `sfc_POINT` or `POINT` object representing a central point.
 #'   - Numeric values representing longitude (`x`) and latitude (`y`).
 #'   - A character string containing a pre-defined Overpass query.
 #' @param y Numeric value representing latitude (required if `x` is numeric
@@ -63,6 +63,16 @@ fetch_roads.sfc_POINT <- function(x,
                                   crop        = FALSE,
                                   circle_crop = FALSE,
                                   ...) {
+  fetch_roads.POINT(x, radius, crop, circle_crop, ...)
+}
+
+#' @rdname fetch_roads
+#' @export
+fetch_roads.POINT <- function(x,
+                              radius      = 15,
+                              crop        = FALSE,
+                              circle_crop = FALSE,
+                              ...) {
   coord <- sf::st_coordinates(x)
   fetch_roads(x           = coord[1],
               y           = coord[2],

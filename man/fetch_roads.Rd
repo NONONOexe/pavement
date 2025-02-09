@@ -4,6 +4,7 @@
 \alias{fetch_roads}
 \alias{fetch_roads.matrix}
 \alias{fetch_roads.sfc_POINT}
+\alias{fetch_roads.POINT}
 \alias{fetch_roads.numeric}
 \alias{fetch_roads.character}
 \title{Fetch road data from OpenStreetMap}
@@ -14,6 +15,8 @@ fetch_roads(x, ...)
 
 \method{fetch_roads}{sfc_POINT}(x, radius = 15, crop = FALSE, circle_crop = FALSE, ...)
 
+\method{fetch_roads}{POINT}(x, radius = 15, crop = FALSE, circle_crop = FALSE, ...)
+
 \method{fetch_roads}{numeric}(x, y, radius = 15, crop = FALSE, circle_crop = FALSE, ...)
 
 \method{fetch_roads}{character}(x, crop = FALSE, circle_crop = FALSE, ...)
@@ -22,7 +25,7 @@ fetch_roads(x, ...)
 \item{x}{An object defining the area or location of interest. This can be:
 \itemize{
 \item A \code{matrix} representing a bounding box.
-\item An \code{sfc_POINT} object representing a central point.
+\item An \code{sfc_POINT} or \code{POINT} object representing a central point.
 \item Numeric values representing longitude (\code{x}) and latitude (\code{y}).
 \item A character string containing a pre-defined Overpass query.
 }}
