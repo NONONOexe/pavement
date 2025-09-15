@@ -33,8 +33,8 @@ filter_points_within_tolerance <- function(points,
                                            linestring,
                                            tolerance = 0.01) {
   # Calculate the distance between the points and the linestring
-  linestring_sfc <- st_sfc(linestring, crs = st_crs(points))
-  distances_to_linestring <- as.vector(st_distance(points, linestring_sfc))
+  linestring_sfc <- sf::st_sfc(linestring, crs = sf::st_crs(points))
+  distances_to_linestring <- as.vector(sf::st_distance(points, linestring_sfc))
 
   # Filter points that are within the tolerance distance
   filtered_points <- points[distances_to_linestring <= tolerance]

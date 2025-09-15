@@ -86,9 +86,9 @@ summary.segmented_network <- function(object, ...) {
   cat("Segmented network summary", fill = TRUE)
   cat("Segment length:", fill = TRUE)
   cat("  Desired: ", object$segment_length, fill = TRUE)
-  cat("  Max.   : ", max(st_length(object$segments)), fill = TRUE)
-  cat("  Mean   : ", mean(st_length(object$segments)), fill = TRUE)
-  cat("  Min.   : ", min(st_length(object$segments)), fill = TRUE)
+  cat("  Max.   : ", max(sf::st_length(object$segments)), fill = TRUE)
+  cat("  Mean   : ", mean(sf::st_length(object$segments)), fill = TRUE)
+  cat("  Min.   : ", min(sf::st_length(object$segments)), fill = TRUE)
   cat("Number of segments: ", nrow(object$segments), fill = TRUE)
 }
 

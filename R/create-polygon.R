@@ -39,8 +39,8 @@ create_polygon.coordinates <- function(coordinates, crs = NULL, ...) {
   } else {
     create_coordinates(c(t(coordinates), coordinates[1, ]))
   }
-  polygon <- st_polygon(list(closed_path))
-  polygon_sfc <- st_sfc(polygon, crs = crs)
+  polygon <- sf::st_polygon(list(closed_path))
+  polygon_sfc <- sf::st_sfc(polygon, crs = crs)
 
   return(polygon_sfc)
 }

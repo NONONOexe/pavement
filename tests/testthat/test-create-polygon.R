@@ -8,5 +8,5 @@ test_that("`create_polygon` works with valid input", {
   )
   expect_s3_class(polygon, "sfc_POLYGON")
   expect_equal(length(polygon), 1)
-  expect_equal(st_crs(polygon)[[1]], "EPSG:4326")
+  expect_equal(sf::st_crs(polygon)[[1]], "EPSG:4326")
 })

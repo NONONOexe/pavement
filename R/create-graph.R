@@ -20,7 +20,7 @@
 #' plot(graph)
 create_graph <- function(nodes, links, directed = FALSE) {
   # Create graph nodes
-  node_coordinates <- st_coordinates(nodes$geometry)
+  node_coordinates <- sf::st_coordinates(nodes$geometry)
   graph_nodes <- data.frame(
     name = nodes$id,
     x    = node_coordinates[, "X"],
@@ -28,14 +28,14 @@ create_graph <- function(nodes, links, directed = FALSE) {
   )
 
   # Create graph links
-  link_cooridnates <- st_coordinates(st_centroid(links$geometry))
+  link_cooridnates <- sf::st_coordinates(sf::st_centroid(links$geometry))
   graph_links <- data.frame(
     from   = links$from,
     to     = links$to,
     name   = links$id,
     x      = link_cooridnates[, "X"],
     y      = link_cooridnates[, "Y"],
-    weight = st_length(links$geometry)
+    weight = sf::st_length(links$geometry)
   )
 
   graph <- graph_from_data_frame(

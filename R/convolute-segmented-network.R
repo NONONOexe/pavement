@@ -74,12 +74,13 @@ convolute_segmented_network <- function(segmented_network,
   weights <- kernel(distance_matrix / bandwidth, ...) / bandwidth
 
   # Adjust for branching in the network
+  node_degrees <- degree(segmented_network$graph)
   if (use_esd) {
     # Calculate branch adjustments for each source link
     branches <- sapply(source_links, function(source_link) {
       path <- shortest_paths(line_graph, source_link, output = "epath")$epath
       sapply(path, function(link) {
-        degrees <- degree(segmented_network$graph)[link$name]
+        degrees <- node_degrees[link$name]
         prod(pmax(degrees - 1, 1))
       })
     })

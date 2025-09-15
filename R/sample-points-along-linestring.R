@@ -29,7 +29,7 @@ sample_points_along_linestring <- function(linestrings, segment_length) {
   }
 
   # Calculate the number of segments to sample along each linestring
-  linestrings_length <- st_length(linestrings)
+  linestrings_length <- sf::st_length(linestrings)
   num_segments <- as.integer(round(linestrings_length / segment_length))
 
   # Sample points along each linestring segment
@@ -38,7 +38,7 @@ sample_points_along_linestring <- function(linestrings, segment_length) {
     function(i) {
       sampling_positions <- seq(0, 1, length.out = num_segments[i] + 1)
       sampling_positions <- sampling_positions[-c(1, num_segments[i] + 1)]
-      st_line_sample(linestrings[i], sample = sampling_positions)
+      sf::st_line_sample(linestrings[i], sample = sampling_positions)
     }
   )
 

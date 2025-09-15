@@ -37,19 +37,19 @@ extract_segmented_network_nodes.road_network <- function(
     road_network$links$geometry,
     segment_length
   )
-  sampled_nodes <- st_sf(
+  sampled_nodes <- sf::st_sf(
     parent_link = road_network$links$id,
     parent_road = road_network$links$parent_road,
     geometry    = sampled_points,
-    crs         = st_crs(road_network$links),
+    crs         = sf::st_crs(road_network$links),
     agr         = "constant"
   )
-  sampled_nodes <- sampled_nodes[!st_is_empty(sampled_nodes), ]
-  sampled_nodes <- st_cast(sampled_nodes, "POINT")
+  sampled_nodes <- sampled_nodes[!sf::st_is_empty(sampled_nodes), ]
+  sampled_nodes <- sf::st_cast(sampled_nodes, "POINT")
 
   # Combine the list of data frames into a single `sf` object
   combined_nodes <- rbind(nodes[c("parent_link", "parent_road")], sampled_nodes)
-  combined_nodes <- st_set_agr(combined_nodes, "constant")
+  combined_nodes <- sf::st_set_agr(combined_nodes, "constant")
 
   # Assign unique IDs to nodes
   combined_nodes$id <- generate_ids(combined_nodes$parent_link, "sn_%08x")
