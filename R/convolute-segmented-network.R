@@ -43,7 +43,7 @@
 #' # Check the segmented road network after assigning events
 #' segmented_network
 #'
-#' # Apply the convilution to calculate link densities using
+#' # Apply the convolution to calculate link densities using
 #' # the kernel function
 #' convoluted_network <- convolute_segmented_network(segmented_network)
 #'
