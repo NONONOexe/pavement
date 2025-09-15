@@ -36,36 +36,52 @@ extract_segmented_network_links <- function(road_network,
                                             segmented_network_nodes,
                                             tolerance = 0.00001) {
   nodes <- segmented_network_nodes
+  links <- road_network$links
 
-  # Split the linestrings of the road network links at the points of the
-  # segmented network nodes
-  segments_list <- apply(road_network$links, 1, function(network_link) {
-    # Find the segmented network nodes that belong to the current link
-    split_points <- nodes$geometry[sapply(
-      nodes$parent_link,
-      function(parent_links) network_link$id %in% parent_links
-    )]
-    # Split the linestring of the current link at the found points
-    split_linestring(network_link$geometry, split_points, tolerance)
+  # Create a lookup list that maps each link ID to its corresponding node indices
+  link_node_map <- data.frame(
+    node_index = rep(seq_len(nrow(nodes)), lengths(nodes$parent_link)),
+    link_id    = unlist(nodes$parent_link)
+  )
+  nodes_indices_by_link <- split(link_node_map$node_index,
+                                 link_node_map$link_id)
+
+  # Split the linestring of each road link at the points of the segmented nodes
+  segments_list <- lapply(seq_len(nrow(links)), function(i) {
+    link_id <- links$id[i]
+    link_geometry <- links$geometry[i]
+
+    split_node_indices <- nodes_indices_by_link[[link_id]]
+
+    if (is.null(split_node_indices)) {
+      return(link_geometry)
+    }
+
+    split_points <- nodes$geometry[split_node_indices]
+
+    split_linestring(link_geometry, split_points, tolerance)
   })
+
   # Combine the split linestrings into a single `sfc` object
   segments_sfc <- do.call(c, segments_list)
+  sf::st_set_crs(segments_sfc, sf::st_crs(links))
 
-  # Get the `from` and `to` nodes for each segment
-  from <- sapply(st_startpoint(segments_sfc), function(point) {
-    nodes[which(sapply(nodes$geometry, identical, point)), ]$id
-  })
-  to <- sapply(st_endpoint(segments_sfc), function(point) {
-    nodes[which(sapply(nodes$geometry, identical, point)), ]$id
-  })
+  # Create a lookup vector to find node IDs from their geometry
+  node_id_lookup <- stats::setNames(nodes$id, sf::st_as_text(nodes$geometry))
+
+  # Get the `from` and `to` node IDs for each segment
+  start_points_wkt <- sf::st_as_text(st_startpoint(segments_sfc))
+  end_points_wkt <- sf::st_as_text(st_endpoint(segments_sfc))
+  from <- unname(node_id_lookup[start_points_wkt])
+  to   <- unname(node_id_lookup[end_points_wkt])
 
   # Create a `sf` object representing the segmented network links
-  network_links <- st_sf(
+  network_links <- sf::st_sf(
     id          = sprintf("sl_%08x", seq_along(segments_sfc)),
     from        = from,
     to          = to,
-    parent_link = rep(road_network$links$id, lengths(segments_list)),
-    parent_road = rep(road_network$links$parent_road, lengths(segments_list)),
+    parent_link = rep(links$id, lengths(segments_list)),
+    parent_road = rep(links$parent_road, lengths(segments_list)),
     count       = 0,
     density     = 0,
     geometry    = segments_sfc

@@ -34,6 +34,7 @@ Imports:
     purrr,
     rlang,
     sf,
+    stats,
     stringr,
     tibble,
     utils
