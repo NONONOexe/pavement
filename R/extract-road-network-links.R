@@ -15,13 +15,29 @@ extract_road_network_links <- function(roads, nodes) {
     suppressMessages(st_split(roads, nodes)), "LINESTRING"
   )
 
-  # Get the node IDs for the start and end points of each link
-  from <- sapply(st_startpoint(split_linestrings), function(point) {
-    nodes[which(sapply(nodes$geometry, identical, point)), ]$id
-  })
-  to <- sapply(st_endpoint(split_linestrings), function(point) {
-    nodes[which(sapply(nodes$geometry, identical, point)), ]$id
-  })
+  # Get all start and end points of the split linestrings
+  start_points <- lwgeom::st_startpoint(split_linestrings)
+  end_points <- lwgeom::st_endpoint(split_linestrings)
+
+  # Find the index of the matching node for each point
+  from_indices <- sf::st_intersects(start_points, nodes)
+  to_indices <- sf::st_intersects(end_points, nodes)
+
+  # Convert the list of indices to a numeric vector
+  from_indices_vec <- vapply(
+    from_indices,
+    function(i) if (length(i) == 0) NA_integer_ else i[1],
+    integer(1)
+  )
+  to_indices_vec <- vapply(
+    to_indices,
+    function(i) if (length(i) == 0) NA_integer_ else i[1],
+    integer(1)
+  )
+
+  # Retrieve the node IDs using the indices
+  from <- nodes$id[from_indices_vec]
+  to   <- nodes$id[to_indices_vec]
 
   # Create a new sf object representing the road network links
   network_links <- sf::st_sf(
