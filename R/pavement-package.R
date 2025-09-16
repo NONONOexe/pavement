@@ -30,5 +30,6 @@
 #' @importFrom rlang .data
 #' @importFrom utils head
 #' @importFrom utils tail
+#' @useDynLib pavement, .registration = TRUE
 ## usethis namespace: end
 NULL
