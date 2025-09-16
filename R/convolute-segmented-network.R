@@ -43,7 +43,7 @@
 #' # Check the segmented road network after assigning events
 #' segmented_network
 #'
-#' # Apply the convilution to calculate link densities using
+#' # Apply the convolution to calculate link densities using
 #' # the kernel function
 #' convoluted_network <- convolute_segmented_network(segmented_network)
 #'
@@ -58,51 +58,118 @@ convolute_segmented_network <- function(segmented_network,
                                         use_esd = TRUE,
                                         correct_boundary_effects = TRUE,
                                         ...) {
-  # Create the line graph
-  line_graph <- create_line_graph(segmented_network)
-
-  # Get the counts of events assigned to each segment
-  counts <- segmented_network$segments$count
-
-  # Identify the links with events
+  # Prepare graph and event data
+  line_graph   <- create_line_graph(segmented_network)
+  counts       <- segmented_network$segments$count
   source_links <- which(0 < counts)
+  n_segments   <- igraph::vcount(line_graph)
 
-  # Compute the distances from source links
-  distance_matrix <- distances(line_graph, v = source_links)
+  # Initialize densities vector
+  densities <- numeric(n_segments)
 
-  # Apply the kernel function to calculate weights
-  weights <- kernel(distance_matrix / bandwidth, ...) / bandwidth
-
-  # Adjust for branching in the network
+  # Pre-process data for C++ if using ESD
   if (use_esd) {
-    # Calculate branch adjustments for each source link
-    branches <- sapply(source_links, function(source_link) {
-      path <- shortest_paths(line_graph, source_link, output = "epath")$epath
-      sapply(path, function(link) {
-        degrees <- degree(segmented_network$graph)[link$name]
-        prod(pmax(degrees - 1, 1))
-      })
+    original_graph <- segmented_network$graph
+
+    # Get the degrees of intersections from the original graph
+    node_degrees <- igraph::degree(original_graph)
+    node_degrees <- as.integer(node_degrees)
+    names(node_degrees) <- igraph::V(original_graph)$name
+
+    # Get the adjacency list of the line graph
+    adj_list <- igraph::as_adj_list(line_graph, mode = "all")
+
+    # Map line graph vertex IDs to original graph names
+    original_edge_names_matrix <- igraph::ends(line_graph,
+                                               igraph::E(line_graph))
+
+    # For each row, find the common node in the original graph
+    shared_node_ids <- apply(original_edge_names_matrix, 1, function(edge_pair_names) {
+      e1_nodes <- igraph::ends(original_graph, edge_pair_names[1])
+      e2_nodes <- igraph::ends(original_graph, edge_pair_names[2])
+      shared_node <- intersect(e1_nodes, e2_nodes)
+
+      if (0 < length(shared_node)) {
+        return(shared_node[1])
+      } else {
+        return(NA_character_)
+      }
     })
 
-    # Adjust weights by the branching factors
-    weights <- weights / t(branches)
+    # Look up the degrees using the shared node IDs
+    branch_degrees_all_edges <- node_degrees[shared_node_ids]
+
+    # Add this information as a temporary edge attribute for easy lookup
+    line_graph <- igraph::set_edge_attr(line_graph,
+                                        name = "branch_degree",
+                                        value = branch_degrees_all_edges)
+
+    # Create lists of edge weights and corresponding intersection degrees for C++
+    edge_data_list <- lapply(seq_len(n_segments), function(u) {
+      neighbors <- adj_list[[u]]
+      if (length(neighbors) == 0) {
+        return(list(weights = numeric(0), distances = numeric(0)))
+      }
+
+      # Get the edge IDs between node u and its neighbors
+      edge_ids <- igraph::get.edge.ids(line_graph, as.vector(rbind(u, neighbors)))
+
+      # Get edge attributes in batch
+      edge_attrs <- igraph::edge_attr(line_graph, index = edge_ids)
+
+      list(weights = edge_attrs$weight, degrees = edge_attrs$branch_degree)
+    })
+
+    edge_weights_list   <- lapply(edge_data_list, `[[`, "weights")
+    branch_degrees_list <- lapply(edge_data_list, `[[`, "degrees")
   }
 
-  # Normalize the weights to account for kernel values outside the network
-  if (correct_boundary_effects) {
-    weights <- weights / rowSums(weights)
+  # Calculate and accumulate density contributions from each source link
+  for (i in seq_along(source_links)) {
+    source_link_index <- source_links[i]
+
+    if (use_esd) {
+      # Calculate distances and branch factors simultaneously using C++
+      results <- dijkstra_with_branches(adj            = adj_list,
+                                        edge_weights   = edge_weights_list,
+                                        branch_degrees = branch_degrees_list,
+                                        start_node_r   = source_link_index,
+                                        n_nodes        = n_segments)
+      distance_row <- results$distances
+      branch_row   <- results$branches
+    } else {
+      # If not using ESD, use the standard igraph distances function
+      distance_row <- igraph::distances(line_graph, v = source_link_index)[1, ]
+    }
+
+    # Filter for segments within the bandwidth to reduce computation
+    target_links <- which(distance_row <= bandwidth)
+    if (length(target_links) == 0) next
+
+    # Calculate weights
+    weights_i <- kernel(distance_row[target_links] / bandwidth) / bandwidth
+
+    # Apply branch correction if enabled
+    if (use_esd) {
+      weights_i <- weights_i / branch_row[target_links]
+    }
+
+    # Correct for boundary effects for the contribution from this source link
+    if (correct_boundary_effects) {
+      sum_weights_i <- sum(weights_i)
+      if (0 < sum_weights_i) weights_i <- weights_i / sum_weights_i
+    }
+
+    # Weight by the event count and add to the final density vector
+    densities[target_links] <- densities[target_links] +
+                               counts[source_link_index] * weights_i
   }
 
-  # Multiply the weights by the counts
-  weights <- counts[source_links] * weights
+  # Final normalization of the total density
+  sum_densities <- sum(densities)
+  if (0 < sum_densities) densities <- densities / sum_densities
 
-  # Calculate the densities for each link
-  # by summing and normalizing the weights
-  densities <- colSums(weights)
-  densities <- densities / sum(densities)
-
-  # Update the segmented network with the computed densities
+  # Store the result in the segmented network object
   segmented_network$segments$density <- densities
-
   return(segmented_network)
 }

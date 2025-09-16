@@ -3,9 +3,9 @@ test_that("`transform_to_cartesian` works with valid input", {
 
   transformed <- transform_to_cartesian(points)
 
-  expect_equal(st_crs(transformed)[[1]], "EPSG:6675")
+  expect_equal(sf::st_crs(transformed)[[1]], "EPSG:6675")
   expect_equal(
-    unname(round(st_coordinates(transformed), digit = 2))[1,],
+    unname(round(sf::st_coordinates(transformed), digit = 2))[1,],
     c(-24073.54, -92614.18)
   )
 })
@@ -15,9 +15,9 @@ test_that("`transform_to_geographic` works with valid input", {
 
   transformed <- transform_to_geographic(points)
 
-  expect_equal(st_crs(transformed)[[1]], "EPSG:4326")
+  expect_equal(sf::st_crs(transformed)[[1]], "EPSG:4326")
   expect_equal(
-    unname(round(st_coordinates(transformed), digit = 4))[1,],
+    unname(round(sf::st_coordinates(transformed), digit = 4))[1,],
     c(136.9024, 35.1649)
   )
 })

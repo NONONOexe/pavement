@@ -1,6 +1,6 @@
 Package: pavement
 Title: Analyzing Spatial Events on Roadways
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: c( 
     person("Keisuke", "ANDO",
            email   = "ando@maslab.aitech.ac.jp",
@@ -34,6 +34,7 @@ Imports:
     purrr,
     rlang,
     sf,
+    stats,
     stringr,
     tibble,
     utils
@@ -45,3 +46,5 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 BuildManual: TRUE
+LinkingTo: 
+    cpp11

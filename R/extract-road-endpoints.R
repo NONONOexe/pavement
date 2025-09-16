@@ -14,10 +14,10 @@
 #' @export
 extract_road_endpoints <- function(roads) {
   # Extract the endpoints of the roads
-  roads <- st_set_agr(roads, "constant")
-  road_boundaries <- st_boundary(roads)
-  road_boundaries <- road_boundaries[!st_is_empty(road_boundaries), ]
-  road_boundaries <- st_cast(road_boundaries, "POINT")
+  roads <- sf::st_set_agr(roads, "constant")
+  road_boundaries <- sf::st_boundary(roads)
+  road_boundaries <- road_boundaries[!sf::st_is_empty(road_boundaries), ]
+  road_boundaries <- sf::st_cast(road_boundaries, "POINT")
 
   # Identify unique points among road endpoints, removing duplicates
   unique_points <- unique(road_boundaries$geometry)
@@ -27,10 +27,10 @@ extract_road_endpoints <- function(roads) {
   origin_road_ids_list <- split(road_boundaries$id, point_indices)
 
   # Create a simple feature object of road endpoints
-  road_endpoints <- st_sf(
+  road_endpoints <- sf::st_sf(
     parent_road  = I(origin_road_ids_list),
     num_overlaps = sapply(origin_road_ids_list, length),
-    geometry     = st_sfc(unique_points, crs = st_crs(roads))
+    geometry     = sf::st_sfc(unique_points, crs = sf::st_crs(roads))
   )
 
   return(road_endpoints)

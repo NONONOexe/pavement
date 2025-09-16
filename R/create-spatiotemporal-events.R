@@ -44,7 +44,7 @@ create_spatiotemporal_events.sf <- function(x,
 print.spatiotemporal_events <- function(x, ...) {
   cat("Spatiotemporal event collection with",
       nrow(x), "events and", ncol(x) - 2, "fields", fill = TRUE)
-  cat("Geometry type:", as.character(unique(st_geometry_type(x))), fill = TRUE)
+  cat("Geometry type:", as.character(unique(sf::st_geometry_type(x))), fill = TRUE)
   cat("Time column:  ", attr(x, "time_column"), fill = TRUE)
   cat("Time format:  ", attr(x, "time_format"), fill = TRUE)
   cat("Data:", fill = TRUE)

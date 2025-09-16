@@ -52,7 +52,7 @@ set_events.segmented_network <- function(x, events, ...) {
   x <- validate_and_set_events(x, events, "sf")
 
   # Get the indices of the segments with events
-  segment_indices <- st_nearest_feature(events, x$segments)
+  segment_indices <- sf::st_nearest_feature(events, x$segments)
 
   # Assign event counts to corresponding segments based on event indices
   x$segments <- assign_event_counts_to_segments(x$segments, segment_indices)
@@ -65,7 +65,7 @@ set_events.spatiotemporal_network <- function(x, events, ...) {
   x <- validate_and_set_events(x, events, "spatiotemporal_events")
 
   # Get the spatial and temporal indices
-  spatial_indices <- st_nearest_feature(events, x$segment_geometries)
+  spatial_indices <- sf::st_nearest_feature(events, x$segment_geometries)
   temporal_indices <- find_duration(events, x$segment_durations)
   num_geometries <- nrow(x$segment_geometries)
 

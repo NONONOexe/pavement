@@ -18,7 +18,7 @@
 #' plot(segments, col = c("#E69F00", "#56B4E9", "#009E73", "#F0E442"))
 decompose_linestring <- function(linestring) {
   # Extract the coordinates of the linestring
-  coordinates <- st_coordinates(linestring)
+  coordinates <- sf::st_coordinates(linestring)
 
   # Create a matrix of `from` and `to` points
   num_points <- nrow(coordinates)
@@ -28,7 +28,7 @@ decompose_linestring <- function(linestring) {
   # Create a list of line segments
   segments <- do.call(
     c,
-    apply(cbind(from, to), 1, create_linestring, crs = st_crs(linestring))
+    apply(cbind(from, to), 1, create_linestring, crs = sf::st_crs(linestring))
   )
 
   return(segments)

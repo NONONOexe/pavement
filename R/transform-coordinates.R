@@ -42,7 +42,7 @@ transform_coordinates <- function(spatial_object,
   )
 
   # Check for missing CRS
-  crs_info <- st_crs(spatial_object)
+  crs_info <- sf::st_crs(spatial_object)
   if (is.na(crs_info$input)) {
     if (!quiet) {
       cli::cli_warn("CRS is missing. Returning the input object without transformation.")
@@ -51,7 +51,7 @@ transform_coordinates <- function(spatial_object,
   }
 
   # Perform the transformation
-  transformed <- st_transform(spatial_object, epsg_codes[[target]])
+  transformed <- sf::st_transform(spatial_object, epsg_codes[[target]])
 
   return(transformed)
 }

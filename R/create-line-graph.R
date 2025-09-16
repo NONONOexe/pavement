@@ -25,16 +25,36 @@ create_line_graph <- function(network) {
   V(line_graph)$x <- E(network$graph)$x
   V(line_graph)$y <- E(network$graph)$y
 
-  E(line_graph)$name <- apply(as_edgelist(line_graph), 1, function(links) {
-    edge_1_nodes <- ends(network$graph, E(network$graph)[links[1]])
-    edge_2_nodes <- ends(network$graph, E(network$graph)[links[2]])
-    intersect(edge_1_nodes, edge_2_nodes)
-  })
-  E(line_graph)$x <- V(network$graph)[E(line_graph)$name]$x
-  E(line_graph)$y <- V(network$graph)[E(line_graph)$name]$y
-  E(line_graph)$weight <- apply(as_edgelist(line_graph), 1, function(links) {
-    (E(network$graph)[links[1]]$weight + E(network$graph)[links[2]]$weight) / 2
-  })
+  # Get the edge lists for both graphs once to avoid repeated calls
+  line_graph_edges <- as_edgelist(line_graph, names = FALSE)
+  original_edges <- as_edgelist(network$graph, names = FALSE)
+
+  # Get the endpoints of the original edges
+  edges1_nodes <- original_edges[line_graph_edges[, 1], ]
+  edges2_nodes <- original_edges[line_graph_edges[, 2], ]
+
+  # Identify the shared node ID for each edge
+  common_node_ids <- ifelse(
+    edges1_nodes[, 1] == edges2_nodes[, 1] |
+    edges1_nodes[, 1] == edges2_nodes[, 2],
+    edges1_nodes[, 1],
+    edges1_nodes[, 2]
+  )
+
+  # Set the edge attributes based on the shared node's properties
+  E(line_graph)$name <- V(network$graph)$name[common_node_ids]
+  E(line_graph)$x <- V(network$graph)$x[common_node_ids]
+  E(line_graph)$y <- V(network$graph)$y[common_node_ids]
+
+  # Get all weights from the original graph
+  original_weights <- E(network$graph)$weight
+
+  # Create two weight vectors corresponding to the two original edges
+  weights1 <- original_weights[line_graph_edges[, 1]]
+  weights2 <- original_weights[line_graph_edges[, 2]]
+
+  # Calculate the average weight
+  E(line_graph)$weight <- (weights1 + weights2) / 2
 
   return(line_graph)
 }

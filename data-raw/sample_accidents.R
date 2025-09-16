@@ -1,4 +1,4 @@
-sample_accidents <- st_sf(
+sample_accidents <- sf::st_sf(
   id       = sprintf("ac_%04x", 1:10),
   time     = c(18L, 4L, 13L, 23L, 7L, 7L, 19L, 8L, 19L, 20L),
   weather  = factor(

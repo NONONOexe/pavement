@@ -22,21 +22,21 @@
 #' plot(intersections$geometry, pch = 16, col = "#E69F00", add = TRUE)
 extract_road_intersections <- function(roads) {
   # Retrieve the CRS from the input and convert to Cartesian system
-  if (!is.na(st_crs(roads)$input)) {
+  if (!is.na(sf::st_crs(roads)$input)) {
     roads <- transform_to_cartesian(roads)
   }
 
   # Compute the intersection points of the roads
-  intersections <- st_intersection(roads)
-  intersections <- st_set_agr(intersections, "constant")
+  intersections <- sf::st_intersection(roads)
+  intersections <- sf::st_set_agr(intersections, "constant")
 
   # Extract and cast geometries to points
   points <- get_points(intersections)
 
   # Restore original CRS to the points
-  crs_roads <- st_crs(roads)
+  crs_roads <- sf::st_crs(roads)
   if (!is.na(crs_roads$input)) {
-    points <- st_transform(points, crs_roads)
+    points <- sf::st_transform(points, crs_roads)
   }
 
   # Remove duplicates
@@ -62,7 +62,7 @@ extract_road_intersections <- function(roads) {
   origin_road_ids_list <- lapply(points$origins, function(origins) {
     roads[as.integer(origins), ]$id
   })
-  points <- st_sf(
+  points <- sf::st_sf(
     parent_road  = I(origin_road_ids_list),
     num_overlaps = points$n.overlaps,
     geometry     = points$geometry

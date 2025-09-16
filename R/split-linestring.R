@@ -33,11 +33,11 @@ split_linestring <- function(linestring, split_points, tolerance = 0.01) {
 split_linestring.LINESTRING <- function(linestring,
                                         split_points,
                                         tolerance = 0.01) {
-  linestring_sfc <- st_sfc(linestring, crs = st_crs(split_points))
+  linestring_sfc <- sf::st_sfc(linestring, crs = sf::st_crs(split_points))
 
   # Split the linestring into segments
   segments <- split_linestring.sfc_LINESTRING(linestring_sfc, split_points)
-  segments <- st_sfc(segments, crs = st_crs(linestring))
+  segments <- sf::st_sfc(segments, crs = sf::st_crs(linestring))
 
   return(segments)
 }
@@ -67,24 +67,24 @@ split_linestring.sfc_LINESTRING <- function(linestring,
       line_segment,
       tolerance
     )
-    line_segment_sfc <- st_sfc(line_segment, crs = st_crs(split_points))
+    line_segment_sfc <- sf::st_sfc(line_segment, crs = sf::st_crs(split_points))
     distances_to_start_point <- as.vector(
-      st_distance(valid_points, st_startpoint(line_segment_sfc))
+      sf::st_distance(valid_points, st_startpoint(line_segment_sfc))
     )
     valid_points <- valid_points[order(distances_to_start_point)]
     c(st_startpoint(line_segment_sfc), valid_points)
   })
 
   # Combine all split points and add the end point of the linestring
-  all_points <- st_sfc(c(
+  all_points <- sf::st_sfc(c(
     unlist(points_on_lines, recursive = FALSE),
     st_endpoint(linestring)
-  ), crs = st_crs(split_points))
+  ), crs = sf::st_crs(split_points))
 
   # Determine which points belong to each segment by calculating
   # the segment index
   is_split_point <- rep(FALSE, length(all_points))
-  is_split_point[unlist(st_contains(split_points, all_points))] <- TRUE
+  is_split_point[unlist(sf::st_contains(split_points, all_points))] <- TRUE
   is_split_point[c(1, length(all_points))] <- FALSE
   segment_index <- cumsum(is_split_point)
 
@@ -93,14 +93,14 @@ split_linestring.sfc_LINESTRING <- function(linestring,
   segment_points_list[-length(segment_points_list)] <- mapply(
     c,
     segment_points_list[-length(segment_points_list)],
-    lapply(all_points[is_split_point], st_sfc, crs = st_crs(split_points)),
+    lapply(all_points[is_split_point], sf::st_sfc, crs = sf::st_crs(split_points)),
     SIMPLIFY = FALSE
   )
 
   # Create linestring objects for each linestring segment
-  segments <- st_sfc(lapply(segment_points_list, function(segment_points) {
-    st_linestring(st_coordinates(segment_points))
-  }), crs = st_crs(split_points))
+  segments <- sf::st_sfc(lapply(segment_points_list, function(segment_points) {
+    sf::st_linestring(sf::st_coordinates(segment_points))
+  }), crs = sf::st_crs(split_points))
 
   return(segments)
 }

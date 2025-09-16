@@ -55,14 +55,15 @@ filter_and_cast_geometries <- function(geometries,
   multi_geometry_type <- paste0("MULTI", selected_type)
 
   # Filter the geometries based on the selected type and its MULTI version
-  is_selected_geometry <- st_geometry_type(geometries) %in%
+  is_selected_geometry <- sf::st_geometry_type(geometries) %in%
     c(selected_type, multi_geometry_type)
   filtered_geometries <- geometries[is_selected_geometry, ]
 
   # Cast the filtered geometries to the selected type
-  decomposed_geometries <- st_cast(filtered_geometries, multi_geometry_type)
-  casted_geometries <- st_cast(decomposed_geometries, selected_type)
-  casted_geometries_with_crs <- st_set_crs(casted_geometries, st_crs(geometries))
+  decomposed_geometries <- sf::st_cast(filtered_geometries, multi_geometry_type)
+  casted_geometries <- sf::st_cast(decomposed_geometries, selected_type)
+  casted_geometries_with_crs <- sf::st_set_crs(casted_geometries,
+                                               sf::st_crs(geometries))
 
   return(casted_geometries_with_crs)
 }

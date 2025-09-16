@@ -11,7 +11,7 @@
 #' @export
 extract_road_network_links <- function(roads, nodes) {
   # Split the road geometries at the node geometries
-  split_linestrings <- st_collection_extract(
+  split_linestrings <- sf::st_collection_extract(
     suppressMessages(st_split(roads, nodes)), "LINESTRING"
   )
 
@@ -24,7 +24,7 @@ extract_road_network_links <- function(roads, nodes) {
   })
 
   # Create a new sf object representing the road network links
-  network_links <- st_sf(
+  network_links <- sf::st_sf(
     id          = sprintf("lk_%06x", seq_along(split_linestrings$id)),
     from        = from,
     to          = to,
