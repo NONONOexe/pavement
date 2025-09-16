@@ -112,7 +112,7 @@ convolute_segmented_network <- function(segmented_network,
       }
 
       # Get the edge IDs between node u and its neighbors
-      edge_ids <- igraph::get.edge.ids(line_graph, as.vector(rbind(u, neighbors)))
+      edge_ids <- igraph::get_edge_ids(line_graph, as.vector(rbind(u, neighbors)))
 
       # Get edge attributes in batch
       edge_attrs <- igraph::edge_attr(line_graph, index = edge_ids)
