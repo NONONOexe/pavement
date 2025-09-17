@@ -3,6 +3,9 @@
 GEOS_CFLAGS=`geos-config --cflags`
 GEOS_LIBS=`geos-config --clibs`
 
+echo "GEOS_CFLAGS: $GEOS_CFLAGS"
+echo "GEOS_LIBS: $GEOS_LIBS"
+
 sed -e "s|@GEOS_CFLAGS@|$GEOS_CFLAGS|" \
     -e "s|@GEOS_LIBS@|$GEOS_LIBS|" \
     src/Makevars.in > src/Makevars
