@@ -23,9 +23,8 @@ extract_segmented_network_nodes <- function(road_network, segment_length) {
 }
 
 #' @export
-extract_segmented_network_nodes.road_network <- function(
-    road_network,
-    segment_length) {
+extract_segmented_network_nodes.road_network <- function(road_network,
+                                                         segment_length) {
   # Attach parent link IDs to nodes
   nodes <- road_network$nodes
   nodes$parent_link <- I(lapply(road_network$nodes$id, function(id) {

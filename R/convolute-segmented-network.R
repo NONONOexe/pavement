@@ -130,11 +130,11 @@ convolute_segmented_network <- function(segmented_network,
 
     if (use_esd) {
       # Calculate distances and branch factors simultaneously using C++
-      results <- dijkstra_with_branches(adj            = adj_list,
-                                        edge_weights   = edge_weights_list,
-                                        branch_degrees = branch_degrees_list,
-                                        start_node_r   = source_link_index,
-                                        n_nodes        = n_segments)
+      results <- dijkstra_with_branches_cpp(adj            = adj_list,
+                                            edge_weights   = edge_weights_list,
+                                            branch_degrees = branch_degrees_list,
+                                            start_node_r   = source_link_index,
+                                            n_nodes        = n_segments)
       distance_row <- results$distances
       branch_row   <- results$branches
     } else {
