@@ -15,7 +15,7 @@ input road network into segments of a specified length."><meta property="og:imag
 
     <a class="navbar-brand me-2" href="../index.html">pavement</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,18 +99,18 @@ network.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Segment length:  0.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Segments:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            id        from          to parent_link parent_road count density</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 sl_00000001 sn_00000001 sn_00000003   lk_000001     rd_0001     0       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 sl_00000002 sn_00000003 sn_00000004   lk_000001     rd_0001     0       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 sl_00000003 sn_00000004 sn_00000005   lk_000001     rd_0001     0       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 sl_00000004 sn_00000005 sn_00000006   lk_000001     rd_0001     0       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 sl_00000005 sn_00000006 sn_00000007   lk_000001     rd_0001     0       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 sl_00000001 sn_00000007 sn_00000002   lk_000001     rd_0001     0       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 sl_00000002 sn_00000001 sn_00000003   lk_000001     rd_0001     0       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 sl_00000003 sn_00000003 sn_00000004   lk_000001     rd_0001     0       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 sl_00000004 sn_00000004 sn_00000005   lk_000001     rd_0001     0       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 sl_00000005 sn_00000005 sn_00000006   lk_000001     rd_0001     0       0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  LINESTRING (0 0, 0.5135231 0)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 LINESTRING (0.5135231 0, 1....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 LINESTRING (1.027046 0, 1.5...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 LINESTRING (1.540569 0, 2.0...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 LINESTRING (2.054093 0, 2.5...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ... 52 more segments</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 LINESTRING (2.567616 0, 3 0...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  LINESTRING (0 0, 0.5135231 0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 LINESTRING (0.5135231 0, 1....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 LINESTRING (1.027046 0, 1.5...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 LINESTRING (1.540569 0, 2.0...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ... 45 more segments</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Plot the segmented road network</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">segmented_network</span><span class="op">)</span></span></span>
