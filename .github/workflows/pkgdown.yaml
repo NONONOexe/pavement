@@ -32,12 +32,12 @@ jobs:
         with:
           use-public-rspm: true
 
-      - name: Install system dependencies (GEOS)
+      - name: Install system dependencies (GEOS & GDAL)
         if: runner.os == 'Linux'
         run: |
           sudo add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable
           sudo apt-get update
-          sudo apt-get install -y libgeos-dev
+          sudo apt-get install -y libgeos-dev libgdal-dev libproj-dev
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
