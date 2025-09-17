@@ -36,6 +36,11 @@ jobs:
           extra-packages: any::covr, any::xml2
           needs: coverage
 
+      - name: Reinstall sf from source
+        if: runner.os == 'Linux'
+        run: install.packages("sf", type = "source", repos = "https://cloud.r-project.org")
+        shell: Rscript {0}
+
       - name: Test coverage
         run: |
           cov <- covr::package_coverage(
