@@ -19,15 +19,15 @@
 #' # Plot the midpoint graph
 #' plot(graph)
 create_line_graph <- function(network) {
-  line_graph <- make_line_graph(network$graph)
+  line_graph <- igraph::make_line_graph(network$graph)
 
   V(line_graph)$name <- E(network$graph)$name
   V(line_graph)$x <- E(network$graph)$x
   V(line_graph)$y <- E(network$graph)$y
 
   # Get the edge lists for both graphs once to avoid repeated calls
-  line_graph_edges <- as_edgelist(line_graph, names = FALSE)
-  original_edges <- as_edgelist(network$graph, names = FALSE)
+  line_graph_edges <- igraph::as_edgelist(line_graph, names = FALSE)
+  original_edges   <- igraph::as_edgelist(network$graph, names = FALSE)
 
   # Get the endpoints of the original edges
   edges1_nodes <- original_edges[line_graph_edges[, 1], ]

@@ -29,7 +29,7 @@ create_durations.character <- function(duration_length, ...) {
 
   # Create a sequence of times
   time_seq <- seq(start_time, end_time, by = duration_length)
-  time_slices <- interval(head(time_seq, -1), tail(time_seq, -1) - 1)
+  time_slices <- lubridate::interval(head(time_seq, -1), tail(time_seq, -1) - 1)
 
   # Create a `durations` object
   durations <- data.frame(

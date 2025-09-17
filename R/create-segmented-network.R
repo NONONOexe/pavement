@@ -43,7 +43,7 @@ create_segmented_network.road_network <- function(road_network,
   # Create graph from nodes and links
   graph <- create_graph(nodes,
                         links,
-                        directed = is_directed(road_network$graph))
+                        directed = igraph::is_directed(road_network$graph))
 
   # Construct the road network object
   segmented_network <- list(segments       = links,

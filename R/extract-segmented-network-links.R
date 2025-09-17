@@ -70,8 +70,8 @@ extract_segmented_network_links <- function(road_network,
   node_id_lookup <- stats::setNames(nodes$id, sf::st_as_text(nodes$geometry))
 
   # Get the `from` and `to` node IDs for each segment
-  start_points_wkt <- sf::st_as_text(st_startpoint(segments_sfc))
-  end_points_wkt <- sf::st_as_text(st_endpoint(segments_sfc))
+  start_points_wkt <- sf::st_as_text(lwgeom::st_startpoint(segments_sfc))
+  end_points_wkt   <- sf::st_as_text(lwgeom::st_endpoint(segments_sfc))
   from <- unname(node_id_lookup[start_points_wkt])
   to   <- unname(node_id_lookup[end_points_wkt])
 

@@ -12,7 +12,7 @@
 extract_road_network_links <- function(roads, nodes) {
   # Split the road geometries at the node geometries
   split_linestrings <- sf::st_collection_extract(
-    suppressMessages(st_split(roads, nodes)), "LINESTRING"
+    suppressMessages(lwgeom::st_split(roads, nodes)), "LINESTRING"
   )
 
   # Get all start and end points of the split linestrings
