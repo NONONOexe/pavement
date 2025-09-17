@@ -30,7 +30,8 @@ test_that(
 test_that(
   "`fetch_roads()` works with valid bounding box and `crop = FALSE`",
   {
-    local_mocked_bindings(osmdata_sf = function(q) mock_osmdata_sf)
+    local_mocked_bindings(osmdata_sf = function(q) mock_osmdata_sf,
+                          .package = "osmdata")
 
     bbox <- create_bbox(
       north =  35.17377,
