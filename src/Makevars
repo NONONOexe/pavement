@@ -1,1 +1,1 @@
-PKG_LIBS = -lgeos_c
+PKG_LIBS = -lgeos_c -lgeos
