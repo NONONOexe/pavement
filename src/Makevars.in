@@ -1,2 +1,6 @@
 PKG_CPPFLAGS = @GEOS_CFLAGS@
 PKG_LIBS = @GEOS_LIBS@
+
+ifeq ($(shell uname),Darwin)
+  PKG_LIBS += -lgeos
+endif
