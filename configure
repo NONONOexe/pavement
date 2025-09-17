@@ -1,4 +1,4 @@
-#!bin/sh
+#!/bin/sh
 
 # Check the operating system
 OS=`uname -s`
