@@ -1,7 +1,0 @@
-# Default flags for macOS and other Unix-like systems
-PKG_LIBS = -lgeos_c -lgeos
-
-# Check if the OS is Linux and override PKG_LIBS if it is
-ifeq ($(shell uname -s), Linux)
-  PKG_LIBS = -lgeos_c
-endif
