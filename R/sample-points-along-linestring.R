@@ -5,7 +5,8 @@
 #' @param linestrings A `sfc` object containing linestrings.
 #' @param segment_length The desired length of each segment between sampled
 #'   points.
-#' @return A `sfc` object containing the sampled points.
+#' @return A `sfc` object containing the sampled points, grouped as MULTIPOINTs
+#'   for each input linestring.
 #' @export
 #' @examples
 #' library(sf)
@@ -28,22 +29,22 @@ sample_points_along_linestring <- function(linestrings, segment_length) {
     stop("`segment_length` must be greater than 0")
   }
 
-  # Calculate the number of segments to sample along each linestring
-  linestrings_length <- sf::st_length(linestrings)
-  num_segments <- as.integer(round(linestrings_length / segment_length))
+  # Get the list of coordinate matrices from the C++ function
+  coords_list <- sample_points_cpp(linestrings, segment_length)
 
-  # Sample points along each linestring segment
-  sampled_points <- lapply(
-    seq_along(linestrings),
-    function(i) {
-      sampling_positions <- seq(0, 1, length.out = num_segments[i] + 1)
-      sampling_positions <- sampling_positions[-c(1, num_segments[i] + 1)]
-      sf::st_line_sample(linestrings[i], sample = sampling_positions)
+  # Process the list to create a list of MULTIPOINT geometries
+  multipoints_list <- lapply(coords_list, function(coords) {
+    # If the matrix has rows, create a MULTIPOINT
+    if (0 < nrow(coords)) {
+      return(sf::st_multipoint(coords))
+    } else {
+      return(sf::st_multipoint())
     }
-  )
+  })
 
-  # Combine the list of sampled points into a single `sfc` object
-  sampled_points_sfc <- do.call(c, sampled_points)
+  # Combine the list of MULTIPOINT geometries into a single sfc object
+  sampled_points_sfc <- sf::st_sfc(multipoints_list,
+                                   crs = sf::st_crs(linestrings))
 
   return(sampled_points_sfc)
 }

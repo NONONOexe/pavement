@@ -34,8 +34,8 @@ remove_points_near_endpoints <- function(points,
                                          tolerance = 0.01) {
   # Get the start and end points of the linestring
   linestring_sfc <- sf::st_sfc(linestring, crs = sf::st_crs(points))
-  start_point <- st_startpoint(linestring_sfc)
-  end_point <- st_endpoint(linestring_sfc)
+  start_point    <- lwgeom::st_startpoint(linestring_sfc)
+  end_point      <- lwgeom::st_endpoint(linestring_sfc)
 
   # Filter points based on distance from start and end points
   filtered_points <- points[

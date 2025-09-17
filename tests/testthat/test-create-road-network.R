@@ -8,7 +8,7 @@ test_that("`create_road_network.sf` works with valid input", {
   expect_equal(nrow(road_network$links), 10)
 
   # Check the directed property
-  expect_false(is_directed(road_network$graph))
+  expect_false(igraph::is_directed(road_network$graph))
 
   # Check the plot function
   expect_silent(plot(road_network))
@@ -24,7 +24,7 @@ test_that("`create_road_network.sf` works with directed input", {
   expect_equal(nrow(road_network$links), 10)
 
   # Check the directed property
-  expect_true(is_directed(road_network$graph))
+  expect_true(igraph::is_directed(road_network$graph))
 
   # Check the plot function
   expect_silent(plot(road_network, mode = "graph"))

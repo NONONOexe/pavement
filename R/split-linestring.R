@@ -44,63 +44,39 @@ split_linestring.LINESTRING <- function(linestring,
 
 #' @export
 split_linestring.sfc_LINESTRING <- function(linestring,
-                                        split_points,
-                                        tolerance = 0.01) {
+                                            split_points,
+                                            tolerance = 0.01) {
   # Check if `linestring` is a single linestring
   if (length(linestring) != 1) {
     stop("`linestring` must be a single linestring")
   }
 
-  # Decompose the linestring into a list of line segments
-  line_segments <- decompose_linestring(linestring)
+  # Calculate distances from all points to the entire linestring at once
+  distances <- sf::st_distance(split_points, linestring)
 
-  # Identify split points on the line segments, remove those
-  # near the endpoints, and add the start point of each line
-  points_on_lines <- lapply(line_segments, function(line_segment) {
-    valid_points <- filter_points_within_tolerance(
-      split_points,
-      line_segment,
-      tolerance
-    )
-    valid_points <- remove_points_near_endpoints(
-      valid_points,
-      line_segment,
-      tolerance
-    )
-    line_segment_sfc <- sf::st_sfc(line_segment, crs = sf::st_crs(split_points))
-    distances_to_start_point <- as.vector(
-      sf::st_distance(valid_points, st_startpoint(line_segment_sfc))
-    )
-    valid_points <- valid_points[order(distances_to_start_point)]
-    c(st_startpoint(line_segment_sfc), valid_points)
-  })
+  # Filter points that are within the specified tolerance
+  valid_points <- split_points[as.numeric(distances) <= tolerance, ]
 
-  # Combine all split points and add the end point of the linestring
-  all_points <- sf::st_sfc(c(
-    unlist(points_on_lines, recursive = FALSE),
-    st_endpoint(linestring)
-  ), crs = sf::st_crs(split_points))
+  # If no valid points remain, return the original linestring
+  if (length(valid_points) == 0) {
+    return(linestring)
+  }
 
-  # Determine which points belong to each segment by calculating
-  # the segment index
-  is_split_point <- rep(FALSE, length(all_points))
-  is_split_point[unlist(sf::st_contains(split_points, all_points))] <- TRUE
-  is_split_point[c(1, length(all_points))] <- FALSE
-  segment_index <- cumsum(is_split_point)
-
-  # Split the list of points into sub-lists based on the segment index
-  segment_points_list <- split(all_points, segment_index)
-  segment_points_list[-length(segment_points_list)] <- mapply(
-    c,
-    segment_points_list[-length(segment_points_list)],
-    lapply(all_points[is_split_point], sf::st_sfc, crs = sf::st_crs(split_points)),
-    SIMPLIFY = FALSE
+  # For each valid point, find the nearest point on the linestring (snap)
+  nearest_points_on_line <- sf::st_cast(
+    sf::st_nearest_points(valid_points, linestring), "POINT"
   )
+  snapped_points <- nearest_points_on_line[seq(2, length(nearest_points_on_line), by = 2)]
 
-  # Create linestring objects for each linestring segment
-  segments <- sf::st_sfc(lapply(segment_points_list, function(segment_points) {
-    sf::st_linestring(sf::st_coordinates(segment_points))
-  }), crs = sf::st_crs(split_points))
+  # Combine the snapped points into a single MULTIPOINT to use as a splitting blade
+  split_blade <- sf::st_union(snapped_points)
+
+  # Split the linestring with the blade of points
+  split_result <- lwgeom::st_split(linestring, split_blade)
+
+  # Extract the resulting LINESTRINGs, from the GEOMETRYCOLLECTION
+  segments <- sf::st_collection_extract(split_result, "LINESTRING")
+  segments <- sf::st_sfc(segments, crs = sf::st_crs(linestring))
 
   return(segments)
 }

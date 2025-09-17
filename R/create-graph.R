@@ -38,7 +38,7 @@ create_graph <- function(nodes, links, directed = FALSE) {
     weight = sf::st_length(links$geometry)
   )
 
-  graph <- graph_from_data_frame(
+  graph <- igraph::graph_from_data_frame(
     graph_links,
     directed = directed,
     vertices = graph_nodes

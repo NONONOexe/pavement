@@ -43,7 +43,7 @@ create_spatiotemporal_network.road_network <- function(road_network,
   network_nodes <- extract_segmented_network_nodes(road_network, spatial_length)
   network_links <- extract_segmented_network_links(road_network, network_nodes)
   spatial_graph <- create_graph(network_nodes, network_links,
-                                directed = is_directed(road_network$graph))
+                                directed = igraph::is_directed(road_network$graph))
 
   # Create time intervals
   network_durations <- create_durations(temporal_length)

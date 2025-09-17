@@ -13,7 +13,8 @@ sample_points_along_linestring(linestrings, segment_length)
 points.}
 }
 \value{
-A \code{sfc} object containing the sampled points.
+A \code{sfc} object containing the sampled points, grouped as MULTIPOINTs
+for each input linestring.
 }
 \description{
 This function samples points at regular intervals along a linestring object.

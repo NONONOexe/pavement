@@ -7,11 +7,11 @@ using namespace cpp11;
 using state = std::pair<double, int>;
 
 [[cpp11::register]]
-cpp11::writable::list dijkstra_with_branches(const cpp11::list& adj,
-                                             const cpp11::list& edge_weights,
-                                             const cpp11::list& branch_degrees,
-                                             int start_node_r,
-                                             int n_nodes) {
+cpp11::writable::list dijkstra_with_branches_cpp(const cpp11::list& adj,
+                                                 const cpp11::list& edge_weights,
+                                                 const cpp11::list& branch_degrees,
+                                                 int start_node_r,
+                                                 int n_nodes) {
   // Convert to 0-based index
   int start_node = start_node_r - 1;
 

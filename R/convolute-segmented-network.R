@@ -112,7 +112,7 @@ convolute_segmented_network <- function(segmented_network,
       }
 
       # Get the edge IDs between node u and its neighbors
-      edge_ids <- igraph::get.edge.ids(line_graph, as.vector(rbind(u, neighbors)))
+      edge_ids <- igraph::get_edge_ids(line_graph, as.vector(rbind(u, neighbors)))
 
       # Get edge attributes in batch
       edge_attrs <- igraph::edge_attr(line_graph, index = edge_ids)
@@ -130,11 +130,11 @@ convolute_segmented_network <- function(segmented_network,
 
     if (use_esd) {
       # Calculate distances and branch factors simultaneously using C++
-      results <- dijkstra_with_branches(adj            = adj_list,
-                                        edge_weights   = edge_weights_list,
-                                        branch_degrees = branch_degrees_list,
-                                        start_node_r   = source_link_index,
-                                        n_nodes        = n_segments)
+      results <- dijkstra_with_branches_cpp(adj            = adj_list,
+                                            edge_weights   = edge_weights_list,
+                                            branch_degrees = branch_degrees_list,
+                                            start_node_r   = source_link_index,
+                                            n_nodes        = n_segments)
       distance_row <- results$distances
       branch_row   <- results$branches
     } else {

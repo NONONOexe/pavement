@@ -6,16 +6,24 @@
 #include <R_ext/Visibility.h>
 
 // dijkstra_with_branches.cpp
-cpp11::writable::list dijkstra_with_branches(const cpp11::list& adj, const cpp11::list& edge_weights, const cpp11::list& branch_degrees, int start_node_r, int n_nodes);
-extern "C" SEXP _pavement_dijkstra_with_branches(SEXP adj, SEXP edge_weights, SEXP branch_degrees, SEXP start_node_r, SEXP n_nodes) {
+cpp11::writable::list dijkstra_with_branches_cpp(const cpp11::list& adj, const cpp11::list& edge_weights, const cpp11::list& branch_degrees, int start_node_r, int n_nodes);
+extern "C" SEXP _pavement_dijkstra_with_branches_cpp(SEXP adj, SEXP edge_weights, SEXP branch_degrees, SEXP start_node_r, SEXP n_nodes) {
   BEGIN_CPP11
-    return cpp11::as_sexp(dijkstra_with_branches(cpp11::as_cpp<cpp11::decay_t<const cpp11::list&>>(adj), cpp11::as_cpp<cpp11::decay_t<const cpp11::list&>>(edge_weights), cpp11::as_cpp<cpp11::decay_t<const cpp11::list&>>(branch_degrees), cpp11::as_cpp<cpp11::decay_t<int>>(start_node_r), cpp11::as_cpp<cpp11::decay_t<int>>(n_nodes)));
+    return cpp11::as_sexp(dijkstra_with_branches_cpp(cpp11::as_cpp<cpp11::decay_t<const cpp11::list&>>(adj), cpp11::as_cpp<cpp11::decay_t<const cpp11::list&>>(edge_weights), cpp11::as_cpp<cpp11::decay_t<const cpp11::list&>>(branch_degrees), cpp11::as_cpp<cpp11::decay_t<int>>(start_node_r), cpp11::as_cpp<cpp11::decay_t<int>>(n_nodes)));
+  END_CPP11
+}
+// sample_points.cpp
+cpp11::writable::list sample_points_cpp(cpp11::list sfc_linestrings, double segment_length);
+extern "C" SEXP _pavement_sample_points_cpp(SEXP sfc_linestrings, SEXP segment_length) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(sample_points_cpp(cpp11::as_cpp<cpp11::decay_t<cpp11::list>>(sfc_linestrings), cpp11::as_cpp<cpp11::decay_t<double>>(segment_length)));
   END_CPP11
 }
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_pavement_dijkstra_with_branches", (DL_FUNC) &_pavement_dijkstra_with_branches, 5},
+    {"_pavement_dijkstra_with_branches_cpp", (DL_FUNC) &_pavement_dijkstra_with_branches_cpp, 5},
+    {"_pavement_sample_points_cpp",          (DL_FUNC) &_pavement_sample_points_cpp,          2},
     {NULL, NULL, 0}
 };
 }
