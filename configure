@@ -1,18 +1,8 @@
 #!/bin/sh
 
-# Check the operating system
-OS=`uname -s`
+GEOS_CFLAGS=`geos-config --cflags`
+GEOS_LIBS=`geos-config --clibs`
 
-# Set linker flags based on the OS
-if [ "$OS" = "Linux" ]; then
-  # On Linux, linking only to libgeos_c is sufficient and safer for some environments
-  GEOS_LIBS="-lgeos_c"
-else
-  # On macOS and other Unix-like systems, explicitly link both libraries
-  GEOS_LIBS="-lgeos_c -lgeos"
-fi
-
-# Create the Makevars file with the determined flags
-echo "PKG_LIBS = ${GEO_LIBS}" > src/Makevars
-
-exit 0
+sed -e "s|@GEOS_CFLAGS@|$GEOS_CFLAGS|" \
+    -e "s|@GEOS_LIBS@|$GEOS_LIBS|" \
+    src/Makevars.in > src/Makevars

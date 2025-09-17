@@ -9,4 +9,3 @@
 ^\.github$
 ^codecov\.yml$
 ^internal$
-^src/Makevars
