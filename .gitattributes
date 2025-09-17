@@ -1,2 +1,3 @@
 R/cpp11.R       text eol=lf
 src/cpp11.cpp   text eol=lf
+configure       text eol=lf

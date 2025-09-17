@@ -1,0 +1,8 @@
+#!/bin/sh
+
+GEOS_CFLAGS=`geos-config --cflags`
+GEOS_LIBS=`geos-config --clibs`
+
+sed -e "s|@GEOS_CFLAGS@|$GEOS_CFLAGS|" \
+    -e "s|@GEOS_LIBS@|$GEOS_LIBS|" \
+    src/Makevars.in > src/Makevars
