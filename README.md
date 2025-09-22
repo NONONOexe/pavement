@@ -58,8 +58,6 @@ segmented_network <- sample_roads |>
   set_events(sample_accidents) |>
   create_segmented_network(segment_length = 0.5) |>
   convolute_segmented_network()
-#> Warning in transform_coordinates(spatial_object, target = "cartesian", quiet =
-#> quiet): CRS is missing. Returning the input object without transformation.
 plot(segmented_network, mode = "event")
 ```
 
