@@ -1,12 +1,20 @@
 #pragma once
 #include <vector>
+#include <cmath>
+#include <limits>
 #include <cpp11.hpp>
 
+/*
+ * 2D point representation with double precision.
+ */
 struct Point {
     double x;
     double y;
 };
 
+/*
+ * Compute Euclidean distance between two points.
+ */
 inline double dist(const Point& a, const Point& b) {
   double dx = b.x - a.x;
   double dy = b.y - a.y;
@@ -27,6 +35,35 @@ inline void compute_cumulative_lengths(const std::vector<Point>& pts,
   }
 }
 
+/*
+ * Remove consecutive duplicate points (within tolerance `eps`).
+ */
+inline std::vector<Point> remove_consecutive_duplicates(
+    const std::vector<Point>& pts,
+    double eps = 1e-12) {
+
+  std::vector<Point> result;
+  result.reserve(pts.size());
+
+  for (const auto& pt : pts) {
+    if (result.empty() ||
+        eps < std::abs(result.back().x - pt.x) ||
+        eps < std::abs(result.back().y - pt.y)) {
+      result.push_back(pt);
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Project a point `p` onto a line segment defined by `a` and `b`
+ *
+ * Outputs:
+ *   - out_t    : relative position along the segment [0,1]
+ *   - out_proj : projected point on the segment
+ *   - out_dist : Euclidean distance from `p` to projection
+ */
 inline void project_point_to_segment(const Point& a,
                                      const Point& b,
                                      const Point& p,
@@ -54,6 +91,32 @@ inline void project_point_to_segment(const Point& a,
 }
 
 /*
+ * Interpolate a coordinate along the linestring at a given distance from start.
+ *
+ * If `target <= 0` returns first vertex, if `total <= target` returns last
+ * vertex.
+ */
+inline Point interpolate_point_along(const std::vector<Point>& pts,
+                                     const std::vector<double>& cum,
+                                     double target) {
+  if (pts.empty()) return Point{ 0.0, 0.0 };
+
+  double total = cum.back();
+  if (target <= 0.0)    return pts.front();
+  if (total  <= target) return pts.back();
+
+  size_t i = 0;
+  while (i + 1 < cum.size() && cum[i + 1] < target) ++i;
+  double seg_len = cum[i + 1] - cum[i];
+  if (seg_len <= 0.0) return pts[i];
+
+  double t = (target - cum[i]) / seg_len;
+  const Point& a = pts[i];
+  const Point& b = pts[i + 1];
+  return Point{ a.x + t * (b.x - a.x), a.y + t * (b.y - a.y) };
+}
+
+/*
  * Project a single point `p` onto the polyline `pts` (piecewise linear).
  *
  * Returns:
@@ -61,8 +124,7 @@ inline void project_point_to_segment(const Point& a,
  *   - out_closest  : coordinates of the closest point on the polyline
  *   - out_min_dist : Euclidean distance between `p` and the closest point
  *
- * The function always returns values (for degenerate cases we fallback to
- * endpoints).
+ * For degenerate cases (empty or 1-point input), fallback to endpoints.
  */
 inline void project_point_onto_linestring(const std::vector<Point>& pts,
                                           const Point& p,
@@ -100,50 +162,60 @@ inline void project_point_onto_linestring(const std::vector<Point>& pts,
 }
 
 /*
- * Interpolate a coordinate along the linestring at a given distance from
- * start.
- *
- * If `target <= 0` returns first vertex, if `total <= target` returns last
- * vertex.
+ * Extract sorted unique cut positions (0 and `total_len` are always included).
+ * - `split_mat` : R matrix of split points
+ * - `pts`       : polyline vertices
+ * - `cum`       : cumulative lengths
+ * - `tolerance` : maximum allowed projection distance
  */
-inline Point interpolate_point_along(const std::vector<Point>& pts,
-                                     const std::vector<double>& cum,
-                                     double target) {
-  if (pts.empty()) return Point{ 0.0, 0.0 };
+inline std::vector<double> compute_cut_positions(
+  const cpp11::doubles_matrix<>& splits_mat,
+  const std::vector<Point>& pts,
+  const std::vector<double>& cum,
+  double tolerance) {
 
-  double total = cum.back();
-  if (target <= 0.0)    return pts.front();
-  if (total  <= target) return pts.back();
+  double total_len = cum.back();
+  std::vector<double> proj_distances;
 
-  size_t i = 0;
-  while (i + 1 < cum.size() && cum[i + 1] < target) ++i;
-  double seg_len = cum[i + 1] - cum[i];
-  if (seg_len <= 0.0) return pts[i];
-
-  double t = (target - cum[i]) / seg_len;
-  const Point& a = pts[i];
-  const Point& b = pts[i + 1];
-  return Point{ a.x + t * (b.x - a.x), a.y + t * (b.y - a.y) };
-}
-
-inline std::vector<Point> remove_consecutive_duplicates(
-    const std::vector<Point>& pts,
-    double eps = 1e-12) {
-
-  std::vector<Point> result;
-  result.reserve(pts.size());
-
-  for (const auto& pt : pts) {
-    if (result.empty() ||
-        eps < std::abs(result.back().x - pt.x) ||
-        eps < std::abs(result.back().y - pt.y)) {
-      result.push_back(pt);
+  // Project each split point
+  R_xlen_t n_splits = splits_mat.nrow();
+  for (R_xlen_t r = 0; r < n_splits; ++r) {
+    Point p{ splits_mat(r, 0), splits_mat(r, 1) };
+    double proj_d = 0.0;
+    Point closest;
+    double min_dist = 0.0;
+    project_point_onto_linestring(pts, p, proj_d, closest, min_dist);
+    if (min_dist <= tolerance) {
+      proj_d = std::clamp(proj_d, 0.0, total_len);
+      proj_distances.push_back(proj_d);
     }
   }
 
-  return result;
+  // Unique & sorted
+  std::sort(proj_distances.begin(), proj_distances.end());
+  const double EPS_UNIQUE = 1e-9;
+  std::vector<double> unique_proj;
+  for (double v : proj_distances) {
+    if (unique_proj.empty() || EPS_UNIQUE < std::abs(unique_proj.back() - v)) {
+      unique_proj.push_back(v);
+    }
+  }
+
+  // Assemble final cuts
+  std::vector<double> cuts;
+  cuts.push_back(0.0);
+  for (double v : unique_proj) {
+    if (1e-12 < v && v < total_len - 1e-12) cuts.push_back(v);
+  }
+  cuts.push_back(total_len);
+
+  return cuts;
 }
 
+/*
+ * Convert an R matrix (`doubles_matrix<>`) to a vector of `Point`.
+ * Removes consecutive duplicates in the process.
+ */
 inline std::vector<Point> matrix_to_points(const cpp11::doubles_matrix<>& mat) {
   std::vector<Point> pts;
   R_xlen_t n_points = mat.nrow();
@@ -157,6 +229,24 @@ inline std::vector<Point> matrix_to_points(const cpp11::doubles_matrix<>& mat) {
   return remove_consecutive_duplicates(pts);
 }
 
+/*
+ * Convert `vector<Point>` into R `double_matrix`.
+ */
+inline cpp11::writable::doubles_matrix<> points_to_matrix(
+  const std::vector<Point>& pts) {
+  cpp11::writable::doubles_matrix<> m(pts.size(), 2);
+  for (R_xlen_t r = 0; r < static_cast<R_len_t>(pts.size()); ++r) {
+    m(r, 0) = pts[r].x;
+    m(r, 1) = pts[r].y;
+  }
+  return m;
+}
+
+/*
+ * Sample evenly spaced points along a linestring.
+ *
+ * Returns a flat vector [x0, y0, x1, y1, ...].
+ */
 inline std::vector<double> sample_points_along_linestring(
   const std::vector<Point>& pts,
   double segment_length) {
@@ -200,19 +290,19 @@ inline std::vector<std::vector<Point>> build_segments_from_cuts(
     double d1 = cuts[k + 1];
     if (d1 - d0 <= EPS) continue;
 
-    // start point
+    // Start point
     std::vector<Point> seg;
     Point p0 = interpolate_point_along(pts, cum, d0);
     seg.push_back(p0);
 
-    // include original vertices strictly between d0 and d1
+    // Include original vertices strictly between d0 and d1
     for (size_t vi = 1; vi + 1 < cum.size(); ++vi) {
       if (d0 + EPS < cum[vi] && cum[vi] < d1 + EPS) {
         seg.push_back(pts[vi]);
       }
     }
 
-    // end point
+    // End point
     Point p1 = interpolate_point_along(pts, cum, d1);
     seg.push_back(p1);
 
