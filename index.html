@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="index.html">pavement</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,7 +99,7 @@
 <a class="anchor" aria-label="anchor" href="#using-pak"></a>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("pak)</span></span>
+<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"nononoexe/pavement"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
@@ -115,8 +115,6 @@
 <span>  <span class="fu"><a href="reference/set_events.html">set_events</a></span><span class="op">(</span><span class="va">sample_accidents</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/segmented_network.html">create_segmented_network</a></span><span class="op">(</span>segment_length <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/convolute_segmented_network.html">convolute_segmented_network</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in transform_coordinates(spatial_object, target = "cartesian", quiet =</span></span>
-<span><span class="co">#&gt; quiet): CRS is missing. Returning the input object without transformation.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">segmented_network</span>, mode <span class="op">=</span> <span class="st">"event"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-example-1.png" width="100%"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">

@@ -19,7 +19,7 @@ network nodes to create the segmented network links."><meta property="og:image" 
 
     <a class="navbar-brand me-2" href="../index.html">pavement</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,7 @@ network nodes to create the segmented network links."><meta property="og:image" 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Extract segmented network links from a road network</h1>
-      <small class="dont-index">Source: <a href="https://github.com/NONONOexe/pavement/blob/v0.1.1/R/extract-segmented-network-links.R" class="external-link"><code>R/extract-segmented-network-links.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/NONONOexe/pavement/blob/main/R/extract-segmented-network-links.R" class="external-link"><code>R/extract-segmented-network-links.R</code></a></small>
       <div class="d-none name"><code>extract_segmented_network_links.Rd</code></div>
     </div>
 
@@ -105,34 +105,34 @@ split the linestring.</p></dd>
 <span class="r-in"><span>  <span class="va">segmented_network_nodes</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">segmented_network_links</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 25 features and 7 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 29 features and 7 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 0 ymin: 0 xmax: 7 ymax: 5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             id        from          to parent_link parent_road count density</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  sl_00000001 sn_00000004 sn_00000002   lk_000001     rd_0001     0       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  sl_00000002 sn_00000001 sn_00000003   lk_000001     rd_0001     0       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  sl_00000003 sn_00000003 sn_00000004   lk_000001     rd_0001     0       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  sl_00000004 sn_00000008 sn_00000009   lk_000002     rd_0002     0       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  sl_00000005 sn_0000000f sn_00000008   lk_000003     rd_0002     0       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  sl_00000006 sn_0000000a sn_0000000b   lk_000003     rd_0002     0       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  sl_00000007 sn_0000000b sn_0000000c   lk_000003     rd_0002     0       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  sl_00000008 sn_0000000c sn_0000000d   lk_000003     rd_0002     0       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  sl_00000001 sn_00000001 sn_00000004   lk_000001     rd_0001     0       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  sl_00000002 sn_00000004 sn_00000005   lk_000001     rd_0001     0       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  sl_00000003 sn_00000005 sn_00000006   lk_000001     rd_0001     0       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  sl_00000004 sn_00000006 sn_00000007   lk_000001     rd_0001     0       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  sl_00000005 sn_00000007 sn_00000008   lk_000001     rd_0001     0       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  sl_00000006 sn_00000008 sn_00000002   lk_000001     rd_0001     0       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  sl_00000007 sn_00000009 sn_0000000a   lk_000002     rd_0002     0       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  sl_00000008 sn_0000000b sn_0000000d   lk_000003     rd_0002     0       0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9  sl_00000009 sn_0000000d sn_0000000e   lk_000003     rd_0002     0       0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10 sl_0000000a sn_0000000e sn_0000000f   lk_000003     rd_0002     0       0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                          geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  LINESTRING (2.054093 0, 3 0...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    LINESTRING (0 0, 1.027046 0)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  LINESTRING (1.027046 0, 2.0...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4           LINESTRING (6 1, 7 1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5           LINESTRING (5 1, 6 1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6           LINESTRING (0 1, 1 1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7           LINESTRING (1 1, 2 1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8           LINESTRING (2 1, 3 1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9           LINESTRING (3 1, 4 1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10          LINESTRING (4 1, 5 1)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    LINESTRING (0 0, 1.027046 0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  LINESTRING (1.027046 0, 2.0...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  LINESTRING (2.054093 0, 3 0...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  LINESTRING (3.025658 0.0769...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  LINESTRING (3.350439 1.0513...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  LINESTRING (3.675219 2.0256...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7           LINESTRING (6 1, 7 1)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8           LINESTRING (0 1, 1 1)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9           LINESTRING (1 1, 2 1)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10          LINESTRING (2 1, 3 1)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Plot the segmented network nodes and links</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">segmented_network_links</span><span class="op">$</span><span class="va">geometry</span>, col <span class="op">=</span> <span class="st">"#E69F00"</span><span class="op">)</span></span></span>

@@ -15,7 +15,7 @@ from a series of x, y coordinates."><meta property="og:image" content="https://n
 
     <a class="navbar-brand me-2" href="../index.html">pavement</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@ from a series of x, y coordinates."><meta property="og:image" content="https://n
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Create points geometry</h1>
-      <small class="dont-index">Source: <a href="https://github.com/NONONOexe/pavement/blob/v0.1.1/R/create-points.R" class="external-link"><code>R/create-points.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/NONONOexe/pavement/blob/main/R/create-points.R" class="external-link"><code>R/create-points.R</code></a></small>
       <div class="d-none name"><code>create_points.Rd</code></div>
     </div>
 
@@ -55,10 +55,10 @@ from a series of x, y coordinates.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_points</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'numeric'</span></span>
-<span><span class="fu">create_points</span><span class="op">(</span><span class="va">...</span>, crs <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="fu">create_points</span><span class="op">(</span><span class="va">...</span>, crs <span class="op">=</span> <span class="cn">NULL</span>, as_multipoint <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'coordinates'</span></span>
-<span><span class="fu">create_points</span><span class="op">(</span><span class="va">coordinates</span>, crs <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">create_points</span><span class="op">(</span><span class="va">coordinates</span>, crs <span class="op">=</span> <span class="cn">NULL</span>, as_multipoint <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -73,49 +73,59 @@ from a series of x, y coordinates.</p>
 <dd><p>The coordinate reference system.</p></dd>
 
 
+<dt id="arg-as-multipoint">as_multipoint<a class="anchor" aria-label="anchor" href="#arg-as-multipoint"></a></dt>
+<dd><p>Logical; if <code>TRUE</code>, create a single <code>MULTIPOINT</code>
+geometry instead of multiple <code>POINT</code> geometries.</p></dd>
+
+
 <dt id="arg-coordinates">coordinates<a class="anchor" aria-label="anchor" href="#arg-coordinates"></a></dt>
 <dd><p>A <code>coordinates</code> object.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A simple feature points object.</p>
+    <p>A simple feature geometry list column (<code>sfc</code>).</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create a points from individual coordinates</span></span></span>
-<span class="r-in"><span><span class="va">points_1</span> <span class="op">&lt;-</span> <span class="fu">create_points</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">points_1</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry set for 3 features </span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create multiple points from individual coordinates</span></span></span>
+<span class="r-in"><span><span class="va">points</span> <span class="op">&lt;-</span> <span class="fu">create_points</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">points</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry set for 5 features </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 0 ymin: 0 xmax: 2 ymax: 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 0 ymin: 0 xmax: 2 ymax: 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           NA</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (0 1)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (1 0)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (0 0)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (0 2)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (2 2)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (2 1)</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">points_1</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (0 1)</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">points</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="create_points-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Create a linestring from a numeric vector</span></span></span>
-<span class="r-in"><span><span class="va">points_2</span> <span class="op">&lt;-</span> <span class="fu">create_points</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">0.5</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">points_2</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry set for 6 features </span>
+<span class="r-in"><span><span class="co"># Create points from a numeric vector</span></span></span>
+<span class="r-in"><span><span class="fu">create_points</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry set for 5 features </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 0 ymin: 0 xmax: 1 ymax: 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 0 ymin: 0 xmax: 2 ymax: 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> First 5 geometries:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (0 1)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (1 1)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (1 0)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (0 0)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (0 0.5)</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">points_2</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="create_points-2.png" alt="" width="700" height="433"></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (0 2)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (2 2)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (2 1)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> POINT (0 1)</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create a `MULTIPOINT` instead of separate `POINT`s</span></span></span>
+<span class="r-in"><span><span class="fu">create_points</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, as_multipoint <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry set for 1 feature </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: MULTIPOINT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 0 ymin: 0 xmax: 2 ymax: 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           NA</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> MULTIPOINT ((0 0), (0 1), (0 2), (2 1), (2 2))</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
