@@ -41,7 +41,7 @@ install.packages("pavement")
 ### Using `pak`
 
 ``` r
-# install.packages("pak)
+# install.packages("pak")
 pak::pak("nononoexe/pavement")
 ```
 
