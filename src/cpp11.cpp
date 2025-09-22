@@ -19,11 +19,19 @@ extern "C" SEXP _pavement_sample_points_cpp(SEXP sfc_linestrings, SEXP segment_l
     return cpp11::as_sexp(sample_points_cpp(cpp11::as_cpp<cpp11::decay_t<cpp11::list>>(sfc_linestrings), cpp11::as_cpp<cpp11::decay_t<double>>(segment_length)));
   END_CPP11
 }
+// split_linestrings.cpp
+cpp11::writable::list split_linestrings_cpp(cpp11::list sfc_linestrings, cpp11::list sfc_split_points, double tolerance);
+extern "C" SEXP _pavement_split_linestrings_cpp(SEXP sfc_linestrings, SEXP sfc_split_points, SEXP tolerance) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(split_linestrings_cpp(cpp11::as_cpp<cpp11::decay_t<cpp11::list>>(sfc_linestrings), cpp11::as_cpp<cpp11::decay_t<cpp11::list>>(sfc_split_points), cpp11::as_cpp<cpp11::decay_t<double>>(tolerance)));
+  END_CPP11
+}
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
     {"_pavement_dijkstra_with_branches_cpp", (DL_FUNC) &_pavement_dijkstra_with_branches_cpp, 5},
     {"_pavement_sample_points_cpp",          (DL_FUNC) &_pavement_sample_points_cpp,          2},
+    {"_pavement_split_linestrings_cpp",      (DL_FUNC) &_pavement_split_linestrings_cpp,      3},
     {NULL, NULL, 0}
 };
 }

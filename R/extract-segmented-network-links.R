@@ -46,21 +46,13 @@ extract_segmented_network_links <- function(road_network,
   nodes_indices_by_link <- split(link_node_map$node_index,
                                  link_node_map$link_id)
 
-  # Split the linestring of each road link at the points of the segmented nodes
-  segments_list <- lapply(seq_len(nrow(links)), function(i) {
-    link_id <- links$id[i]
-    link_geometry <- links$geometry[i]
+  # Convert the segmented nodes into multipoints grouped by parent link
+  multipoints <- lapply(nodes_indices_by_link,
+                        function(idx) sf::st_combine(nodes$geometry[idx]))
+  multipoints_sfc <- do.call(c, multipoints)
 
-    split_node_indices <- nodes_indices_by_link[[link_id]]
-
-    if (is.null(split_node_indices)) {
-      return(link_geometry)
-    }
-
-    split_points <- nodes$geometry[split_node_indices]
-
-    split_linestring(link_geometry, split_points, tolerance)
-  })
+  # Split all linestrings by their corresponding multipoints
+  segments_list <- split_linestrings(links$geometry, multipoints_sfc, tolerance)
 
   # Combine the split linestrings into a single `sfc` object
   segments_sfc <- do.call(c, segments_list)

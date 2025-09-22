@@ -7,3 +7,7 @@ dijkstra_with_branches_cpp <- function(adj, edge_weights, branch_degrees, start_
 sample_points_cpp <- function(sfc_linestrings, segment_length) {
   .Call(`_pavement_sample_points_cpp`, sfc_linestrings, segment_length)
 }
+
+split_linestrings_cpp <- function(sfc_linestrings, sfc_split_points, tolerance) {
+  .Call(`_pavement_split_linestrings_cpp`, sfc_linestrings, sfc_split_points, tolerance)
+}

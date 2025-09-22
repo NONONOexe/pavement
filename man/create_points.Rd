@@ -8,34 +8,36 @@
 \usage{
 create_points(...)
 
-\method{create_points}{numeric}(..., crs = NULL)
+\method{create_points}{numeric}(..., crs = NULL, as_multipoint = FALSE)
 
-\method{create_points}{coordinates}(coordinates, crs = NULL, ...)
+\method{create_points}{coordinates}(coordinates, crs = NULL, as_multipoint = FALSE, ...)
 }
 \arguments{
 \item{...}{A series of x, y coordinates.}
 
 \item{crs}{The coordinate reference system.}
 
+\item{as_multipoint}{Logical; if \code{TRUE}, create a single \code{MULTIPOINT}
+geometry instead of multiple \code{POINT} geometries.}
+
 \item{coordinates}{A \code{coordinates} object.}
 }
 \value{
-A simple feature points object.
+A simple feature geometry list column (\code{sfc}).
 }
 \description{
 This function creates a simple feature collection of points
 from a series of x, y coordinates.
 }
 \examples{
-# Create a points from individual coordinates
-points_1 <- create_points(0, 1, 1, 0, 2, 1)
-points_1
-plot(points_1)
+# Create multiple points from individual coordinates
+points <- create_points(0, 0, 0, 2, 2, 2, 2, 1, 0, 1)
+points
+plot(points)
 
-# Create a linestring from a numeric vector
-points_2 <- create_points(
-  c(0, 1, 1, 1, 1, 0, 0, 0, 0, 0.5, 1, 0.5)
-)
-points_2
-plot(points_2)
+# Create points from a numeric vector
+create_points(c(0, 0, 0, 2, 2, 2, 2, 1, 0, 1))
+
+# Create a `MULTIPOINT` instead of separate `POINT`s
+create_points(0, 0, 0, 2, 2, 2, 2, 1, 0, 1, as_multipoint = TRUE)
 }

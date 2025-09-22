@@ -1,6 +1,6 @@
 Package: pavement
 Title: Analyzing Spatial Events on Roadways
-Version: 0.1.1
+Version: 0.2.0
 Authors@R: c( 
     person("Keisuke", "ANDO",
            email   = "ando@maslab.aitech.ac.jp",
@@ -48,4 +48,3 @@ RoxygenNote: 7.3.2
 BuildManual: TRUE
 LinkingTo: 
     cpp11
-SystemRequirements: GEOS (>= 3.5.0)

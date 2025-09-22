@@ -97,7 +97,7 @@ reference:
   - filter_points_within_tolerance
   - remove_points_near_endpoints
   - decompose_linestring
-  - split_linestring
+  - split_linestrings
 
 - title: Sample data
   desc: >
