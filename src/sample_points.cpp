@@ -1,10 +1,10 @@
-#include <cpp11.hpp>
 #include <vector>
+#include <cpp11.hpp>
 #include <geos_c.h>
 
 [[cpp11::register]]
 cpp11::writable::list sample_points_cpp(cpp11::list sfc_linestrings,
-                                                    double segment_length) {
+                                        double segment_length) {
   // Initialize the GEOS environment
   GEOSContextHandle_t geos_handle = GEOS_init_r();
 
@@ -21,8 +21,8 @@ cpp11::writable::list sample_points_cpp(cpp11::list sfc_linestrings,
     R_xlen_t n_points = coords_mat.nrow();
     int dims = coords_mat.ncol();
 
-    // Skip if the matrix is empty or does not have at least 2 dimensions
-    if (n_points == 0 || dims < 2) {
+    // Skip if invalid
+    if (n_points < 2 || dims < 2) {
       continue;
     }
 
@@ -38,8 +38,8 @@ cpp11::writable::list sample_points_cpp(cpp11::list sfc_linestrings,
     }
 
     // Create a GEOS linestring from the coordinate sequence
-    GEOSGeometry* geom = GEOSGeom_createLineString_r(geos_handle, seq);
-    if (geom == nullptr) {
+    GEOSGeometry* line = GEOSGeom_createLineString_r(geos_handle, seq);
+    if (line == nullptr) {
       GEOSCoordSeq_destroy_r(geos_handle, seq);
       result_list.push_back(cpp11::writable::doubles_matrix<>(0, 2));
       continue;
@@ -47,7 +47,7 @@ cpp11::writable::list sample_points_cpp(cpp11::list sfc_linestrings,
 
     // Calculate the length of the current linestring
     double line_length;
-    GEOSLength_r(geos_handle, geom, &line_length);
+    GEOSLength_r(geos_handle, line, &line_length);
 
     // Calculate the number of segments to sample along the linestring
     int num_segments = static_cast<int>(round(line_length / segment_length));
@@ -58,7 +58,7 @@ cpp11::writable::list sample_points_cpp(cpp11::list sfc_linestrings,
         double fraction = static_cast<double>(j) / num_segments;
 
         // Interpolate the point at the specified fraction
-        GEOSGeometry* point = GEOSInterpolateNormalized_r(geos_handle, geom, fraction);
+        GEOSGeometry* point = GEOSInterpolateNormalized_r(geos_handle, line, fraction);
 
         // Extract coordinates from the interpolated point and store them
         if (point != nullptr) {
@@ -73,7 +73,7 @@ cpp11::writable::list sample_points_cpp(cpp11::list sfc_linestrings,
         }
       }
     }
-    GEOSGeom_destroy_r(geos_handle, geom);
+    GEOSGeom_destroy_r(geos_handle, line);
 
     // Convert the vector of coordinates for the current linestring into a matrix
     R_xlen_t num_sampled_points = current_coords.size() / 2;
