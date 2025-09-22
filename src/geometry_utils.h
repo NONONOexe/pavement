@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <cpp11.hpp>
 
 struct Point {
     double x;
@@ -141,6 +142,41 @@ inline std::vector<Point> remove_consecutive_duplicates(
   }
 
   return result;
+}
+
+inline std::vector<Point> matrix_to_points(const cpp11::doubles_matrix<>& mat) {
+  std::vector<Point> pts;
+  R_xlen_t n_points = mat.nrow();
+  int dims = mat.ncol();
+  if (n_points < 1 || dims < 2) return pts;
+
+  pts.reserve(n_points);
+  for (R_xlen_t i = 0; i < n_points; ++i) {
+    pts.push_back(Point{ mat(i, 0), mat(i, 1) });
+  }
+  return remove_consecutive_duplicates(pts);
+}
+
+inline std::vector<double> sample_points_along_linestring(
+  const std::vector<Point>& pts,
+  double segment_length) {
+
+  std::vector<double> sampled_coords;
+  if (pts.size() < 2) return sampled_coords;
+
+  std::vector<double> cum;
+  compute_cumulative_lengths(pts, cum);
+  double line_length = cum.back();
+  int num_segments = static_cast<int>(std::round(line_length / segment_length));
+  if (num_segments < 2) return sampled_coords;
+
+  for (int i = 0; i < num_segments; ++i) {
+    double target = (static_cast<double>(i) / num_segments) * line_length;
+    Point p = interpolate_point_along(pts, cum, target);
+    sampled_coords.push_back(p.x);
+    sampled_coords.push_back(p.y);
+  }
+  return sampled_coords;
 }
 
 /*

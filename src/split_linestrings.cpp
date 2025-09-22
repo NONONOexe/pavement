@@ -1,6 +1,4 @@
-#include <vector>
-#include <cpp11.hpp>
-#include "geometry_utils.hpp"
+#include "geometry_utils.h"
 
 [[cpp11::register]]
 cpp11::writable::list split_linestrings_cpp(cpp11::list sfc_linestrings,
