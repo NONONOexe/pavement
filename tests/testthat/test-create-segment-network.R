@@ -2,9 +2,17 @@ test_that("`create_segmented_network` works with valid input", {
   road_network <- create_road_network(sample_roads)
   segmented_network <- create_segmented_network(road_network)
 
+  # The returned object has the correct class
   expect_s3_class(segmented_network, "segmented_network")
+
+  # The specified segment length is correctly stored
   expect_equal(segmented_network$segment_length, 1)
+
+  # The number of split segments is greater than the number of original links
   expect_gt(nrow(segmented_network$segments), nrow(road_network$links))
+
+  # Each segment length is approximately equal to the specified segment length
+  expect_true(all(abs(sf::st_length(segmented_network$segments) - 1) < 0.1))
 })
 
 test_that("`create_segmented_network` works with events", {
