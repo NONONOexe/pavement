@@ -1,0 +1,6 @@
+PKG_CPPFLAGS = -I/opt/homebrew/Cellar/geos/3.14.0/include
+PKG_LIBS = -L/opt/homebrew/Cellar/geos/3.14.0/lib -lgeos_c
+
+ifeq ($(shell uname),Darwin)
+  PKG_LIBS += -lgeos
+endif
