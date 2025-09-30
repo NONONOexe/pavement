@@ -2,20 +2,23 @@
 % Please edit documentation in R/plot-local-moran.R
 \name{plot_local_moran}
 \alias{plot_local_moran}
-\title{Plot Spatio-temporal Local Moran's I results}
+\title{Plot spatio-temporal local Moran's I results}
 \usage{
-plot_local_moran(moran_results_object)
+plot_local_moran(moran_results_object, plot_3d = FALSE, snapshot_time = 12)
 }
 \arguments{
-\item{moran_results_object}{The output object from \code{calculate_local_moran},
-which contains a \verb{$moran_results} data frame. The function can handle
-objects of class \code{segmented_network} or \code{spatiotemporal_network}.}
+\item{moran_results_object}{The output object from \code{calculate_local_moran}.}
+
+\item{plot_3d}{Logical. If \code{TRUE}, an interactive 3D plot is created.
+If \code{FALSE} (default), a static 2D snapshot plot is created.}
+
+\item{snapshot_time}{Numeric. The hour (0-23) for which to create the 2D plot.}
 }
 \value{
-A \code{plotly} object representing the interactive 3D plot.
+A \code{plotly} object for the 3D plot, or a base R plot for the 2D plot.
 }
 \description{
-Creates an interactive 3D plot to visualize the results of the
-\code{calculate_local_moran} function, showing significant spatio-temporal
-clusters (e.g., High-High, Low-Low) in a space-time cube.
+Creates a plot to visualize the results of \code{calculate_local_moran}.
+The default is a 2D snapshot plot. If \code{plot_3d} is TRUE, it creates an
+interactive 3D plot showing significant clusters in a space-time cube.
 }

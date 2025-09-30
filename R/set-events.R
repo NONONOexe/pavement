@@ -61,9 +61,13 @@ set_events.segmented_network <- function(x, events, ...) {
 }
 
 #' @export
-set_events.spatiotemporal_network <- function(x, events, ...) {
+set_events.spatiotemporal_network <- function(x, events, time_column = "time", ...) {
   # If a plain sf object is passed, convert it to spatiotemporal_events
   if (inherits(events, "sf")) {
+    if (!(time_column %in% names(events))) {
+      stop("The specified time column '", time_column, "' was not found in the events data.")
+    }
+    events$time <- events[[time_column]]
     events <- create_spatiotemporal_events(events, ...)
   }
 

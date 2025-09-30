@@ -25,13 +25,12 @@
 convolute_spatiotemporal_network <- function(segmented_network,
                                              kernel_space = compute_epanechnikov,
                                              kernel_time  = compute_epanechnikov,
-                                             bandwidth_space = 250,
-                                             bandwidth_time  = 2.5,
+                                             bandwidth_space = 3,
+                                             bandwidth_time  = 2,
                                              time_points = 0:23,
                                              use_esd = TRUE,
                                              correct_boundary_effects = TRUE) {
 
-  # --- 1. Preparation and Input Checks ---
   if (inherits(segmented_network, "spatiotemporal_network")) {
     segmented_network$graph <- segmented_network$spatial_graph
   }
@@ -45,7 +44,7 @@ convolute_spatiotemporal_network <- function(segmented_network,
   line_graph <- create_line_graph(segmented_network)
   num_spatial_segments <- nrow(segmented_network$segment_geometries)
 
-  # --- 2. Pre-processing for C++ function (if use_esd is TRUE) ---
+  # Pre-processing for C++ function (if use_esd is TRUE)
   if (use_esd) {
     original_graph <- segmented_network$graph
     node_degrees <- igraph::degree(original_graph)
@@ -72,7 +71,7 @@ convolute_spatiotemporal_network <- function(segmented_network,
     branch_degrees_list <- lapply(edge_data_list, `[[`, "degrees")
   }
 
-  # --- 3. TNKDE Calculation ---
+  # TNKDE calculation
   torus_abs_diff <- function(t_eval, t_obs, period = 24) { d <- abs(t_eval - t_obs); pmin(d, period - d) }
   density_list <- vector("list", length(time_points))
   names(density_list) <- paste0("density_t_", time_points)
@@ -132,7 +131,7 @@ convolute_spatiotemporal_network <- function(segmented_network,
     density_list[[paste0("density_t_", t)]] <- density_t
   }
 
-  # --- 4. Format Results and Final Normalization ---
+  # Result
   density_matrix <- do.call(cbind, density_list)
 
   # Normalize so the sum of all densities over all segments and times equals 1

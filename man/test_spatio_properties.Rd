@@ -10,15 +10,12 @@ test_spatio_properties(list_of_moran_results, p_value_threshold = 0.05)
 \item{list_of_moran_results}{A list where each element is the output of
 \code{calculate_local_moran} for a specific year.}
 
-\item{p_value_threshold}{The p-value cutoff to determine if a cluster's
-classification is temporally consistent (default: 0.05).}
+\item{p_value_threshold}{The p-value cutoff to determine consistency (default: 0.05).}
 }
 \value{
 A data frame summarizing the consistency test for each arixel.
 }
 \description{
-This is the main testing function that takes a list of Local Moran's I results
-(one for each year/period) and evaluates the temporal consistency of the
-cluster classification (e.g., High-High, Low-Low) for each spatio-temporal
-unit (arixel).
+This function evaluates the temporal consistency of Local Moran's I cluster
+classifications for each spatio-temporal unit (arixel) across multiple years.
 }

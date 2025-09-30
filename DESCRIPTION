@@ -23,7 +23,6 @@ Depends:
     R (>= 3.5)
 Imports: 
     cli,
-    dplyr,
     graphics,
     grDevices,
     igraph,
@@ -40,9 +39,7 @@ Imports:
     stats,
     stringr,
     tibble,
-    tidyr,
     utils,
-    viridis
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

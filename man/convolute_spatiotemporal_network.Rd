@@ -8,8 +8,8 @@ convolute_spatiotemporal_network(
   segmented_network,
   kernel_space = compute_epanechnikov,
   kernel_time = compute_epanechnikov,
-  bandwidth_space = 250,
-  bandwidth_time = 2.5,
+  bandwidth_space = 3,
+  bandwidth_time = 2,
   time_points = 0:23,
   use_esd = TRUE,
   correct_boundary_effects = TRUE

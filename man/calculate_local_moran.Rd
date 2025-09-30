@@ -2,26 +2,21 @@
 % Please edit documentation in R/calculate-local-moran.R
 \name{calculate_local_moran}
 \alias{calculate_local_moran}
-\title{Calculate Spatio-temporal Local Moran's I}
+\title{Calculate spatio-temporal local Moran's I}
 \usage{
 calculate_local_moran(network_object, dist_threshold = 1, time_threshold = 2)
 }
 \arguments{
-\item{network_object}{A \code{segmented_network} or \code{spatiotemporal_network} object
-with events assigned via \code{set_events()}.}
+\item{network_object}{A segmented_network or spatiotemporal_network with events assigned.}
 
-\item{dist_threshold}{The spatial distance threshold to define neighbors.}
+\item{dist_threshold}{Spatial distance threshold for neighbors.}
 
-\item{time_threshold}{The temporal distance threshold (in hours) to define neighbors.}
+\item{time_threshold}{Temporal distance threshold (in hours) for neighbors.}
 }
 \value{
-The input network object with a new component \verb{$moran_results}, which is
-a data frame containing the Local Moran's I statistic (\code{I}), z-scores (\code{z}),
-spatially lagged z-scores (\code{lagged_z}), and cluster classification (\code{classification})
-for each arixel.
+The network object with $moran_results containing I, z, lagged_z, and cluster classification.
 }
 \description{
-Computes the Local Moran's I statistic for each spatio-temporal unit (arixel)
-to identify clusters and outliers in the event data. The function can handle
-both \code{segmented_network} and \code{spatiotemporal_network} objects.
+Computes Local Moran's I for each spatio-temporal unit (arixel) while preserving sf geometry.
+Handles both segmented_network and spatiotemporal_network objects.
 }

@@ -9,29 +9,27 @@ run_consistency_test(
   list_of_accidents,
   dist_threshold = 1,
   time_threshold = 2,
-  p_value_threshold = 0.05
+  p_value_threshold = 0.05,
+  time_column = "time"
 )
 }
 \arguments{
-\item{network_object}{A base network object, either of class
-\code{segmented_network} or \code{spatiotemporal_network}.}
+\item{network_object}{A base network object, either \code{segmented_network} or \code{spatiotemporal_network}.}
 
-\item{list_of_accidents}{A list of \code{sf} data frames, where each element
-represents event data for a specific year or time period.}
+\item{list_of_accidents}{A list of \code{sf} data frames, one for each year.}
 
 \item{dist_threshold}{The spatial distance threshold for \code{calculate_local_moran}.}
 
 \item{time_threshold}{The temporal distance threshold for \code{calculate_local_moran}.}
 
 \item{p_value_threshold}{The p-value cutoff for the final consistency test.}
+
+\item{time_column}{The name of the column in the accident data that contains
+the time information (e.g., "occurrence_hour"). Defaults to "time".}
 }
 \value{
-A data frame with the final consistency test results from
-\code{test_spatio_properties}.
+A data frame with the final consistency test results.
 }
 \description{
-A convenient wrapper function that combines all processing steps. It takes a
-base network and a list of event datasets, runs \code{calculate_local_moran} for
-each dataset, and then calls \code{test_spatio_properties} to evaluate the
-temporal consistency of the resulting clusters.
+A convenient wrapper function that combines all processing steps.
 }
