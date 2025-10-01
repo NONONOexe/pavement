@@ -1,6 +1,6 @@
 Package: pavement
 Title: Analyzing Spatial Events on Roadways
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: c( 
     person("Keisuke", "ANDO",
            email   = "ando@maslab.aitech.ac.jp",
@@ -22,8 +22,6 @@ BugReports: https://github.com/NONONOexe/pavement/issues
 Depends: 
     R (>= 3.5)
 Imports: 
-    cli,
-    dplyr,
     graphics,
     grDevices,
     igraph,
@@ -31,14 +29,13 @@ Imports:
     lwgeom,
     magrittr,
     osmdata,
-    purrr,
     rlang,
     sf,
     stats,
-    stringr,
-    tibble,
     utils
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
@@ -48,3 +45,4 @@ RoxygenNote: 7.3.2
 BuildManual: TRUE
 LinkingTo: 
     cpp11
+VignetteBuilder: knitr

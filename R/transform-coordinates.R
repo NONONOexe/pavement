@@ -45,7 +45,7 @@ transform_coordinates <- function(spatial_object,
   crs_info <- sf::st_crs(spatial_object)
   if (is.na(crs_info$input)) {
     if (!quiet) {
-      cli::cli_warn("CRS is missing. Returning the input object without transformation.")
+      warning("CRS is missing. Returning the input object without transformation.")
     }
     return(spatial_object)
   }

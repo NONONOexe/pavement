@@ -6,10 +6,14 @@ output: github_document
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
+  collapse   = TRUE,
+  comment    = "#>",
+  dev.args   = list(bg = "white"),
+  dpi        = 300,
+  out.width  = "80%",
+  fig.path   = "man/figures/README-",
+  fig.width  = 10, 
+  fig.asp    = 1/1.618
 )
 ```
 
@@ -53,7 +57,7 @@ pak::pak("nononoexe/pavement")
 
 This example demonstrates how to visualize the distribution of roads and traffic accidents using pavement:
 
-```{r example}
+```{r example-setup}
 library(pavement)
 
 segmented_network <- sample_roads |>
@@ -61,8 +65,17 @@ segmented_network <- sample_roads |>
   set_events(sample_accidents) |>
   create_segmented_network(segment_length = 0.5) |>
   convolute_segmented_network()
+```
+
+```{r plot-event, fig.alt="A map showing a road network with individual points plotted along the lines, representing the locations of traffic accidents."}
 plot(segmented_network, mode = "event")
+```
+
+```{r plot-count, fig.alt="A map of a road network where each road segment is colored according to number of accidents it contains. Colors range from yellow for low counts to red for high counts, indicating accident hotspots."}
 plot(segmented_network, mode = "count")
+```
+
+```{r plot-density, fig.alt="A map of a road network with a smooth color gradient along the roads, representing the kernel density of accident. The color transitions from yellow in low-density areas to red in high-density areas, highlighting hotspots."}
 plot(segmented_network, mode = "density")
 ```
 
