@@ -33,17 +33,31 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' # Download road data
-#' bbox <- create_bbox(
-#'   north =  35.17377,
-#'   south =  35.16377,
-#'   east  = 136.91590,
-#'   west  = 136.90090
-#' )
+#' # Define a bounding box
+#' bbox <- create_bbox(north =  35.17377,
+#'                     south =  35.16377,
+#'                     east  = 136.91590,
+#'                     west  = 136.90090)
+#'
+#' # Download road data with in the bounding box
 #' roads <- fetch_roads(bbox)
 #'
 #' # Plot the roads
 #' plot(roads$geometry)
+#'
+#' # Download and crop road data strictly to the bounding box
+#' roads_cropped <- fetch_roads(bbox, crop = TRUE)
+#' plot(roads_cropped$geometry)
+#'
+#' # Download roads using a center point and radius
+#' center_lon <- 136.8817
+#' center_lat <-  35.1709
+#' radius_m   <- 500
+#'
+#' roads_radius <- fetch_roads(x      = center_lon,
+#'                             y      = center_lat,
+#'                             radius = radius_m)
+#' plot(roads_radius$geometry)
 #' }
 fetch_roads <- function(x, ...) {
   UseMethod("fetch_roads")
@@ -99,19 +113,18 @@ fetch_roads.numeric <- function(x,
 fetch_roads.character <- function(x, crop = FALSE, circle_crop = FALSE, ...) {
   # Retrieve road data from OpenStreetMap
   osm_data <- osmdata::osmdata_sf(x)
-  road_lines <- purrr::pluck(osm_data, "osm_lines")
+  road_lines <- osm_data[["osm_lines"]]
 
   # Return an empty sf object if no roads are found
   if (is.null(road_lines)) {
-    cli::cli_alert_info("No roads found for the given condition.")
+    message("No roads found for the given condition.")
     return(create_empty_roads_sf())
   }
 
   # Correct oneway geometries and convert to boolean
   if ("oneway" %in% names(road_lines)) {
-    road_lines <- road_lines %>%
-      correct_oneway_geometries() %>%
-      convert_oneway_to_boolean()
+    road_lines <- correct_oneway_geometries(road_lines)
+    road_lines <- convert_oneway_to_boolean(road_lines)
   } else {
     road_lines$oneway <- FALSE
   }
@@ -122,9 +135,8 @@ fetch_roads.character <- function(x, crop = FALSE, circle_crop = FALSE, ...) {
   }
 
   # Convert MULTILINESTRING to LINESTRING and ensure required columns
-  roads <- road_lines %>%
-    convert_multilinestring_to_linestring() %>%
-    ensure_required_columns()
+  roads <- convert_multilinestring_to_linestring(road_lines)
+  roads <- ensure_required_columns(roads)
 
   return(roads)
 }
@@ -137,24 +149,25 @@ build_query <- function(...) {
   query_params <- list(...)
 
   # Generate bounding box (bbox) and search radius query string
-  bbox_str <- generate_bbox(query_params)
+  bbox_str   <- generate_bbox(query_params)
   radius_str <- generate_radius(query_params)
 
   # Define highway types as a regex pattern
-  highway_types <- stringr::str_c(pavement::osm_highway_values, collapse = "|")
-  highway_regex <- stringr::str_glue("\"highway\"~\"^({highway_types})$\"")
+  highway_types <- paste(pavement::osm_highway_values, collapse = "|")
+  highway_regex <- sprintf("\"highway\"~\"^(%s)$\"", highway_types)
 
   # Construct Overpass query
-  overpass_query <- stringr::str_glue("
+  query_filters  <- sprintf("%s [%s]%s", radius_str, highway_regex, bbox_str)
+  overpass_query <- sprintf("
   [out:xml][timeout:25];
   (
-    node{radius_str} [{highway_regex}]{bbox_str};
-    way{radius_str} [{highway_regex}]{bbox_str};
-    relation{radius_str} [{highway_regex}]{bbox_str};
+    node%s;
+    way%s;
+    relation%s;
   );
   (._;>;);
   out body;
-  ")
+  ", query_filters, query_filters, query_filters)
 
   # Store query parameters as an attribute
   attr(overpass_query, "query_params") <- query_params
@@ -164,24 +177,26 @@ build_query <- function(...) {
 
 # Generate bbox (bounding box) query string
 generate_bbox <- function(params) {
-  bbox <- purrr::pluck(params, "bbox")
+  bbox <- params[["bbox"]]
 
   # Return an empty string if bbox is not provided
   if (is.null(bbox)) return("")
 
-  stringr::str_glue("({bbox['y', 'min']},{bbox['x', 'min']},{bbox['y', 'max']},{bbox['x', 'max']})")
+  sprintf("(%f,%f,%f,%f)",
+          bbox['y', 'min'], bbox['x', 'min'],
+          bbox['y', 'max'], bbox['x', 'max'])
 }
 
 # Generate search radius query string
 generate_radius <- function(params) {
-  rad <- purrr::pluck(params, "rad")
-  lon <- purrr::pluck(params, "lon")
-  lat <- purrr::pluck(params, "lat")
+  rad <- params[["rad"]]
+  lon <- params[["lon"]]
+  lat <- params[["lat"]]
 
   # Return an empty string if any required parameter is missing
-  if (any(is.null(c(rad, lon, lat)))) return("")
+  if (is.null(rad) || is.null(lon) || is.null(lat)) return("")
 
-  stringr::str_glue("(around:{rad},{lat},{lon})")
+  sprintf("(around:%s,%s,%s)", rad, lat, lon)
 }
 
 
@@ -189,7 +204,7 @@ generate_radius <- function(params) {
 
 # Create an empty roads sf object
 create_empty_roads_sf <- function() {
-  sf::st_sf(tibble::tibble(
+  sf::st_sf(data.frame(
     id       = character(),
     highway  = character(),
     name     = character(),
@@ -202,20 +217,21 @@ create_empty_roads_sf <- function() {
 
 # Reverse geometries for roads marked as one-way in the reverse direction
 correct_oneway_geometries <- function(roads) {
-  roads %>%
-    dplyr::mutate(
-      is_reversed = !is.na(.data$oneway) & .data$oneway == -1,
-      geometry    = dplyr::if_else(.data$is_reversed,
-                                   sf::st_reverse(.data$geometry),
-                                   .data$geometry)
-    ) %>%
-    dplyr::select(!"is_reversed")
+  is_reversed_idx <- which(!is.na(roads$oneway) & roads$oneway == -1)
+
+  if (0 < length(is_reversed_idx)) {
+    geoms <- sf::st_geometry(roads)
+    geoms[is_reversed_idx] <- sf::st_reverse(geoms[is_reversed_idx])
+    sf::st_geometry(roads) <- geoms
+  }
+
+  return(roads)
 }
 
 # Convert `oneway` column to a boolean vector
 convert_oneway_to_boolean <- function(roads) {
-  roads %>%
-    dplyr::mutate(oneway = .data$oneway %in% c("yes", "-1"))
+  roads$oneway <- roads$oneway %in% c("yes", "-1")
+  return(roads)
 }
 
 # Crop road data based on query parameters
@@ -233,7 +249,7 @@ crop_roads <- function(roads, query, circle_crop) {
 
 # Determine the cropping area from query parameters
 determine_crop_area <- function(params) {
-  bbox <- purrr::pluck(params, "bbox")
+  bbox <- params[["bbox"]]
 
   if (!is.null(bbox)) {
     crop_area <- sf::st_sfc(sf::st_polygon(list(rbind(
@@ -247,36 +263,48 @@ determine_crop_area <- function(params) {
     return(crop_area)
   }
 
-  rad <- purrr::pluck(params, "rad")
-  lon <- purrr::pluck(params, "lon")
-  lat <- purrr::pluck(params, "lat")
+  rad <- params[["rad"]]
+  lon <- params[["lon"]]
+  lat <- params[["lat"]]
 
   if (!is.null(rad) && !is.null(lon) && !is.null(lat)) {
-    center_point <- sf::st_sfc(sf::st_point(c(lon, lat)), crs = 4326)
-    crop_area <- center_point %>%
-      sf::st_transform(crs = 3395) %>%
-      sf::st_buffer(dist = rad) %>%
-      sf::st_transform(crs = 4326)
+    center_point      <- sf::st_sfc(sf::st_point(c(lon, lat)), crs = 4326)
+    transformed_point <- transform_to_cartesian(center_point)
+    buffered_point    <- sf::st_buffer(transformed_point, dist = rad)
+    crop_area         <- transform_to_geographic(buffered_point)
 
     return(crop_area)
   }
 
-  cli::cli_abort("Either {.code bbox} or {.code rad}, {.code lon}, and {.code lat} must be provided.")
+  stop("Either 'bbox' or 'rad', 'lon', and 'lat' must be provided.")
 }
 
 # Convert MULTILINESTRING to LINESTRING and generate unique IDs
 convert_multilinestring_to_linestring <- function(roads) {
-  roads %>%
-    sf::st_set_agr("constant") %>%
-    sf::st_cast("LINESTRING") %>%
-    dplyr::mutate(id = stringr::str_glue("rd_{sprintf('%04x', seq_len(dplyr::n()))}"))
+  roads_agr  <- sf::st_set_agr(roads, "constrant")
+  roads_cast <- sf::st_cast(roads_agr, "LINESTRING")
+
+  roads_cast$id <- sprintf("rd_%04x", seq_len(nrow(roads_cast)))
+
+  return(roads_cast)
 }
 
 # Ensure all required columns exist
 ensure_required_columns <- function(roads) {
   empty_roads_sf <- create_empty_roads_sf()
-  roads %>%
-    dplyr::bind_rows(empty_roads_sf) %>%
-    dplyr::select(dplyr::all_of(names(empty_roads_sf))) %>%
-    tibble::remove_rownames()
+  required_cols  <- names(empty_roads_sf)
+
+  missing_cols <- setdiff(required_cols, names(roads))
+
+  if (0 < length(missing_cols)) {
+    for (col in missing_cols) {
+      na_vector    <- rep(empty_roads_sf[[col]][NA_integer_], nrow(roads))
+      roads[[col]] <- na_vector
+    }
+  }
+
+  roads <- roads[, required_cols]
+  rownames(roads) <- NULL
+
+  return(roads)
 }

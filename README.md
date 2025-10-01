@@ -58,22 +58,25 @@ segmented_network <- sample_roads |>
   set_events(sample_accidents) |>
   create_segmented_network(segment_length = 0.5) |>
   convolute_segmented_network()
+```
+
+``` r
 plot(segmented_network, mode = "event")
 ```
 
-<img src="man/figures/README-example-1.png" width="100%" />
+<img src="man/figures/README-plot-event-1.png" alt="A map showing a road network with individual points plotted along the lines, representing the locations of traffic accidents." width="80%" />
 
 ``` r
 plot(segmented_network, mode = "count")
 ```
 
-<img src="man/figures/README-example-2.png" width="100%" />
+<img src="man/figures/README-plot-count-1.png" alt="A map of a road network where each road segment is colored according to number of accidents it contains. Colors range from yellow for low counts to red for high counts, indicating accident hotspots." width="80%" />
 
 ``` r
 plot(segmented_network, mode = "density")
 ```
 
-<img src="man/figures/README-example-3.png" width="100%" />
+<img src="man/figures/README-plot-density-1.png" alt="A map of a road network with a smooth color gradient along the roads, representing the kernel density of accident. The color transitions from yellow in low-density areas to red in high-density areas, highlighting hotspots." width="80%" />
 
 ## Code of conduct
 
