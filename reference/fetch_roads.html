@@ -19,7 +19,7 @@ boundaries."><meta property="og:image" content="https://nononoexe.github.io/pave
 
     <a class="navbar-brand me-2" href="../index.html">pavement</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,6 +28,10 @@ boundaries."><meta property="og:image" content="https://nononoexe.github.io/pave
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/using-fetch-roads.html">Fetching Road Data with `fetch_roads()`</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/NONONOexe/pavement/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -45,7 +49,7 @@ boundaries."><meta property="og:image" content="https://nononoexe.github.io/pave
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Fetch road data from OpenStreetMap</h1>
-      <small class="dont-index">Source: <a href="https://github.com/NONONOexe/pavement/blob/v0.2.0/R/fetch-roads.R" class="external-link"><code>R/fetch-roads.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/NONONOexe/pavement/blob/main/R/fetch-roads.R" class="external-link"><code>R/fetch-roads.R</code></a></small>
       <div class="d-none name"><code>fetch_roads.Rd</code></div>
     </div>
 
@@ -140,17 +144,31 @@ the followings columns:</p><dl><dt>id</dt>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># Download road data</span></span></span>
-<span class="r-in"><span><span class="va">bbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_bbox.html">create_bbox</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  north <span class="op">=</span>  <span class="fl">35.17377</span>,</span></span>
-<span class="r-in"><span>  south <span class="op">=</span>  <span class="fl">35.16377</span>,</span></span>
-<span class="r-in"><span>  east  <span class="op">=</span> <span class="fl">136.91590</span>,</span></span>
-<span class="r-in"><span>  west  <span class="op">=</span> <span class="fl">136.90090</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Define a bounding box</span></span></span>
+<span class="r-in"><span><span class="va">bbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_bbox.html">create_bbox</a></span><span class="op">(</span>north <span class="op">=</span>  <span class="fl">35.17377</span>,</span></span>
+<span class="r-in"><span>                    south <span class="op">=</span>  <span class="fl">35.16377</span>,</span></span>
+<span class="r-in"><span>                    east  <span class="op">=</span> <span class="fl">136.91590</span>,</span></span>
+<span class="r-in"><span>                    west  <span class="op">=</span> <span class="fl">136.90090</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Download road data with in the bounding box</span></span></span>
 <span class="r-in"><span><span class="va">roads</span> <span class="op">&lt;-</span> <span class="fu">fetch_roads</span><span class="op">(</span><span class="va">bbox</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Plot the roads</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">roads</span><span class="op">$</span><span class="va">geometry</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Download and crop road data strictly to the bounding box</span></span></span>
+<span class="r-in"><span><span class="va">roads_cropped</span> <span class="op">&lt;-</span> <span class="fu">fetch_roads</span><span class="op">(</span><span class="va">bbox</span>, crop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">roads_cropped</span><span class="op">$</span><span class="va">geometry</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Download roads using a center point and radius</span></span></span>
+<span class="r-in"><span><span class="va">center_lon</span> <span class="op">&lt;-</span> <span class="fl">136.8817</span></span></span>
+<span class="r-in"><span><span class="va">center_lat</span> <span class="op">&lt;-</span>  <span class="fl">35.1709</span></span></span>
+<span class="r-in"><span><span class="va">radius_m</span>   <span class="op">&lt;-</span> <span class="fl">500</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">roads_radius</span> <span class="op">&lt;-</span> <span class="fu">fetch_roads</span><span class="op">(</span>x      <span class="op">=</span> <span class="va">center_lon</span>,</span></span>
+<span class="r-in"><span>                            y      <span class="op">=</span> <span class="va">center_lat</span>,</span></span>
+<span class="r-in"><span>                            radius <span class="op">=</span> <span class="va">radius_m</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">roads_radius</span><span class="op">$</span><span class="va">geometry</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
