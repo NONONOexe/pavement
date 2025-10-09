@@ -1,19 +1,50 @@
 #' Calculate spatio-temporal local Moran's I
 #'
 #' @description
-#' Computes Local Moran's I for each spatio-temporal unit (arixel) while preserving sf geometry.
-#' Handles both segmented_network and spatiotemporal_network objects.
+#' Computes the Local Moran's I statistic for each spatio-temporal unit (spatiotemporal_segement)
+#' using a memory-efficient, iterative approach. This function can handle
+#' both `segmented_network` and `spatiotemporal_network` objects.
 #'
-#' @param network_object A segmented_network or spatiotemporal_network with events assigned.
-#' @param dist_threshold Spatial distance threshold for neighbors.
-#' @param time_threshold Temporal distance threshold (in hours) for neighbors.
-#' @return The network object with $moran_results containing I, z, lagged_z, and cluster classification.
+#' @param network_object A `segmented_network` or `spatiotemporal_network` object
+#'   with events assigned via `set_events()`.
+#' @param dist_threshold The spatial distance threshold to define neighbors.
+#' @param time_threshold The temporal distance threshold (in hours) to define neighbors.
+#'
+#' @return The input network object with a new component `$moran_results`. This is
+#'   a data frame containing the Local Moran's I statistic (`I`), z-scores (`z`),
+#'   spatially lagged z-scores (`lagged_z`), and cluster classification (`classification`)
+#'   for each spatiotemporal_segement.
+#'
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' # First, create a network and assign events
+#' network_with_events <- sample_roads |>
+#'   create_road_network() |>
+#'   create_spatiotemporal_network(spatial_length = 0.5) |>
+#'   set_events(sample_accidents)
+#'
+#' # Then, calculate Local Moran's I
+#' moran_result <- calculate_local_moran(
+#'   network_with_events,
+#'   dist_threshold = 1,
+#'   time_threshold = 2
+#' )
+#'
+#' # View the results
+#' head(moran_result$moran_results)
+#'
+#' # Plot the results
+#' plot_local_moran(moran_result, snapshot_time = 12)
+#' plot_local_moran(moran_result, plot_3d = TRUE)
+#' }
+
 calculate_local_moran <- function(network_object,
                                   dist_threshold = 1,
                                   time_threshold = 2) {
 
-  # Object compatibility
+  # Preparation and spatiotemporal_segement creation
   if (inherits(network_object, "spatiotemporal_network")) {
     segments <- network_object$segment_geometries
     network_object$graph <- network_object$spatial_graph
@@ -21,82 +52,126 @@ calculate_local_moran <- function(network_object,
     segments <- network_object$segments
   }
   events <- network_object$events
-
-  # Add segment index
   segments$segment_index <- seq_len(nrow(segments))
 
-  # Create arixels (spatio-temporal units)
   time_points <- 0:23
   n_seg <- nrow(segments)
   n_time <- length(time_points)
-  arixels <- expand.grid(segment_index = 1:n_seg, time = time_points, stringsAsFactors = FALSE)
-  arixels$x <- 0  # initialize counts
+  N <- n_seg * n_time
 
-  # Assign counts
-  events_no_geom <- events
-  sf::st_geometry(events_no_geom) <- NULL
-  segment_lookup <- segments[, c("id", "segment_index")]
-  sf::st_geometry(segment_lookup) <- NULL
+  # Build spatiotemporal_segements grid in time-major order
+  spatiotemporal_segements <- expand.grid(
+    segment_index = seq_len(n_seg),
+    time = time_points,
+    KEEP.OUT.ATTRS = FALSE,
+    stringsAsFactors = FALSE
+  )
+  spatiotemporal_segements <- spatiotemporal_segements[order(spatiotemporal_segements$time, spatiotemporal_segements$segment_index), ]
+  spatiotemporal_segements$spatiotemporal_segement_id <- seq_len(nrow(spatiotemporal_segements))
 
-  # Map segment_id to segment_index
-  events_no_geom$segment_index <- segment_lookup$segment_index[match(events_no_geom$segment_id, segment_lookup$id)]
-
-  # Count events per arixel
-  tab <- table(events_no_geom$segment_index, events_no_geom$time)
-  seg_idx <- as.integer(rownames(tab))
-  times <- as.integer(colnames(tab))
-  for (i in seq_along(seg_idx)) {
-    for (j in seq_along(times)) {
-      arixel_idx <- which(arixels$segment_index == seg_idx[i] & arixels$time == times[j])
-      arixels$x[arixel_idx] <- tab[i, j]
+  # Count events per spatiotemporal_segement
+  spatiotemporal_segements$x <- 0L
+  if (!is.null(events) && nrow(events) > 0) {
+    events_no_geom <- events
+    sf::st_geometry(events_no_geom) <- NULL
+    segment_lookup <- segments[, c("id", "segment_index")]
+    sf::st_geometry(segment_lookup) <- NULL
+    events_no_geom$segment_index <- segment_lookup$segment_index[
+      match(events_no_geom$segment_id, segment_lookup$id)
+    ]
+    ttab <- table(events_no_geom$segment_index, events_no_geom$time)
+    if (length(ttab) > 0) {
+      rn <- as.integer(rownames(ttab))
+      cn <- as.integer(colnames(ttab))
+      for (ri in seq_along(rn)) {
+        for (cj in seq_along(cn)) {
+          cnt <- ttab[ri, cj]
+          if (cnt == 0) next
+          seg_idx <- rn[ri]
+          tm <- cn[cj]
+          ar_idx <- (which(time_points == tm) - 1) * n_seg + seg_idx
+          spatiotemporal_segements$x[ar_idx] <- cnt
+        }
+      }
     }
   }
 
-  # Assign arixel_id
-  arixels$arixel_id <- seq_len(nrow(arixels))
-
-  # Spatial and temporal adjacency
+  # Precompute neighbor lists
   line_graph <- create_line_graph(network_object)
-  dist_mat_space <- igraph::distances(line_graph)
-  adj_mat_space <- (dist_mat_space > 0 & dist_mat_space <= dist_threshold)
+  dist_mat_space <- igraph::distances(line_graph)  # n_seg x n_seg matrix
+  torus_abs_diff <- function(a, b, period = 24) pmin(abs(a - b), period - abs(a - b))
 
-  torus_abs_diff <- function(t1, t2, period = 24) pmin(abs(t1 - t2), period - abs(t1 - t2))
-  dist_mat_time <- outer(time_points, time_points, torus_abs_diff)
-  adj_mat_time <- (dist_mat_time >= 0 & dist_mat_time <= time_threshold)
-
-  # Spatio-temporal weights
-  I_s <- Matrix::Diagonal(n_seg)
-  I_t <- Matrix::Diagonal(n_time)
-  W_s <- Matrix::kronecker(I_t, adj_mat_space)
-  W_t <- Matrix::kronecker(adj_mat_time, I_s)
-  W_st <- Matrix::kronecker(adj_mat_time, adj_mat_space)
-  W_unstd <- Matrix::Matrix((W_s + W_t + W_st) > 0, sparse = TRUE)
-  Matrix::diag(W_unstd) <- 0
-  row_sums <- Matrix::rowSums(W_unstd)
-  W <- Matrix::Diagonal(x = 1 / ifelse(row_sums == 0, 1, row_sums)) %*% W_unstd
-
-  # Local Moran's I
-  x_vals <- arixels$x
+  x_vals <- spatiotemporal_segements$x
   z <- x_vals - mean(x_vals)
-  lagged_z <- as.vector(W %*% z)
+
+  # Spatial neighbors (list of segment indices)
+  spatial_neighbors_list <- vector("list", n_seg)
+  for (s in seq_len(n_seg)) {
+    drow <- dist_mat_space[s, ]
+    spatial_neighbors_list[[s]] <- which(drow > 0 & drow <= dist_threshold)
+  }
+
+  # Temporal neighbors (list of time indices)
+  temporal_neighbors_list <- vector("list", n_time)
+  for (ti in seq_len(n_time)) {
+    tval <- time_points[ti]
+    diffs <- torus_abs_diff(time_points, tval)
+    temporal_neighbors_list[[ti]] <- which(diffs <= time_threshold)
+  }
+
+  # Compute lagged values
+  lagged_z <- rep(NA_real_, N)  # default NA
+  row_has_neighbors <- logical(N)
+
+  for (time_idx in seq_len(n_time)) {
+    base_row <- (time_idx - 1) * n_seg
+    t_nbrs <- temporal_neighbors_list[[time_idx]]
+
+    for (seg_i in seq_len(n_seg)) {
+      row_index <- base_row + seg_i
+      seg_spat_nbrs <- spatial_neighbors_list[[seg_i]]
+
+      spatial_same_time_idx <- if (length(seg_spat_nbrs) > 0) {
+        base_row + seg_spat_nbrs
+      } else integer(0)
+
+      tn_other <- t_nbrs[t_nbrs != time_idx]
+      temporal_only_idx <- if (length(tn_other) > 0) {
+        (tn_other - 1) * n_seg + seg_i
+      } else integer(0)
+
+      spatio_temporal_idx <- if (length(seg_spat_nbrs) > 0 && length(tn_other) > 0) {
+        unlist(lapply(tn_other, function(tj) (tj - 1) * n_seg + seg_spat_nbrs),
+               use.names = FALSE)
+      } else integer(0)
+
+      neigh_idx <- c(spatial_same_time_idx, temporal_only_idx, spatio_temporal_idx)
+
+      if (length(neigh_idx) > 0) {
+        row_has_neighbors[row_index] <- TRUE
+        lagged_z[row_index] <- sum(z[neigh_idx]) / length(neigh_idx)
+      }
+    }
+  }
+
   local_I <- z * lagged_z
 
+  # Results
   segments_no_geom <- segments
   sf::st_geometry(segments_no_geom) <- NULL
-  arixels$segment_id <- segments_no_geom$id[arixels$segment_index]
+  spatiotemporal_segements$segment_id <- segments_no_geom$id[spatiotemporal_segements$segment_index]
 
-  arixels$z <- z
-  arixels$lagged_z <- lagged_z
-  arixels$I <- local_I
-  arixels$has_neighbors <- (row_sums > 0)
+  spatiotemporal_segements$z <- z
+  spatiotemporal_segements$lagged_z <- lagged_z
+  spatiotemporal_segements$I <- local_I
+  spatiotemporal_segements$has_neighbors <- row_has_neighbors
 
-  # Classify clusters
-  arixels$classification <- "Not Significant"
-  arixels$classification[z >= 0 & lagged_z >= 0 & arixels$has_neighbors] <- "HH"
-  arixels$classification[z <  0 & lagged_z <  0 & arixels$has_neighbors] <- "LL"
-  arixels$classification[z <  0 & lagged_z >=0 & arixels$has_neighbors] <- "LH"
-  arixels$classification[z >=0 & lagged_z <  0 & arixels$has_neighbors] <- "HL"
+  spatiotemporal_segements$classification <- "Not Significant"
+  spatiotemporal_segements$classification[z >= 0 & lagged_z >= 0 & spatiotemporal_segements$has_neighbors] <- "HH"
+  spatiotemporal_segements$classification[z <  0 & lagged_z <  0 & spatiotemporal_segements$has_neighbors] <- "LL"
+  spatiotemporal_segements$classification[z <  0 & lagged_z >= 0 & spatiotemporal_segements$has_neighbors] <- "LH"
+  spatiotemporal_segements$classification[z >= 0 & lagged_z <  0 & spatiotemporal_segements$has_neighbors] <- "HL"
 
-  network_object$moran_results <- arixels
+  network_object$moran_results <- spatiotemporal_segements
   return(network_object)
 }

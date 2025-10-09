@@ -6,17 +6,22 @@
 \usage{
 run_consistency_test(
   network_object,
-  list_of_accidents,
+  accident_data,
   dist_threshold = 1,
   time_threshold = 2,
   p_value_threshold = 0.05,
-  time_column = "time"
+  time_column = "time",
+  year_column = "year"
 )
 }
 \arguments{
 \item{network_object}{A base network object, either \code{segmented_network} or \code{spatiotemporal_network}.}
 
-\item{list_of_accidents}{A list of \code{sf} data frames, one for each year.}
+\item{accident_data}{Either:
+\itemize{
+\item A data.frame containing accident records for multiple years (must include a \code{year} column).
+\item A list of \code{sf} data frames, one per year.
+}}
 
 \item{dist_threshold}{The spatial distance threshold for \code{calculate_local_moran}.}
 
@@ -25,11 +30,20 @@ run_consistency_test(
 \item{p_value_threshold}{The p-value cutoff for the final consistency test.}
 
 \item{time_column}{The name of the column in the accident data that contains
-the time information (e.g., "occurrence_hour"). Defaults to "time".}
+the time information (e.g., "occurrence_hour"). Defaults to \code{"time"}.}
+
+\item{year_column}{The name of the column indicating the year in \code{accident_data} (if data.frame). Defaults to \code{"year"}.}
 }
 \value{
 A data frame with the final consistency test results.
 }
 \description{
-A convenient wrapper function that combines all processing steps.
+This function evaluates the temporal consistency of Local Moran's I cluster
+classifications across multiple years. The input accident data can be either:
+\itemize{
+\item A single data.frame containing a \code{year} column with multiple years of data.
+\item A list of \code{sf} data frames, each representing a separate year.
+}
+The function calculates Local Moran's I for each year and then tests the
+consistency of classifications over time.
 }

@@ -7,16 +7,44 @@
 calculate_local_moran(network_object, dist_threshold = 1, time_threshold = 2)
 }
 \arguments{
-\item{network_object}{A segmented_network or spatiotemporal_network with events assigned.}
+\item{network_object}{A \code{segmented_network} or \code{spatiotemporal_network} object
+with events assigned via \code{set_events()}.}
 
-\item{dist_threshold}{Spatial distance threshold for neighbors.}
+\item{dist_threshold}{The spatial distance threshold to define neighbors.}
 
-\item{time_threshold}{Temporal distance threshold (in hours) for neighbors.}
+\item{time_threshold}{The temporal distance threshold (in hours) to define neighbors.}
 }
 \value{
-The network object with $moran_results containing I, z, lagged_z, and cluster classification.
+The input network object with a new component \verb{$moran_results}. This is
+a data frame containing the Local Moran's I statistic (\code{I}), z-scores (\code{z}),
+spatially lagged z-scores (\code{lagged_z}), and cluster classification (\code{classification})
+for each spatiotemporal_segement.
 }
 \description{
-Computes Local Moran's I for each spatio-temporal unit (arixel) while preserving sf geometry.
-Handles both segmented_network and spatiotemporal_network objects.
+Computes the Local Moran's I statistic for each spatio-temporal unit (spatiotemporal_segement)
+using a memory-efficient, iterative approach. This function can handle
+both \code{segmented_network} and \code{spatiotemporal_network} objects.
+}
+\examples{
+\dontrun{
+# First, create a network and assign events
+network_with_events <- sample_roads |>
+  create_road_network() |>
+  create_spatiotemporal_network(spatial_length = 0.5) |>
+  set_events(sample_accidents)
+
+# Then, calculate Local Moran's I
+moran_result <- calculate_local_moran(
+  network_with_events,
+  dist_threshold = 1,
+  time_threshold = 2
+)
+
+# View the results
+head(moran_result$moran_results)
+
+# Plot the results
+plot_local_moran(moran_result, snapshot_time = 12)
+plot_local_moran(moran_result, plot_3d = TRUE)
+}
 }

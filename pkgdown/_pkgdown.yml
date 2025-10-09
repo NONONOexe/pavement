@@ -82,6 +82,18 @@ reference:
   - starts_with("compute_")
   - create_line_graph
 
+- title: Spatio-temporal segmented network analysis
+  desc: >
+    Functions for identifying and testing spatio-temporal clusters,
+    such as hotspots, using methods like Local Moran's I and TNKDE.
+  contents:
+  - convolute_spatiotemporal_network
+  - calculate_local_moran
+  - plot.spatiotemporal_network
+  - plot_local_moran
+  - run_consistency_test
+  - test_spatio_properties
+
 - title: Geometry manipulation
   desc: >
     Geometric operations are essential for spatial analysis. These functions
@@ -106,5 +118,6 @@ reference:
   contents:
   - sample_roads
   - sample_accidents
+  - sample_accidents_multiyear
   - osm_highway_values
   - jdg2011_datum

@@ -9,13 +9,13 @@ get_mode <- function(v) {
 #'
 #' @description
 #' This function evaluates the temporal consistency of Local Moran's I cluster
-#' classifications for each spatio-temporal unit (arixel) across multiple years.
+#' classifications for each spatio-temporal unit (spatiotemporal_segement) across multiple years.
 #'
 #' @param list_of_moran_results A list where each element is the output of
 #'   `calculate_local_moran` for a specific year.
 #' @param p_value_threshold The p-value cutoff to determine consistency (default: 0.05).
 #'
-#' @return A data frame summarizing the consistency test for each arixel.
+#' @return A data frame summarizing the consistency test for each spatiotemporal_segement.
 #' @export
 test_spatio_properties <- function(list_of_moran_results, p_value_threshold = 0.05) {
 
@@ -65,26 +65,52 @@ test_spatio_properties <- function(list_of_moran_results, p_value_threshold = 0.
 #' Run the full spatio-temporal consistency test
 #'
 #' @description
-#' A convenient wrapper function that combines all processing steps.
+#' This function evaluates the temporal consistency of Local Moran's I cluster
+#' classifications across multiple years. The input accident data can be either:
+#' \itemize{
+#'   \item A single data.frame containing a `year` column with multiple years of data.
+#'   \item A list of `sf` data frames, each representing a separate year.
+#' }
+#' The function calculates Local Moran's I for each year and then tests the
+#' consistency of classifications over time.
 #'
 #' @param network_object A base network object, either `segmented_network` or `spatiotemporal_network`.
-#' @param list_of_accidents A list of `sf` data frames, one for each year.
+#' @param accident_data Either:
+#'   \itemize{
+#'     \item A data.frame containing accident records for multiple years (must include a `year` column).
+#'     \item A list of `sf` data frames, one per year.
+#'   }
 #' @param dist_threshold The spatial distance threshold for `calculate_local_moran`.
 #' @param time_threshold The temporal distance threshold for `calculate_local_moran`.
 #' @param p_value_threshold The p-value cutoff for the final consistency test.
 #' @param time_column The name of the column in the accident data that contains
-#'   the time information (e.g., "occurrence_hour"). Defaults to "time".
+#'   the time information (e.g., "occurrence_hour"). Defaults to `"time"`.
+#' @param year_column The name of the column indicating the year in `accident_data` (if data.frame). Defaults to `"year"`.
 #'
 #' @return A data frame with the final consistency test results.
 #' @export
 run_consistency_test <- function(network_object,
-                                 list_of_accidents,
+                                 accident_data,
                                  dist_threshold = 1,
                                  time_threshold = 2,
                                  p_value_threshold = 0.05,
-                                 time_column = "time") {
+                                 time_column = "time",
+                                 year_column = "year") {
 
-  # Iterate through each year's accident data, set events, and calculate Moran's I
+  # Input check
+  if (is.data.frame(accident_data)) {
+    if (!(year_column %in% names(accident_data))) {
+      stop("If you pass a data.frame, it must have a 'year' column.")
+    }
+    # Split the data by year
+    list_of_accidents <- split(accident_data, accident_data[[year_column]])
+  } else if (is.list(accident_data)) {
+    list_of_accidents <- accident_data
+  } else {
+    stop("accident_data must be either a list or a data.frame with a 'year' column.")
+  }
+
+  # Calculate Local Moran's I for each year
   list_of_moran_results <- lapply(list_of_accidents, function(accidents_data) {
     calculate_local_moran(
       set_events(network_object, accidents_data, time_column = time_column),
@@ -93,7 +119,7 @@ run_consistency_test <- function(network_object,
     )
   })
 
-  # Run the final consistency test
+  # Run the consistency test
   final_results <- test_spatio_properties(
     list_of_moran_results,
     p_value_threshold = p_value_threshold

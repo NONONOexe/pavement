@@ -47,3 +47,33 @@ This function performs Temporal Network Kernel Density Estimation (TNKDE) on a
 spatiotemporal network object. It calculates density values across the network's
 segments for a series of time points.
 }
+\examples{
+\dontrun{
+# Create a network and assign events
+tnkde_input <- sample_roads |>
+  create_road_network() |>
+  create_spatiotemporal_network(
+    spatial_length = 0.5,
+    temporal_length = "1 hour"
+  ) |>
+  set_events(sample_accidents, time_column = "time")
+
+# Run the TNKDE calculation
+tnkde_result <- convolute_spatiotemporal_network(
+  tnkde_input,
+  bandwidth_space = 2,
+  bandwidth_time = 1.5,
+  time_points = 0:23
+)
+
+# View the results
+print(tnkde_result$segments)
+
+# Plot the results
+# Plot a 2D snapshot for a specific time
+plot(tnkde_result, mode = "density", snapshot_time = 19)
+
+# Plot the full 3D space-time cube
+plot(tnkde_result, mode = "density", plot_3d = TRUE)
+}
+}
