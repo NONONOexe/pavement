@@ -1,7 +1,7 @@
 #' Calculate spatio-temporal local Moran's I
 #'
 #' @description
-#' Computes the Local Moran's I statistic for each spatio-temporal unit (spatiotemporal_segement)
+#' Computes the Local Moran's I statistic for each spatiotemporal unit (spatiotemporal segment)
 #' using a memory-efficient, iterative approach. This function can handle
 #' both `segmented_network` and `spatiotemporal_network` objects.
 #'
@@ -13,12 +13,11 @@
 #' @return The input network object with a new component `$moran_results`. This is
 #'   a data frame containing the Local Moran's I statistic (`I`), z-scores (`z`),
 #'   spatially lagged z-scores (`lagged_z`), and cluster classification (`classification`)
-#'   for each spatiotemporal_segement.
+#'   for each spatiotemporal segment.
 #'
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' # First, create a network and assign events
 #' network_with_events <- sample_roads |>
 #'   create_road_network() |>
@@ -38,13 +37,12 @@
 #' # Plot the results
 #' plot_local_moran(moran_result, snapshot_time = 12)
 #' plot_local_moran(moran_result, plot_3d = TRUE)
-#' }
 
 calculate_local_moran <- function(network_object,
                                   dist_threshold = 1,
                                   time_threshold = 2) {
 
-  # Preparation and spatiotemporal_segement creation
+  # Preparation and spatiotemporal segment creation
   if (inherits(network_object, "spatiotemporal_network")) {
     segments <- network_object$segment_geometries
     network_object$graph <- network_object$spatial_graph
@@ -59,18 +57,18 @@ calculate_local_moran <- function(network_object,
   n_time <- length(time_points)
   N <- n_seg * n_time
 
-  # Build spatiotemporal_segements grid in time-major order
-  spatiotemporal_segements <- expand.grid(
+  # Build spatiotemporal segments grid in time-major order
+  spatiotemporal_segments <- expand.grid(
     segment_index = seq_len(n_seg),
     time = time_points,
     KEEP.OUT.ATTRS = FALSE,
     stringsAsFactors = FALSE
   )
-  spatiotemporal_segements <- spatiotemporal_segements[order(spatiotemporal_segements$time, spatiotemporal_segements$segment_index), ]
-  spatiotemporal_segements$spatiotemporal_segement_id <- seq_len(nrow(spatiotemporal_segements))
+  spatiotemporal_segments <- spatiotemporal_segments[order(spatiotemporal_segments$time, spatiotemporal_segments$segment_index), ]
+  spatiotemporal_segments$spatiotemporal_segment_id <- seq_len(nrow(spatiotemporal_segments))
 
-  # Count events per spatiotemporal_segement
-  spatiotemporal_segements$x <- 0L
+  # Count events per spatiotemporal segment
+  spatiotemporal_segments$x <- 0L
   if (!is.null(events) && nrow(events) > 0) {
     events_no_geom <- events
     sf::st_geometry(events_no_geom) <- NULL
@@ -90,7 +88,7 @@ calculate_local_moran <- function(network_object,
           seg_idx <- rn[ri]
           tm <- cn[cj]
           ar_idx <- (which(time_points == tm) - 1) * n_seg + seg_idx
-          spatiotemporal_segements$x[ar_idx] <- cnt
+          spatiotemporal_segments$x[ar_idx] <- cnt
         }
       }
     }
@@ -101,7 +99,7 @@ calculate_local_moran <- function(network_object,
   dist_mat_space <- igraph::distances(line_graph)  # n_seg x n_seg matrix
   torus_abs_diff <- function(a, b, period = 24) pmin(abs(a - b), period - abs(a - b))
 
-  x_vals <- spatiotemporal_segements$x
+  x_vals <- spatiotemporal_segments$x
   z <- x_vals - mean(x_vals)
 
   # Spatial neighbors (list of segment indices)
@@ -159,19 +157,19 @@ calculate_local_moran <- function(network_object,
   # Results
   segments_no_geom <- segments
   sf::st_geometry(segments_no_geom) <- NULL
-  spatiotemporal_segements$segment_id <- segments_no_geom$id[spatiotemporal_segements$segment_index]
+  spatiotemporal_segments$segment_id <- segments_no_geom$id[spatiotemporal_segments$segment_index]
 
-  spatiotemporal_segements$z <- z
-  spatiotemporal_segements$lagged_z <- lagged_z
-  spatiotemporal_segements$I <- local_I
-  spatiotemporal_segements$has_neighbors <- row_has_neighbors
+  spatiotemporal_segments$z <- z
+  spatiotemporal_segments$lagged_z <- lagged_z
+  spatiotemporal_segments$I <- local_I
+  spatiotemporal_segments$has_neighbors <- row_has_neighbors
 
-  spatiotemporal_segements$classification <- "Not Significant"
-  spatiotemporal_segements$classification[z >= 0 & lagged_z >= 0 & spatiotemporal_segements$has_neighbors] <- "HH"
-  spatiotemporal_segements$classification[z <  0 & lagged_z <  0 & spatiotemporal_segements$has_neighbors] <- "LL"
-  spatiotemporal_segements$classification[z <  0 & lagged_z >= 0 & spatiotemporal_segements$has_neighbors] <- "LH"
-  spatiotemporal_segements$classification[z >= 0 & lagged_z <  0 & spatiotemporal_segements$has_neighbors] <- "HL"
+  spatiotemporal_segments$classification <- "Not Significant"
+  spatiotemporal_segments$classification[z >= 0 & lagged_z >= 0 & spatiotemporal_segments$has_neighbors] <- "HH"
+  spatiotemporal_segments$classification[z <  0 & lagged_z <  0 & spatiotemporal_segments$has_neighbors] <- "LL"
+  spatiotemporal_segments$classification[z <  0 & lagged_z >= 0 & spatiotemporal_segments$has_neighbors] <- "LH"
+  spatiotemporal_segments$classification[z >= 0 & lagged_z <  0 & spatiotemporal_segments$has_neighbors] <- "HL"
 
-  network_object$moran_results <- spatiotemporal_segements
+  network_object$moran_results <- spatiotemporal_segments
   return(network_object)
 }

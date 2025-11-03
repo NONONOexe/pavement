@@ -38,7 +38,7 @@ the time information (e.g., "occurrence_hour"). Defaults to \code{"time"}.}
 A data frame with the final consistency test results.
 }
 \description{
-This function evaluates the temporal consistency of Local Moran's I cluster
+\code{run_consistency_test()} evaluates the temporal consistency of Local Moran's I cluster
 classifications across multiple years. The input accident data can be either:
 \itemize{
 \item A single data.frame containing a \code{year} column with multiple years of data.

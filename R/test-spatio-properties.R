@@ -9,13 +9,13 @@ get_mode <- function(v) {
 #'
 #' @description
 #' This function evaluates the temporal consistency of Local Moran's I cluster
-#' classifications for each spatio-temporal unit (spatiotemporal_segement) across multiple years.
+#' classifications for each spatio-temporal unit (spatiotemporal segment) across multiple years.
 #'
 #' @param list_of_moran_results A list where each element is the output of
 #'   `calculate_local_moran` for a specific year.
 #' @param p_value_threshold The p-value cutoff to determine consistency (default: 0.05).
 #'
-#' @return A data frame summarizing the consistency test for each spatiotemporal_segement.
+#' @return A data frame summarizing the consistency test for each spatiotemporal segment.
 #' @export
 test_spatio_properties <- function(list_of_moran_results, p_value_threshold = 0.05) {
 
@@ -65,7 +65,7 @@ test_spatio_properties <- function(list_of_moran_results, p_value_threshold = 0.
 #' Run the full spatio-temporal consistency test
 #'
 #' @description
-#' This function evaluates the temporal consistency of Local Moran's I cluster
+#' `run_consistency_test()` evaluates the temporal consistency of Local Moran's I cluster
 #' classifications across multiple years. The input accident data can be either:
 #' \itemize{
 #'   \item A single data.frame containing a `year` column with multiple years of data.

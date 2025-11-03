@@ -13,9 +13,9 @@ test_spatio_properties(list_of_moran_results, p_value_threshold = 0.05)
 \item{p_value_threshold}{The p-value cutoff to determine consistency (default: 0.05).}
 }
 \value{
-A data frame summarizing the consistency test for each spatiotemporal_segement.
+A data frame summarizing the consistency test for each spatiotemporal segment.
 }
 \description{
 This function evaluates the temporal consistency of Local Moran's I cluster
-classifications for each spatio-temporal unit (spatiotemporal_segement) across multiple years.
+classifications for each spatio-temporal unit (spatiotemporal segment) across multiple years.
 }

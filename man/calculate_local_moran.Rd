@@ -18,15 +18,14 @@ with events assigned via \code{set_events()}.}
 The input network object with a new component \verb{$moran_results}. This is
 a data frame containing the Local Moran's I statistic (\code{I}), z-scores (\code{z}),
 spatially lagged z-scores (\code{lagged_z}), and cluster classification (\code{classification})
-for each spatiotemporal_segement.
+for each spatiotemporal segment.
 }
 \description{
-Computes the Local Moran's I statistic for each spatio-temporal unit (spatiotemporal_segement)
+Computes the Local Moran's I statistic for each spatiotemporal unit (spatiotemporal segment)
 using a memory-efficient, iterative approach. This function can handle
 both \code{segmented_network} and \code{spatiotemporal_network} objects.
 }
 \examples{
-\dontrun{
 # First, create a network and assign events
 network_with_events <- sample_roads |>
   create_road_network() |>
@@ -46,5 +45,4 @@ head(moran_result$moran_results)
 # Plot the results
 plot_local_moran(moran_result, snapshot_time = 12)
 plot_local_moran(moran_result, plot_3d = TRUE)
-}
 }
