@@ -65,16 +65,30 @@ boundaries.
 }
 \examples{
 \dontrun{
-# Download road data
-bbox <- create_bbox(
-  north =  35.17377,
-  south =  35.16377,
-  east  = 136.91590,
-  west  = 136.90090
-)
+# Define a bounding box
+bbox <- create_bbox(north =  35.17377,
+                    south =  35.16377,
+                    east  = 136.91590,
+                    west  = 136.90090)
+
+# Download road data with in the bounding box
 roads <- fetch_roads(bbox)
 
 # Plot the roads
 plot(roads$geometry)
+
+# Download and crop road data strictly to the bounding box
+roads_cropped <- fetch_roads(bbox, crop = TRUE)
+plot(roads_cropped$geometry)
+
+# Download roads using a center point and radius
+center_lon <- 136.8817
+center_lat <-  35.1709
+radius_m   <- 500
+
+roads_radius <- fetch_roads(x      = center_lon,
+                            y      = center_lat,
+                            radius = radius_m)
+plot(roads_radius$geometry)
 }
 }
