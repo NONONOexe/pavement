@@ -30,6 +30,7 @@ reference:
   - transform_coordinates
   - create_bbox
   - convert_bbox
+  - create_osm_roads
 
 - title: Network operations
 
