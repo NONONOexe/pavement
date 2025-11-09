@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">pavement</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,8 +50,7 @@
 
       <div class="section-desc"><p>Geospatial data provides insights into spatial events such as disasters and crimes through their relationships. These functions facilitate the retrieval and conversion data from OpenStreetMap and other external sources, enabling you to begin your spatial analysis.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -62,37 +61,45 @@
 
         </dt>
         <dd>Fetch road data from OpenStreetMap</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="transform_coordinates.html">transform_coordinates()</a></code> <code><a href="transform_coordinates.html">transform_to_cartesian()</a></code> <code><a href="transform_coordinates.html">transform_to_geographic()</a></code>
 
         </dt>
         <dd>Transform to Cartesian or geographic coordinates</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="create_bbox.html">create_bbox()</a></code>
 
         </dt>
         <dd>Create a bounding box</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="convert_bbox.html">convert_bbox()</a></code> <code><a href="convert_bbox.html">convert_bbox_to_coordinates()</a></code> <code><a href="convert_bbox.html">convert_bbox_to_polygon()</a></code>
 
         </dt>
         <dd>Convert a bounding box to coordinates or a polygon</dd>
+
+        <dt>
+
+          <code><a href="create_osm_roads.html">create_osm_roads()</a></code>
+
+        </dt>
+        <dd>Create processed OpenStreetMap road data for a given area</dd>
       </dl></div><div class="section level2">
       <h2 id="network-operations">Network operations<a class="anchor" aria-label="anchor" href="#network-operations"></a></h2>
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
       <h3 id="network-creation">Network creation<a class="anchor" aria-label="anchor" href="#network-creation"></a></h3>
       <div class="section-desc"><p>A road network represents a system of interconnected roads, where intersections act as nodes and road segments act as links. <code>create_road_network</code> constructs a road network from road data. For more detailed analysis and visualization, there is also a function, <code>create_segmented_network</code> or <code>spatiotemporal_network</code>, to create a segmented road network.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -103,19 +110,22 @@
 
         </dt>
         <dd>Create a road network from roads</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="segmented_network.html">create_segmented_network()</a></code>
 
         </dt>
         <dd>Create a segmented road network</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="spatiotemporal_network.html">create_spatiotemporal_network()</a></code>
 
         </dt>
         <dd>Create spatiotemporal network</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="plot.road_network.html">plot(<i>&lt;road_network&gt;</i>)</a></code>
 
@@ -126,8 +136,7 @@
       <h3 id="network-information-retrieval">Network information retrieval<a class="anchor" aria-label="anchor" href="#network-information-retrieval"></a></h3>
       <div class="section-desc"><p>These functions provide tools to extract specific information from a road network, enabling you to understand the network structure and relationships.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -143,8 +152,7 @@
       <h3 id="network-building-utilities">Network building utilities<a class="anchor" aria-label="anchor" href="#network-building-utilities"></a></h3>
       <div class="section-desc"><p>These functions provide tools to create and manipulate road networks.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -155,43 +163,50 @@
 
         </dt>
         <dd>Create a graph from nodes and links</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="extract_road_network_nodes.html">extract_road_network_nodes()</a></code>
 
         </dt>
         <dd>Extract road network nodes</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="extract_road_network_links.html">extract_road_network_links()</a></code>
 
         </dt>
         <dd>Extract road network links</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="extract_segmented_network_nodes.html">extract_segmented_network_nodes()</a></code>
 
         </dt>
         <dd>Extract nodes of segmented network from a road network</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="extract_segmented_network_links.html">extract_segmented_network_links()</a></code>
 
         </dt>
         <dd>Extract segmented network links from a road network</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="extract_road_endpoints.html">extract_road_endpoints()</a></code>
 
         </dt>
         <dd>Extract road endpoints</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="extract_road_intersections.html">extract_road_intersections()</a></code>
 
         </dt>
         <dd>Extract road intersections</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="generate_ids.html">generate_ids()</a></code>
 
@@ -202,8 +217,7 @@
 
       <div class="section-desc"><p>Analyzing events on segmented road networks can provide valuable insights into spatial relationships and patterns. By assigning events to network links and leveraging the detailed network structure, you can identify areas with high event frequency with these functions.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -214,55 +228,112 @@
 
         </dt>
         <dd>Create a spatiotemporal event collection</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="durations.html">create_durations()</a></code>
 
         </dt>
         <dd>Create durations</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="set_events.html">set_events()</a></code>
 
         </dt>
         <dd>Set events on a space.</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="find_duration.html">find_duration()</a></code>
 
         </dt>
         <dd>Find the index of the duration that contains the event time</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="convolute_segmented_network.html">convolute_segmented_network()</a></code>
 
         </dt>
         <dd>Convolute segmented road network</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="compute_epanechnikov.html">compute_epanechnikov()</a></code>
 
         </dt>
         <dd>Compute the Epanechnikov function</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="compute_gaussian.html">compute_gaussian()</a></code>
 
         </dt>
         <dd>Compute the Gaussian function</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="create_line_graph.html">create_line_graph()</a></code>
 
         </dt>
         <dd>Create a line graph from a network</dd>
       </dl></div><div class="section level2">
+      <h2 id="spatio-temporal-segmented-network-analysis">Spatio-temporal segmented network analysis<a class="anchor" aria-label="anchor" href="#spatio-temporal-segmented-network-analysis"></a></h2>
+
+      <div class="section-desc"><p>Functions for identifying and testing spatio-temporal clusters, such as hotspots, using methods like Local Moran’s I and TNKDE.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="convolute_spatiotemporal_network.html">convolute_spatiotemporal_network()</a></code>
+
+        </dt>
+        <dd>Convolute a spatiotemporal network to perform TNKDE</dd>
+
+        <dt>
+
+          <code><a href="calculate_local_moran.html">calculate_local_moran()</a></code>
+
+        </dt>
+        <dd>Calculate spatio-temporal local Moran's I</dd>
+
+        <dt>
+
+          <code><a href="plot.spatiotemporal_network.html">plot(<i>&lt;spatiotemporal_network&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Plot spatiotemporal network or TNKDE results</dd>
+
+        <dt>
+
+          <code><a href="plot_local_moran.html">plot_local_moran()</a></code>
+
+        </dt>
+        <dd>Plot spatio-temporal local Moran's I results</dd>
+
+        <dt>
+
+          <code><a href="run_consistency_test.html">run_consistency_test()</a></code>
+
+        </dt>
+        <dd>Run the full spatio-temporal consistency test</dd>
+
+        <dt>
+
+          <code><a href="test_spatio_properties.html">test_spatio_properties()</a></code>
+
+        </dt>
+        <dd>Test for temporal consistency of spatio-temporal properties</dd>
+      </dl></div><div class="section level2">
       <h2 id="geometry-manipulation">Geometry manipulation<a class="anchor" aria-label="anchor" href="#geometry-manipulation"></a></h2>
 
       <div class="section-desc"><p>Geometric operations are essential for spatial analysis. These functions are helpers for working with sf functions, allowing you to create, modify, and decompose geometries such as points, linestrings, and polygons.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -273,55 +344,64 @@
 
         </dt>
         <dd>Create a collection of coordinates.</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="create_points.html">create_points()</a></code>
 
         </dt>
         <dd>Create points geometry</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="create_linestring.html">create_linestring()</a></code>
 
         </dt>
         <dd>Create a linestring geometry</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="create_polygon.html">create_polygon()</a></code>
 
         </dt>
         <dd>Create a polygon geometry</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="filter_and_cast_geometries.html">filter_and_cast_geometries()</a></code> <code><a href="filter_and_cast_geometries.html">get_points()</a></code> <code><a href="filter_and_cast_geometries.html">get_linestrings()</a></code> <code><a href="filter_and_cast_geometries.html">get_polygons()</a></code>
 
         </dt>
         <dd>Filter and cast geometries</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="sample_points_along_linestring.html">sample_points_along_linestring()</a></code>
 
         </dt>
         <dd>Sample points along a linestring</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="filter_points_within_tolerance.html">filter_points_within_tolerance()</a></code>
 
         </dt>
         <dd>Filter points within a tolerance distance</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="remove_points_near_endpoints.html">remove_points_near_endpoints()</a></code>
 
         </dt>
         <dd>Remove points near endpoints of a linestring</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="decompose_linestring.html">decompose_linestring()</a></code>
 
         </dt>
         <dd>Decompose a linestring into a list of line segments</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="split_linestrings.html">split_linestrings()</a></code>
 
@@ -332,8 +412,7 @@
 
       <div class="section-desc"><p>Pre-generated sample datasets related to roads and accidents. These datasets can be used to immediately begin using pavement.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -344,19 +423,29 @@
 
         </dt>
         <dd>Sample roads data</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="sample_accidents.html">sample_accidents</a></code>
 
         </dt>
         <dd>Sample accidents data</dd>
-      </dl><dl><dt>
+
+        <dt>
+
+          <code><a href="sample_accidents_multiyear.html">sample_accidents_multiyear</a></code>
+
+        </dt>
+        <dd>Sample accident data for five years</dd>
+
+        <dt>
 
           <code><a href="osm_highway_values.html">osm_highway_values</a></code>
 
         </dt>
         <dd>Values for the 'highway' tag in OpenStreetMap data</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="jdg2011_datum.html">jdg2011_datum</a></code>
 
@@ -372,7 +461,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
