@@ -9,3 +9,5 @@
 ^\.github$
 ^codecov\.yml$
 ^internal$
+^doc$
+^Meta$

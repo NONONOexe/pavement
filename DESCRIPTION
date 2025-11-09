@@ -29,12 +29,14 @@ Imports:
     lwgeom,
     magrittr,
     osmdata,
+    plotly,
     rgl,
     rlang,
     sf,
     stats,
     utils
 Suggests: 
+    here,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
@@ -42,7 +44,7 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 BuildManual: TRUE
 LinkingTo: 
     cpp11
