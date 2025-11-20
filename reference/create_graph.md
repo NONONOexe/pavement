@@ -36,10 +36,10 @@ links <- extract_road_network_links(sample_roads, nodes)
 # Create the graph
 graph <- create_graph(nodes, links)
 graph
-#> IGRAPH 49f2ee0 UNW- 10 10 -- 
+#> IGRAPH 8b33177 UNW- 10 10 -- 
 #> + attr: name (v/c), x (v/n), y (v/n), name (e/c), x (e/n), y (e/n),
 #> | weight (e/n)
-#> + edges from 49f2ee0 (vertex names):
+#> + edges from 8b33177 (vertex names):
 #>  [1] jn_000001--jn_000002 jn_000003--jn_000005 jn_000003--jn_000004
 #>  [4] jn_000006--jn_000006 jn_000002--jn_000006 jn_000007--jn_000008
 #>  [7] jn_000002--jn_000007 jn_000007--jn_00000a jn_000003--jn_000009

@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   using-fetch-roads: using-fetch-roads.html
-last_built: 2025-11-20T05:44Z
+last_built: 2025-11-20T05:57Z
 urls:
   reference: https://nononoexe.github.io/pavement/reference
   article: https://nononoexe.github.io/pavement/articles
