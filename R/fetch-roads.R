@@ -281,7 +281,9 @@ determine_crop_area <- function(params) {
 
 # Convert MULTILINESTRING to LINESTRING and generate unique IDs
 convert_multilinestring_to_linestring <- function(roads) {
-  roads_agr  <- sf::st_set_agr(roads, "constrant")
+  roads_extracted <- sf::st_collection_extract(roads, "LINESTRING")
+
+  roads_agr  <- sf::st_set_agr(roads_extracted, "constant")
   roads_cast <- sf::st_cast(roads_agr, "LINESTRING")
 
   roads_cast$id <- sprintf("rd_%04x", seq_len(nrow(roads_cast)))
