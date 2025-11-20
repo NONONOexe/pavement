@@ -18,7 +18,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/NONONOexe/pavement/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/NONONOexe/pavement/blob/v0.3.0/DESCRIPTION)
 
 ANDO K (2025). *pavement: Analyzing Spatial Events on Roadways*. R
 package version 0.3.0, <https://github.com/NONONOexe/pavement>.
